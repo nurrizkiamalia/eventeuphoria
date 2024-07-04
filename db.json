@@ -104,6 +104,30 @@
       "address": "707 Elm St",
       "isOrganizer": true,
       "organizerName": "Book Fair Committee"
+    },
+    {
+      "id": "11",
+      "email": "amalia@gmail.com",
+      "firstName": "rizki",
+      "lastName": "amalia",
+      "password": "amalia123",
+      "referalCode": "XXXYSOA"
+    },
+    {
+      "id": "441f",
+      "email": "indahbudiati@gmail.com",
+      "firstName": "indah",
+      "lastName": "budiati",
+      "password": "indah123",
+      "referalCode": "XXXXXXX"
+    },
+    {
+      "id": "dd6a",
+      "email": "tiara@gausah.com",
+      "firstName": "tiara",
+      "lastName": "aja",
+      "password": "tiara123",
+      "referalCode": "XXXXXXX"
     }
   ],
   "cities": [
@@ -393,7 +417,7 @@
       "id": "10",
       "title": "Startup Pitch Night",
       "image": "startup-pitch-night.webp",
-      "category": "Business",
+      "category": "Technology",
       "date": "2024-08-22",
       "time": "18:00",
       "location": "Startup Hub, City XYZ",
@@ -447,7 +471,7 @@
       "id": "12",
       "title": "Gaming Tournament",
       "image": "gaming-tournament.webp",
-      "category": "Gaming",
+      "category": "Entertainment",
       "date": "2024-11-05",
       "time": "14:00",
       "location": "Gaming Arena, City XYZ",
@@ -476,7 +500,7 @@
       "id": "13",
       "title": "International Film Festival",
       "image": "film-festival.webp",
-      "category": "Film",
+      "category": "Entertainment",
       "date": "2024-12-20",
       "time": "16:00",
       "location": "Cinema Hall, City XYZ",
@@ -500,6 +524,182 @@
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras eu imperdiet lacus. Proin maximus elementum nunc sit amet hendrerit. Donec iaculis, diam in pharetra pharetra, turpis nibh rhoncus mauris, sit amet laoreet felis nisl id lectus. Phasellus sollicitudin orci eget justo porttitor feugiat. Praesent eleifend malesuada quam, vel dapibus odio gravida eget. Curabitur ipsum ante, bibendum in lobortis vitae, euismod quis risus. Donec laoreet venenatis sapien, id euismod nulla. Morbi sit amet consectetur nunc.",
         "Duis facilisis pharetra scelerisque. Pellentesque a ultricies nulla. Ut porta facilisis erat non mattis. Morbi fermentum ante ut libero blandit vestibulum. Curabitur eget nulla malesuada, rhoncus diam nec, faucibus eros. Fusce aliquam nunc sit amet dolor accumsan, non blandit elit porttitor. Suspendisse sapien tellus, ultrices non odio sed, ultrices accumsan eros. Mauris purus augue, ornare id felis sit amet, condimentum tincidunt erat."
       ]
+    },
+    {
+      "id": "14",
+      "title": "Startup Meetup",
+      "image": "startup-meetup.webp",
+      "category": "Business",
+      "date": "2024-11-15",
+      "time": "15:00",
+      "location": "Tech Hub, City XYZ",
+      "ticketTier": [
+        {
+          "tier": "general",
+          "price": "50000"
+        }
+      ],
+      "types": "Paid",
+      "organizerAvatar": "organizer14.jpg",
+      "organizerName": "Startup Innovators",
+      "ticketsAvailable": 200,
+      "ticketsTotal": 250,
+      "city": "Bali",
+      "description": [
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras eu imperdiet lacus. Proin maximus elementum nunc sit amet hendrerit. Donec iaculis, diam in pharetra pharetra, turpis nibh rhoncus mauris, sit amet laoreet felis nisl id lectus. Phasellus sollicitudin orci eget justo porttitor feugiat. Praesent eleifend malesuada quam, vel dapibus odio gravida eget. Curabitur ipsum ante, bibendum in lobortis vitae, euismod quis risus. Donec laoreet venenatis sapien, id euismod nulla. Morbi sit amet consectetur nunc.",
+        "Duis facilisis pharetra scelerisque. Pellentesque a ultricies nulla. Ut porta facilisis erat non mattis. Morbi fermentum ante ut libero blandit vestibulum. Curabitur eget nulla malesuada, rhoncus diam nec, faucibus eros. Fusce aliquam nunc sit amet dolor accumsan, non blandit elit porttitor. Suspendisse sapien tellus, ultrices non odio sed, ultrices accumsan eros. Mauris purus augue, ornare id felis sit amet, condimentum tincidunt erat."
+      ]
+    },
+    {
+      "id": "15",
+      "title": "Stand-Up Comedy Night 2",
+      "image": "comedy-show-2.webp",
+      "category": "Comedy",
+      "date": "2024-12-22",
+      "time": "21:00",
+      "location": "Comedy Club PQR, City XYZ",
+      "ticketTier": [
+        {
+          "tier": "general",
+          "price": "120000"
+        }
+      ],
+      "types": "Paid",
+      "organizerAvatar": "organizer15.jpg",
+      "organizerName": "Laugh Till You Drop",
+      "ticketsAvailable": 60,
+      "ticketsTotal": 80,
+      "city": "Medan",
+      "description": [
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras eu imperdiet lacus. Proin maximus elementum nunc sit amet hendrerit. Donec iaculis, diam in pharetra pharetra, turpis nibh rhoncus mauris, sit amet laoreet felis nisl id lectus. Phasellus sollicitudin orci eget justo porttitor feugiat. Praesent eleifend malesuada quam, vel dapibus odio gravida eget. Curabitur ipsum ante, bibendum in lobortis vitae, euismod quis risus. Donec laoreet venenatis sapien, id euismod nulla. Morbi sit amet consectetur nunc.",
+        "Duis facilisis pharetra scelerisque. Pellentesque a ultricies nulla. Ut porta facilisis erat non mattis. Morbi fermentum ante ut libero blandit vestibulum. Curabitur eget nulla malesuada, rhoncus diam nec, faucibus eros. Fusce aliquam nunc sit amet dolor accumsan, non blandit elit porttitor. Suspendisse sapien tellus, ultrices non odio sed, ultrices accumsan eros. Mauris purus augue, ornare id felis sit amet, condimentum tincidunt erat."
+      ]
+    },
+    {
+      "id": "16",
+      "title": "Culinary Festival",
+      "image": "culinary-festival.webp",
+      "category": "Food & Drinks",
+      "date": "2024-08-30",
+      "time": "12:00",
+      "location": "Food Park, City XYZ",
+      "ticketTier": [
+        {
+          "tier": "free",
+          "price": "0"
+        }
+      ],
+      "types": "Free",
+      "organizerAvatar": "organizer16.jpg",
+      "organizerName": "Culinary Enthusiasts",
+      "ticketsAvailable": 400,
+      "ticketsTotal": 500,
+      "city": "Batam",
+      "description": [
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras eu imperdiet lacus. Proin maximus elementum nunc sit amet hendrerit. Donec iaculis, diam in pharetra pharetra, turpis nibh rhoncus mauris, sit amet laoreet felis nisl id lectus. Phasellus sollicitudin orci eget justo porttitor feugiat. Praesent eleifend malesuada quam, vel dapibus odio gravida eget. Curabitur ipsum ante, bibendum in lobortis vitae, euismod quis risus. Donec laoreet venenatis sapien, id euismod nulla. Morbi sit amet consectetur nunc.",
+        "Duis facilisis pharetra scelerisque. Pellentesque a ultricies nulla. Ut porta facilisis erat non mattis. Morbi fermentum ante ut libero blandit vestibulum. Curabitur eget nulla malesuada, rhoncus diam nec, faucibus eros. Fusce aliquam nunc sit amet dolor accumsan, non blandit elit porttitor. Suspendisse sapien tellus, ultrices non odio sed, ultrices accumsan eros. Mauris purus augue, ornare id felis sit amet, condimentum tincidunt erat."
+      ]
+    },
+    {
+      "id": "17",
+      "title": "Tech Startup Showcase",
+      "image": "tech-startup-showcase.webp",
+      "category": "Technology",
+      "date": "2024-09-25",
+      "time": "10:00",
+      "location": "Innovation Hub, City XYZ",
+      "ticketTier": [
+        {
+          "tier": "general",
+          "price": "75000"
+        },
+        {
+          "tier": "VIP",
+          "price": "200000"
+        }
+      ],
+      "types": "Paid",
+      "organizerAvatar": "organizer17.jpg",
+      "organizerName": "Innovative Minds",
+      "ticketsAvailable": 250,
+      "ticketsTotal": 300,
+      "city": "Surabaya",
+      "description": [
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras eu imperdiet lacus. Proin maximus elementum nunc sit amet hendrerit. Donec iaculis, diam in pharetra pharetra, turpis nibh rhoncus mauris, sit amet laoreet felis nisl id lectus. Phasellus sollicitudin orci eget justo porttitor feugiat. Praesent eleifend malesuada quam, vel dapibus odio gravida eget. Curabitur ipsum ante, bibendum in lobortis vitae, euismod quis risus. Donec laoreet venenatis sapien, id euismod nulla. Morbi sit amet consectetur nunc.",
+        "Duis facilisis pharetra scelerisque. Pellentesque a ultricies nulla. Ut porta facilisis erat non mattis. Morbi fermentum ante ut libero blandit vestibulum. Curabitur eget nulla malesuada, rhoncus diam nec, faucibus eros. Fusce aliquam nunc sit amet dolor accumsan, non blandit elit porttitor. Suspendisse sapien tellus, ultrices non odio sed, ultrices accumsan eros. Mauris purus augue, ornare id felis sit amet, condimentum tincidunt erat."
+      ]
+    },
+    {
+      "id": "18",
+      "title": "Fitness Bootcamp",
+      "image": "fitness-bootcamp.webp",
+      "category": "Sports",
+      "date": "2024-07-10",
+      "time": "06:00",
+      "location": "City Park, City XYZ",
+      "ticketTier": [
+        {
+          "tier": "general",
+          "price": "300000"
+        }
+      ],
+      "types": "Paid",
+      "organizerAvatar": "organizer18.jpg",
+      "organizerName": "FitLife",
+      "ticketsAvailable": 150,
+      "ticketsTotal": 200,
+      "city": "Jakarta",
+      "description": [
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras eu imperdiet lacus. Proin maximus elementum nunc sit amet hendrerit. Donec iaculis, diam in pharetra pharetra, turpis nibh rhoncus mauris, sit amet laoreet felis nisl id lectus. Phasellus sollicitudin orci eget justo porttitor feugiat. Praesent eleifend malesuada quam, vel dapibus odio gravida eget. Curabitur ipsum ante, bibendum in lobortis vitae, euismod quis risus. Donec laoreet venenatis sapien, id euismod nulla. Morbi sit amet consectetur nunc.",
+        "Duis facilisis pharetra scelerisque. Pellentesque a ultricies nulla. Ut porta facilisis erat non mattis. Morbi fermentum ante ut libero blandit vestibulum. Curabitur eget nulla malesuada, rhoncus diam nec, faucibus eros. Fusce aliquam nunc sit amet dolor accumsan, non blandit elit porttitor. Suspendisse sapien tellus, ultrices non odio sed, ultrices accumsan eros. Mauris purus augue, ornare id felis sit amet, condimentum tincidunt erat."
+      ]
+    }
+  ],
+  "categories": [
+    {
+      "image": "music.svg",
+      "category": "Music",
+      "id": "eed1"
+    },
+    {
+      "image": "art.svg",
+      "category": "Art",
+      "id": "e63d"
+    },
+    {
+      "image": "technology.svg",
+      "category": "Technology",
+      "id": "9043"
+    },
+    {
+      "image": "literature.svg",
+      "category": "Literature",
+      "id": "9515"
+    },
+    {
+      "image": "sports.svg",
+      "category": "Sports",
+      "id": "105c"
+    },
+    {
+      "image": "entertainment.svg",
+      "category": "Entertainment",
+      "id": "5b4f"
+    },
+    {
+      "image": "comedy.svg",
+      "category": "Comedy",
+      "id": "b750"
+    },
+    {
+      "image": "charity.svg",
+      "category": "Charity",
+      "id": "cccc"
+    },
+    {
+      "image": "food_drinks.svg",
+      "category": "Food & Drinks",
+      "id": "5373"
     }
   ]
 }

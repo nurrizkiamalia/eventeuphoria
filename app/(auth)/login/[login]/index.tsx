@@ -36,14 +36,13 @@ const Login: React.FC = () => {
       }}
     >
       {({ isSubmitting }) => (
-        <Form className="p-5 flex flex-col gap-5 ">
-          <div className="flex flex-col gap-3">
-            <label>Email</label>
+        <Form className="flex flex-col gap-5 ">
+          <div className="flex flex-col gap-1">
             <Field
               type="email"
-              placeholder="ex: johndoe@email.com.."
+              placeholder="Input email ex: johndoe@email.com.."
               name="email"
-              className="shadow-eventBox shadow-dspLightGray px-2 py-1 text-tXs border-[1px] border-dspGray rounded-xl text-dspGray"
+              className="shadow-tightBoxed p-2 text-tXs  rounded-xl text-dspGray"
             />
             <ErrorMessage
               name="email"
@@ -51,13 +50,12 @@ const Login: React.FC = () => {
               className="text-red-600 text-[12px] w-fit rounded-xl"
             />
           </div>
-          <div className="flex flex-col gap-3">
-            <label>Password</label>
+          <div className="flex flex-col gap-1">
             <Field
               type="password"
               placeholder="type your password here..."
               name="password"
-              className="shadow-eventBox shadow-dspLightGray px-2 py-1 text-tXs border-[1px] border-dspGray rounded-xl text-dspGray"
+              className="shadow-tightBoxed p-2 text-tXs  rounded-xl text-dspGray"
             />
             <ErrorMessage
               name="password"
@@ -66,7 +64,7 @@ const Login: React.FC = () => {
             />
           </div>
           <button
-            className="bg-dspPurple hover:bg-dspDarkPurple text-white py-2 px-7 rounded-full hover:scale-105 ease-in-out transition-all duration-500"
+            className="bg-dspPurple hover:bg-dspDarkPurple text-white py-2 w-fit self-center px-7 rounded-full hover:scale-105 ease-in-out transition-all duration-500"
             type="submit"
             disabled={isSubmitting}
           >

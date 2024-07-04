@@ -1,0 +1,128 @@
+"use client";
+import { useParams } from "next/navigation";
+import { useEffect } from "react";
+import useEvent from "@/hooks/useEvent";
+import Image from "next/image";
+import PaymentMethod from "./PaymentMethod";
+import Button from "@/components/Button/Button";
+import Link from "next/link";
+
+const Checkout: React.FC = () => {
+  const params = useParams();
+  const id = Number(params.id);
+  const { event, fetchEventById, loading, error } = useEvent();
+
+  useEffect(() => {
+    fetchEventById(id);
+  }, [id, fetchEventById]);
+
+  if (loading) return <p>Loading event details...</p>;
+  if (error) return <p>Error loading event: {error}</p>;
+  if (!event) return <p>Event not found.</p>;
+  return (
+    <div className="p-5 lg:p-10 w-full flex flex-col gap-10">
+      <h1 className=" font-bold text-tXxl md:text-head3 lg:text-head2">
+        Checkout Your Tickets
+      </h1>
+      <div className="flex flex-col xl:flex-row gap-10 w-full">
+        <div className="flex flex-col lg:flex-row gap-5">
+          <Image
+            src={`/assets/${event.image}`}
+            alt={event.title}
+            width={500}
+            height={300}
+            className="rounded-xl object-cover h-[300px]"
+          />
+          <div className="flex flex-col gap-5">
+            <h2 className=" text-tXl sm:text-tXxl md:text-head3 font-semibold ">
+              {event.title}
+            </h2>
+            <div className="flex gap-5 items-center">
+              <Image
+                src={`/assets/${event.organizerAvatar}`}
+                alt={event.organizerName}
+                width={60}
+                height={60}
+                className="rounded-full border-2 border-black"
+              />
+              <p className="text-tMd ">
+                {" "}
+                By {event.organizerName}
+              </p>
+            </div>
+            <div className="text-tMd flex flex-col lg:flex-row gap-5">
+              <div className="bg-dspSmokeWhite p-5 rounded-xl min-w-[150px]">
+                <p>Date:</p>
+                <p>{event.date}</p>
+              </div>
+              <div className="bg-dspSmokeWhite p-5 rounded-xl min-w-[150px]">
+                <p>Time:</p>
+                <p>{event.time}</p>
+              </div>
+              <div className="bg-dspSmokeWhite p-5 rounded-xl min-w-[150px]">
+                <p>Location:</p>
+                <p>
+                  {event.location} {event.city}
+                </p>
+              </div>
+            </div>
+            <div className="flex flex-col gap-5">
+              <p className="font-medium text-tXl md:text-tXxl ">
+                Choose Tickets
+              </p>
+              <div className="flex flex-col gap-5 w-full text-white flex-wrap">
+                {event.ticketTier.map((ticket, index) => (
+                  <div
+                    key={index}
+                    className=" bg-dspDarkPurple rounded-xl shadow-eventBox w-full"
+                  >
+                    <div className=" flex flex-col sm:flex-row p-5 justify-between gap-5 sm:items-center ">
+                      <div className="flex flex-col gap-2">
+                        <h3 className="text-tXl font-bold  capitalize">
+                          {ticket.tier}
+                        </h3>
+                        <p className="font-semibold text-tXl">Rp{ticket.price}</p>
+                      </div>
+                      <select name="" id="" className="max-w-[250px] text-black p-2 rounded-xl">
+                        <option value="">0</option>
+                        <option value="">1 person</option>
+                        <option value="">2 person</option>
+                      </select>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className=" self-end xl:w-[30%] max-w-[500px] bg-white shadow-tightBoxed rounded-xl flex flex-col gap-5 p-5 h-fit">
+          <p className=" font-semibold text-tXl">Proceed your payment</p>
+          <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quisquam nihil deserunt amet eius optio aut quis? Natus quam hic optio?</p>
+          <PaymentMethod />
+          <div className="flex flex-col gap-3">
+            <h3 className=" text-tLg font-semibold">Voucher (optional)</h3>
+            <select name="" id="" className="max-w-[250px] p-2 rounded-xl">
+              <option value="">No Voucher</option>
+              <option value="">PROMOMANTAP disc. 10%</option>
+              <option value="">PROMOGILA disc. 12%</option>
+            </select>
+          </div>
+          <div>
+            <h3 className=" text-tLg font-semibold">Points Available</h3>
+            <div className="flex justify-between items-center">
+              <p className="text-tXl font-semibold">20,000</p>
+              <Link href="" className="underline">Use points</Link>
+            </div>
+          </div>
+          <div>
+            <h3 className=" text-tLg font-semibold">TOTAL PRICE </h3>
+            <p className="text-tXl font-semibold"></p>
+          </div>
+          <Button>Checkout Now</Button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Checkout;

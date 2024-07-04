@@ -18,7 +18,7 @@ const navlist  = [
 const Navlist: React.FC<navProps> = ({className}) =>{
     return(
         <>
-            <ul className={` ${className} flex flex-col lg:flex-row gap-10 lg:items-center lg:justify-center w-full`}>
+            <ul className={` ${className} flex flex-col lg:flex-row gap-10 lg:items-center lg:justify-center`}>
                 {navlist.map((item, index) => (
                     <li key={index} className=""><Link href={item.link}>{item.text} </Link></li>
                 ))}

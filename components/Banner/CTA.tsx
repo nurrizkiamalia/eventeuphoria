@@ -8,7 +8,7 @@ const CTA: React.FC = () => {
                 </div>
                 <div className="z-10 flex flex-col justify-center items-center lg:flex-row lg:justify-between text-center gap-6">
                     <div className="flex flex-col gap-3 items-start">
-                        <h1 className="font-montserrat font-semibold text-tXxl">Host with ease - create your event!</h1>
+                        <h1 className=" font-semibold text-tXxl">Host with ease - create your event!</h1>
                         <p>Effortlessly design and manage your event. Start creating now and watch your vision come to life!</p>
                     </div>
                     <Button className="!bg-dspDarkPurple hover:!bg-dspPurple border-2 border-white shadow-eventBox shadow-white">Create Event</Button>

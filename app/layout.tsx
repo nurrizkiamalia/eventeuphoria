@@ -10,13 +10,6 @@ const montserrat = Montserrat({
   variable: "--font-montserrat"
 });
 
-const sourceSans = Source_Sans_3({ 
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700","800","900"],
-  display: "swap",
-  variable: "--font-sourceSans"
-});
-
 export const metadata: Metadata = {
   title: "Find your event",
   description: "Feels the euphoria",
@@ -30,7 +23,7 @@ export default function RootLayout({
   return (
     <AuthProvider>
     <html lang="en">
-      <body className={`${montserrat.variable} ${sourceSans.variable} font-sourceSans`}>
+      <body className={`${montserrat.variable} font-montserrat `}>
         {children}
       </body>
     </html>

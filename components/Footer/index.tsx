@@ -28,7 +28,7 @@ const Footer: React.FC = () =>{
         
         <div className="px-5 lg:px-10 py-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-7 ">
             <div className="flex flex-col gap-3">
-                <h3 className="font-montserrat font-semibold text-tLg">Quick Link</h3>
+                <h3 className=" font-semibold text-tLg">Quick Link</h3>
                 <ul className="list-none mb-4 flex flex-col gap-2">
                     {links.map((item, index) => (
                         <li key={index}><Link href="">{item} </Link></li>

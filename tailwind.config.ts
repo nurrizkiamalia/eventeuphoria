@@ -22,11 +22,12 @@ const config = {
         "hero-image": "url('/assets/img-hero.jpg')",
       },
       boxShadow: {
-        eventBox: "rgba(0, 0, 0, 0.1) -4px 9px 20px -6px"
+        eventBox: "rgba(0, 0, 0, 0.1) -4px 9px 20px -6px",
+        boxed: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px",
+        tightBoxed: "rgba(0, 0, 0, 0.16) 0px 1px 4px"
       },
       fontFamily: {
         montserrat: "var(--font-montserrat)",
-        sourceSans: "var(--font-sourceSans)",
       },
       fontSize: {
         head1: "70px",
