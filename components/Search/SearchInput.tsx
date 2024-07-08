@@ -1,5 +1,6 @@
-// components/Search/SearchInput.tsx
+'use client';
 import React, { useState } from 'react';
+import { FaSearch } from 'react-icons/fa';
 
 interface SearchInputProps {
     onSearch: (searchTerm: string) => void;
@@ -14,13 +15,14 @@ const SearchInput: React.FC<SearchInputProps> = ({ onSearch }) => {
     };
 
     return (
-        <div className=''>
+        <div className='lg:w-[30%] border-2 border-gray-300 px-5 py-2 rounded-xl flex gap-3 items-center'>
+            <FaSearch className='text-dspLightGray' />
             <input
                 type="text"
                 placeholder="Search events..."
                 value={searchTerm}
                 onChange={handleSearch}
-                className="border border-gray-300 p-2 rounded mb-4 w-full"
+                className="w-full outline-none"
             />
         </div>
     );

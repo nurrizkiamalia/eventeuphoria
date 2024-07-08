@@ -1,14 +1,11 @@
 'use client';
+
 import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'next/navigation';
 import { toast } from '@/components/ui/use-toast';
-
-// add first name
-// add last name
-// add referal code (jika ada)
 
 const Register: React.FC = () => {
     const { register } = useAuth();
@@ -18,51 +15,91 @@ const Register: React.FC = () => {
         <Formik
             initialValues={{
                 email: '',
+                firstName: '',
+                lastName: '',
                 password: '',
-                confirmPassword: ''
+                confirmPassword: '',
+                referralCode: '',
+                role: 'user',
             }}
             validationSchema={Yup.object({
                 email: Yup.string()
                     .email('Invalid email address')
                     .required('Email is required'),
+                firstName: Yup.string()
+                    .required('First name is required'),
+                lastName: Yup.string()
+                    .required('Last name is required'),
                 password: Yup.string()
                     .required('Password is required')
                     .min(6, 'Password must be at least 6 characters'),
                 confirmPassword: Yup.string()
                     .oneOf([Yup.ref('password')], 'Passwords must match')
-                    .required('Password confirmation is required')
+                    .required('Password confirmation is required'),
+                referralCode: Yup.string()
+                    .notRequired(),
+                role: Yup.string()
+                    .oneOf(['user', 'organizer'], 'Invalid role')
+                    .required('Role is required'),
             })}
             onSubmit={async (values, { setSubmitting }) => {
                 try {
-                    await register(values.email, values.password);
+                    await register(values.email, values.firstName, values.lastName, values.password, values.role, values.referralCode);
                     router.push('/login');
                 } catch (error) {
-                    return toast({
+                    console.error('Registration error:', error);
+                    toast({
                         title: "Uh oh! Something went wrong.",
                         description: "There was a problem with your request.",
-                      });
+                    });
+                } finally {
+                    setSubmitting(false);
                 }
-                setSubmitting(false);
             }}
         >
             {({ isSubmitting }) => (
-                <Form className='p-5 flex flex-col gap-5 '>
-                    <div className='flex flex-col gap-3'>
-                        <label>Email</label>
-                        <Field type="email" name="email" className="shadow-eventBox shadow-dspLightGray px-2 py-1 text-tXs border-[1px] border-dspGray rounded-xl text-dspGray" placeholder="Input your active email here" />
+                <Form className='p-5 flex flex-col gap-3'>
+                    <div className="flex gap-3">
+                        <div className='flex flex-col gap-2'>
+                            <Field type="text" name="firstName" className="shadow-tightBoxed p-2 text-tXs rounded-xl text-dspGray max-w-[150px]" placeholder="First Name" />
+                            <ErrorMessage name="firstName" component="div" className='text-red-600 text-[12px] w-fit rounded-xl' />
+                        </div>
+                        <div className='flex flex-col gap-2'>
+                            <Field type="text" name="lastName" className="shadow-tightBoxed p-2 text-tXs rounded-xl text-dspGray max-w-[150px]" placeholder="Last Name" />
+                            <ErrorMessage name="lastName" component="div" className='text-red-600 text-[12px] w-fit rounded-xl' />
+                        </div>
+                    </div>
+                    <div className='flex flex-col gap-2'>
+                        <Field type="email" name="email" className="shadow-tightBoxed p-2 text-tXs rounded-xl text-dspGray" placeholder="Input your active email here" />
                         <ErrorMessage name="email" component="div" className='text-red-600 text-[12px] w-fit rounded-xl' />
                     </div>
-                    <div className='flex flex-col gap-3'>
-                        <label>Password</label>
-                        <Field type="password" name="password" className="shadow-eventBox shadow-dspLightGray px-2 py-1 text-tXs border-[1px] border-dspGray rounded-xl text-dspGray" placeholder="input your password" />
+                    <div className='flex flex-col gap-2'>
+                        <Field type="password" name="password" className="shadow-tightBoxed p-2 text-tXs rounded-xl text-dspGray" placeholder="Input your password" />
                         <ErrorMessage name="password" component="div" className='text-red-600 text-[12px] w-fit rounded-xl' />
                     </div>
-                    <div className='flex flex-col gap-3'>
-                        <label>Confirm Password</label>
-                        <Field type="password" name="confirmPassword" className="shadow-eventBox shadow-dspLightGray px-2 py-1 text-tXs border-[1px] border-dspGray rounded-xl text-dspGray" placeholder="confirm your password" />
+                    <div className='flex flex-col gap-2'>
+                        <Field type="password" name="confirmPassword" className="shadow-tightBoxed p-2 text-tXs rounded-xl text-dspGray" placeholder="Confirm your password" />
                         <ErrorMessage name="confirmPassword" component="div" className='text-red-600 text-[12px] w-fit rounded-xl' />
                     </div>
-                    <button className='bg-dspPurple hover:bg-dspDarkPurple text-white py-2 px-7 rounded-full hover:scale-105 ease-in-out transition-all duration-500' type="submit" disabled={isSubmitting}>
+                    <div className='flex flex-col gap-2'>
+                        <Field type="text" name="referralCode" className="shadow-tightBoxed p-2 text-tXs rounded-xl text-dspGray" placeholder="Referral Code (optional)" />
+                        <ErrorMessage name="referralCode" component="div" className='text-red-600 text-[12px] w-fit rounded-xl' />
+                    </div>
+                    <div role="group" aria-labelledby="role-group" className='flex flex-col gap-2'>
+                        <label className="text-dspGray">Role:</label>
+                        <div className='flex gap-3'>
+                            <label>
+                                <Field type="radio" name="role" value="user" className="mr-2" />
+                                User
+                            </label>
+                            <label>
+                                <Field type="radio" name="role" value="organizer" className="mr-2" />
+                                Organizer
+                            </label>
+                        </div>
+                        <ErrorMessage name="role" component="div" className='text-red-600 text-[12px] w-fit rounded-xl' />
+                    </div>
+                    <button className='bg-dspPurple hover:bg-dspDarkPurple self-center text-white py-2 px-7 rounded-full w-fit hover:scale-105 ease-in-out transition-all duration-500' type="submit" disabled={isSubmitting}>
                         Register
                     </button>
                 </Form>

@@ -1,20 +1,19 @@
-// hooks/useDebouncedSearch.ts
 import { useState, useEffect } from 'react';
 
-function useDebouncedSearch(searchTerm: string, delay: number) {
-    const [debouncedTerm, setDebouncedTerm] = useState(searchTerm);
+const useDebouncedSearch = (value: string, delay: number) => {
+    const [debouncedValue, setDebouncedValue] = useState(value);
 
     useEffect(() => {
         const handler = setTimeout(() => {
-            setDebouncedTerm(searchTerm);
-        }, delay);
+            setDebouncedValue(value);
+        }, 2000);
 
         return () => {
             clearTimeout(handler);
         };
-    }, [searchTerm, delay]);
+    }, [value, delay]);
 
-    return debouncedTerm;
-}
+    return debouncedValue;
+};
 
 export default useDebouncedSearch;

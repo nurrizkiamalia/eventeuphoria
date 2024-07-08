@@ -7,7 +7,6 @@ const EventDetailPage: React.FC<EventDetailsProps> = ({ params }) => {
         <div>
             <EventDetails params={params}/>
             <CTA />
-            
         </div>
     );
 };

@@ -3,6 +3,22 @@ export interface TicketTier {
     price: string;
 }
 
+export interface EventListProps {
+  events: Event[];
+}
+
+export interface User {
+  id: number;
+  email: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+  phone: string;
+  address: string;
+  isOrganizer: boolean;
+  organizerName?: string;
+}
+
 export interface Event {
         id: number;
         title: string;
@@ -23,6 +39,10 @@ export interface Event {
 
 export interface EventDetailsProps {
     params: {
-      id: string;
+      id: number;
     };
+}
+
+export interface Cities {
+  city: string;
 }

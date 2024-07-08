@@ -10,13 +10,12 @@ interface SearchResultsProps {
 
 const SearchResults: React.FC<SearchResultsProps> = ({ searchTerm }) => {
     const [events, setEvents] = useState<Event[]>([]);
-    const debouncedSearchTerm = useDebouncedSearch(searchTerm, 500);
+    const debouncedSearchTerm = useDebouncedSearch(searchTerm, 1000);
 
     useEffect(() => {
         const fetchEvents = async () => {
             try {
                 const response = await axios.get('http://localhost:8080/events');
-                console.log('API Response:', response.data); // Debugging log
                 if (Array.isArray(response.data)) {
                     const allEvents = response.data;
                     const filteredEvents = allEvents.filter((event: Event) =>
