@@ -43,10 +43,10 @@ const Categories: React.FC = () => {
       {categories.map((item, index) => (
         <div
           key={index}
-          className="w-full p-5 rounded-2xl flex flex-col gap-3 cursor-pointer hover:shadow-eventBox hover:shadow-dspLightPurple hover:scale-105 transition-all duration-500 hover:bg-dspDarkPurple hover:text-white text-center"
+          className="w-full p-5 rounded-2xl flex flex-col items-center gap-3 cursor-pointer hover:shadow-eventBox hover:shadow-dspLightPurple hover:scale-105 transition-all duration-500 hover:bg-dspDarkPurple hover:text-white text-center"
           onClick={() => handleCategoryClick(item.category)}
         >
-          <div className="rounded-full bg-dspLightPurple p-5">
+          <div className="rounded-full bg-dspLightPurple w-fit p-5">
             <Image
               alt={`${item.category} image`}
               src={`/assets/icons/${item.image}`}

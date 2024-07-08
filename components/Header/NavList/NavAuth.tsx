@@ -3,6 +3,7 @@
 import { useAuth } from '@/context/AuthContext';
 import Link from 'next/link';
 import { useState } from 'react';
+import { RiArrowRightUpLine } from 'react-icons/ri';
 
 interface navProps {
     className?: string;
@@ -14,7 +15,7 @@ interface navItem {
 }
 
 const navlist: navItem[] = [
-    { link: "create-event", text: "Create Event" },
+    { link: "favorite", text: "Favorite" },
 ];
 
 const NavAuth: React.FC<navProps> = ({ className }) => {
@@ -39,8 +40,8 @@ const NavAuth: React.FC<navProps> = ({ className }) => {
                             <Link href="/login">Login</Link>
                         </li>
                         <li>
-                            <Link href="/register" className="bg-dspDarkPurple text-white py-2 px-8 rounded-full">
-                                Register
+                            <Link href="/register" className="bg-dspDarkPurple text-white  rounded-full flex gap-3 items-center justify-between py-1 pl-5 pr-1 hover:bg-dspGray">
+                                Register <span className="bg-dspLightPurple p-1 rounded-full "><RiArrowRightUpLine className="text-tXl text-dspDarkPurple"/></span>
                             </Link>
                         </li>
                     </>

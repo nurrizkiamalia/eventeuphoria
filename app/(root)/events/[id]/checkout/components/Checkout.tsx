@@ -1,5 +1,6 @@
 "use client";
 import { useParams } from "next/navigation";
+import art from "@/public/assets/art-exhibition.webp";
 import { useEffect } from "react";
 import useEvent from "@/hooks/useEvent";
 import Image from "next/image";
@@ -19,21 +20,28 @@ const Checkout: React.FC = () => {
   if (loading) return <p>Loading event details...</p>;
   if (error) return <p>Error loading event: {error}</p>;
   if (!event) return <p>Event not found.</p>;
+
+  
+  const imageUrl = event.image ? `/assets/${event.image}` : art;
+
   return (
     <div className="p-5 lg:p-10 w-full flex flex-col gap-10">
       <h1 className=" font-bold text-tXxl md:text-head3 lg:text-head2">
         Checkout Your Tickets
       </h1>
-      <div className="flex flex-col xl:flex-row gap-10 w-full">
-        <div className="flex flex-col lg:flex-row gap-5">
-          <Image
-            src={`/assets/${event.image}`}
-            alt={event.title}
-            width={500}
-            height={300}
-            className="rounded-xl object-cover h-[300px]"
-          />
+      <hr />
+      <div className="flex flex-col lg:flex-row gap-10 w-full">
+        <div className="flex flex-col lg:flex-row items-start gap-5 lg:w-[70%]">
           <div className="flex flex-col gap-5">
+            <div className="rounded-xl overflow-hidden">
+              <Image
+                src={imageUrl}
+                alt={event.title}
+                width={800}
+                height={500}
+                className="rounded-xl object-cover hover:scale-105 transition-all duration-500"
+              />
+            </div>
             <h2 className=" text-tXl sm:text-tXxl md:text-head3 font-semibold ">
               {event.title}
             </h2>
@@ -51,17 +59,17 @@ const Checkout: React.FC = () => {
               </p>
             </div>
             <div className="text-tMd flex flex-col lg:flex-row gap-5">
-              <div className="bg-dspSmokeWhite p-5 rounded-xl min-w-[150px]">
-                <p>Date:</p>
-                <p>{event.date}</p>
+              <div className="bg-dspSmokeWhite p-5 rounded-xl min-w-[150px] border border-dspDarkPurple text-dspDarkPurple flex flex-col justify-center items-center">
+                <p>Date</p>
+                <p className="font-bold ">{event.date}</p>
               </div>
-              <div className="bg-dspSmokeWhite p-5 rounded-xl min-w-[150px]">
-                <p>Time:</p>
-                <p>{event.time}</p>
+              <div className="bg-dspSmokeWhite p-5 rounded-xl min-w-[150px] border border-dspDarkPurple text-dspDarkPurple flex flex-col justify-center items-center">
+                <p>Time</p>
+                <p className="font-bold ">{event.time}</p>
               </div>
-              <div className="bg-dspSmokeWhite p-5 rounded-xl min-w-[150px]">
-                <p>Location:</p>
-                <p>
+              <div className="bg-dspSmokeWhite p-5 rounded-xl min-w-[150px] border border-dspDarkPurple text-dspDarkPurple flex flex-col justify-center items-center">
+                <p>Location</p>
+                <p className="font-bold ">
                   {event.location} {event.city}
                 </p>
               </div>
@@ -70,11 +78,11 @@ const Checkout: React.FC = () => {
               <p className="font-medium text-tXl md:text-tXxl ">
                 Choose Tickets
               </p>
-              <div className="flex flex-col gap-5 w-full text-white flex-wrap">
+              <div className="flex flex-col gap-5 w-full flex-wrap">
                 {event.ticketTier.map((ticket, index) => (
                   <div
                     key={index}
-                    className=" bg-dspDarkPurple rounded-xl shadow-eventBox w-full"
+                    className=" border border-dspDarkPurple rounded-xl text-dspDarkPurple shadow-eventBox shadow-dspPurple w-full"
                   >
                     <div className=" flex flex-col sm:flex-row p-5 justify-between gap-5 sm:items-center ">
                       <div className="flex flex-col gap-2">
@@ -83,7 +91,7 @@ const Checkout: React.FC = () => {
                         </h3>
                         <p className="font-semibold text-tXl">Rp{ticket.price}</p>
                       </div>
-                      <select name="" id="" className="max-w-[250px] text-black p-2 rounded-xl">
+                      <select name="" id="" className="min-w-[250px] text-black p-2 rounded-xl border border-dspDarkPurple">
                         <option value="">0</option>
                         <option value="">1 person</option>
                         <option value="">2 person</option>
@@ -95,7 +103,7 @@ const Checkout: React.FC = () => {
             </div>
           </div>
         </div>
-        <div className=" self-end xl:w-[30%] max-w-[500px] bg-white shadow-tightBoxed rounded-xl flex flex-col gap-5 p-5 h-fit">
+        <div className=" lg:w-[30%] max-w-[500px] bg-white shadow-tightBoxed rounded-xl flex flex-col gap-5 p-5 h-fit">
           <p className=" font-semibold text-tXl">Proceed your payment</p>
           <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quisquam nihil deserunt amet eius optio aut quis? Natus quam hic optio?</p>
           <PaymentMethod />
@@ -114,11 +122,12 @@ const Checkout: React.FC = () => {
               <Link href="" className="underline">Use points</Link>
             </div>
           </div>
+          <hr />
           <div>
             <h3 className=" text-tLg font-semibold">TOTAL PRICE </h3>
-            <p className="text-tXl font-semibold"></p>
+            <p className="text-tXl font-semibold">150,000</p>
           </div>
-          <Button>Checkout Now</Button>
+          <Button className="w-fit">Checkout Now</Button>
         </div>
       </div>
     </div>

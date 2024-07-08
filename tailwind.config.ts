@@ -19,7 +19,9 @@ const config = {
     },
     extend: {
       backgroundImage: {
-        "hero-image": "url('/assets/img-hero.jpg')",
+        "hero-image": "url('/assets/concert.webp ')",
+        "banner-image": "url('/assets/concert2.webp ')",
+        "cta-image": "url('/assets/art-exhibition2.webp ')",
       },
       boxShadow: {
         eventBox: "rgba(0, 0, 0, 0.1) -4px 9px 20px -6px",

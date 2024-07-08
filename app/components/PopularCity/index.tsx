@@ -25,7 +25,7 @@ const PopularCity: React.FC = () => {
             className="flex flex-col justify-between items-center cursor-pointer"
             onClick={() => handleCityClick(item.city)}
           >
-            <div className="relative rounded-2xl shadow-eventBox shadow-dspLightGray">
+            <div className="relative rounded-2xl shadow-eventBox shadow-dspLightGray overflow-hidden">
               <Image
                 src={`/assets/cities/${item.image}`}
                 alt={item.city}

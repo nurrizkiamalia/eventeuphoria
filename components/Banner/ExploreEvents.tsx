@@ -3,7 +3,7 @@ import Button from "../Button/Button"
 const ExploreEvents: React.FC = () => {
     return(
         <>
-        <div className="py-10 lg:py-20 px-5 lg:px-10 flex flex-col gap-5 justify-center items-center text-center bg-hero-image relative text-white bg-bottom">
+        <div className="py-10 lg:py-20 px-5 lg:px-10 flex flex-col gap-5 justify-center items-center text-center bg-banner-image bg-cover relative text-white bg-center">
             <div className="bg-black opacity-60 top-0 left-0 absolute h-full w-full z-0 ">
             </div>
             <div className="flex flex-col gap-5 justify-center items-center text-center z-10">

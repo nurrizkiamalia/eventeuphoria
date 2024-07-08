@@ -255,7 +255,7 @@
       "id": "4",
       "title": "Food Festival Celebration",
       "image": "food-festival.webp",
-      "category": "Food & Drinks",
+      "category": "Food",
       "date": "2024-07-25",
       "time": "11:00",
       "location": "Central Park, City XYZ",
@@ -387,7 +387,7 @@
     {
       "id": "9",
       "title": "Jazz and Blues Festival",
-      "image": "jazz-festival.webp",
+      "image": "",
       "category": "Music",
       "date": "2024-09-12",
       "time": "19:00",
@@ -403,7 +403,7 @@
         }
       ],
       "types": "Free | Paid",
-      "organizerAvatar": "organizer9.jpg",
+      "organizerAvatar": "organizer1.jpg",
       "organizerName": "Jazz Enthusiasts",
       "ticketsAvailable": 500,
       "ticketsTotal": 600,
@@ -416,7 +416,7 @@
     {
       "id": "10",
       "title": "Startup Pitch Night",
-      "image": "startup-pitch-night.webp",
+      "image": "",
       "category": "Technology",
       "date": "2024-08-22",
       "time": "18:00",
@@ -428,7 +428,7 @@
         }
       ],
       "types": "Paid",
-      "organizerAvatar": "organizer10.jpg",
+      "organizerAvatar": "organizer2.jpg",
       "organizerName": "Startup Enthusiasts",
       "ticketsAvailable": 100,
       "ticketsTotal": 150,
@@ -441,7 +441,7 @@
     {
       "id": "11",
       "title": "Health and Wellness Expo",
-      "image": "health-expo.webp",
+      "image": "",
       "category": "Health",
       "date": "2024-10-10",
       "time": "09:00",
@@ -457,7 +457,7 @@
         }
       ],
       "types": "Free | Paid",
-      "organizerAvatar": "organizer11.jpg",
+      "organizerAvatar": "organizer3.jpg",
       "organizerName": "Health First",
       "ticketsAvailable": 200,
       "ticketsTotal": 250,
@@ -470,7 +470,7 @@
     {
       "id": "12",
       "title": "Gaming Tournament",
-      "image": "gaming-tournament.webp",
+      "image": "",
       "category": "Entertainment",
       "date": "2024-11-05",
       "time": "14:00",
@@ -486,7 +486,7 @@
         }
       ],
       "types": "Paid",
-      "organizerAvatar": "organizer12.jpg",
+      "organizerAvatar": "organizer4.jpg",
       "organizerName": "Gamers United",
       "ticketsAvailable": 300,
       "ticketsTotal": 350,
@@ -499,7 +499,7 @@
     {
       "id": "13",
       "title": "International Film Festival",
-      "image": "film-festival.webp",
+      "image": "",
       "category": "Entertainment",
       "date": "2024-12-20",
       "time": "16:00",
@@ -515,7 +515,7 @@
         }
       ],
       "types": "Paid",
-      "organizerAvatar": "organizer13.jpg",
+      "organizerAvatar": "organizer5.jpg",
       "organizerName": "Film Buffs",
       "ticketsAvailable": 400,
       "ticketsTotal": 500,
@@ -528,7 +528,7 @@
     {
       "id": "14",
       "title": "Startup Meetup",
-      "image": "startup-meetup.webp",
+      "image": "",
       "category": "Business",
       "date": "2024-11-15",
       "time": "15:00",
@@ -540,7 +540,7 @@
         }
       ],
       "types": "Paid",
-      "organizerAvatar": "organizer14.jpg",
+      "organizerAvatar": "organizer6.jpg",
       "organizerName": "Startup Innovators",
       "ticketsAvailable": 200,
       "ticketsTotal": 250,
@@ -553,7 +553,7 @@
     {
       "id": "15",
       "title": "Stand-Up Comedy Night 2",
-      "image": "comedy-show-2.webp",
+      "image": "",
       "category": "Comedy",
       "date": "2024-12-22",
       "time": "21:00",
@@ -565,7 +565,7 @@
         }
       ],
       "types": "Paid",
-      "organizerAvatar": "organizer15.jpg",
+      "organizerAvatar": "organizer7.jpg",
       "organizerName": "Laugh Till You Drop",
       "ticketsAvailable": 60,
       "ticketsTotal": 80,
@@ -578,8 +578,8 @@
     {
       "id": "16",
       "title": "Culinary Festival",
-      "image": "culinary-festival.webp",
-      "category": "Food & Drinks",
+      "image": "",
+      "category": "Food",
       "date": "2024-08-30",
       "time": "12:00",
       "location": "Food Park, City XYZ",
@@ -590,7 +590,7 @@
         }
       ],
       "types": "Free",
-      "organizerAvatar": "organizer16.jpg",
+      "organizerAvatar": "organizer8.jpg",
       "organizerName": "Culinary Enthusiasts",
       "ticketsAvailable": 400,
       "ticketsTotal": 500,
@@ -603,7 +603,7 @@
     {
       "id": "17",
       "title": "Tech Startup Showcase",
-      "image": "tech-startup-showcase.webp",
+      "image": "",
       "category": "Technology",
       "date": "2024-09-25",
       "time": "10:00",
@@ -619,7 +619,7 @@
         }
       ],
       "types": "Paid",
-      "organizerAvatar": "organizer17.jpg",
+      "organizerAvatar": "organizer1.jpg",
       "organizerName": "Innovative Minds",
       "ticketsAvailable": 250,
       "ticketsTotal": 300,
@@ -632,7 +632,7 @@
     {
       "id": "18",
       "title": "Fitness Bootcamp",
-      "image": "fitness-bootcamp.webp",
+      "image": "",
       "category": "Sports",
       "date": "2024-07-10",
       "time": "06:00",
@@ -644,7 +644,7 @@
         }
       ],
       "types": "Paid",
-      "organizerAvatar": "organizer18.jpg",
+      "organizerAvatar": "organizer2.jpg",
       "organizerName": "FitLife",
       "ticketsAvailable": 150,
       "ticketsTotal": 200,
@@ -698,8 +698,24 @@
     },
     {
       "image": "food_drinks.svg",
-      "category": "Food & Drinks",
+      "category": "Food",
       "id": "5373"
+    }
+  ],
+  "tickets": [
+    {
+      "id": 1,
+      "name": "General Admission",
+      "price": 500000,
+      "quantity": 2,
+      "description": "General Admission",
+      "eventName": "Art Exhibition",
+      "eventDate": "2020-12-12",
+      "eventTime": "12:00:00",
+      "eventVenue": "Art Gallery",
+      "eventLocation": "Jakarta",
+      "eventCategory": "Art",
+      "eventImage": "art-exhibition.webp"
     }
   ]
 }

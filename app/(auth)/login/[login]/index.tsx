@@ -1,4 +1,5 @@
 "use client";
+
 import React from "react";
 import * as Yup from "yup";
 import { Formik, Form, Field, ErrorMessage } from "formik";
@@ -25,14 +26,15 @@ const Login: React.FC = () => {
       onSubmit={async (values, { setSubmitting }) => {
         try {
           await login(values.email, values.password);
-          router.push("/");
         } catch (error) {
-          return toast({
+          console.error('Login error:', error);
+          toast({
             title: "Uh oh! Something went wrong.",
             description: "There was a problem with your request.",
           });
+        } finally {
+          setSubmitting(false);
         }
-        setSubmitting(false);
       }}
     >
       {({ isSubmitting }) => (

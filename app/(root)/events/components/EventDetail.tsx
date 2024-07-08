@@ -1,6 +1,8 @@
 "use client";
 import Button from "@/components/Button/Button";
 import { EventDetailsProps } from "@/types/datatypes";
+
+import art from "@/public/assets/art-exhibition.webp"
 import Image from "next/image";
 import Link from "next/link";
 import { BsCalendarDate } from "react-icons/bs";
@@ -33,6 +35,8 @@ const EventDetails: React.FC<EventDetailsProps> = ({ params }) => {
 
   const relatedEvents = events.filter(e => e.id !== event.id);
 
+  const imageUrl = event.image ? `/assets/${event.image}` : art;
+
   return (
     <div className="p-5 lg:p-10 flex flex-col gap-10">
       <div className="">
@@ -50,7 +54,7 @@ const EventDetails: React.FC<EventDetailsProps> = ({ params }) => {
         <div className="flex flex-col gap-5 lg:w-[70%]">
           <div className="rounded-xl overflow-hidden">
             <Image
-              src={`/assets/${event.image}`}
+              src={imageUrl}
               alt={event.title}
               width={1000}
               height={1000}
@@ -128,8 +132,8 @@ const EventDetails: React.FC<EventDetailsProps> = ({ params }) => {
             <div className="flex gap-5">
               <MdMapsHomeWork className="text-tXl" />
               <div>
-                <p>{event.city}</p>
-                <p>{event.location}</p>
+                <p className="font-bold text-tLg">{event.city}</p>
+                <p className="font-medium">{event.location}</p>
               </div>
             </div>
           </div>

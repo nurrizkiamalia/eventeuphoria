@@ -19,7 +19,8 @@ const Register: React.FC = () => {
                 lastName: '',
                 password: '',
                 confirmPassword: '',
-                referalCode: '',
+                referralCode: '',
+                role: 'user',
             }}
             validationSchema={Yup.object({
                 email: Yup.string()
@@ -35,31 +36,36 @@ const Register: React.FC = () => {
                 confirmPassword: Yup.string()
                     .oneOf([Yup.ref('password')], 'Passwords must match')
                     .required('Password confirmation is required'),
-                referalCode: Yup.string()
-                    .notRequired()
+                referralCode: Yup.string()
+                    .notRequired(),
+                role: Yup.string()
+                    .oneOf(['user', 'organizer'], 'Invalid role')
+                    .required('Role is required'),
             })}
             onSubmit={async (values, { setSubmitting }) => {
                 try {
-                    await register(values.email, values.firstName, values.lastName, values.password, values.referalCode);
+                    await register(values.email, values.firstName, values.lastName, values.password, values.role, values.referralCode);
                     router.push('/login');
                 } catch (error) {
-                    return toast({
+                    console.error('Registration error:', error);
+                    toast({
                         title: "Uh oh! Something went wrong.",
                         description: "There was a problem with your request.",
                     });
+                } finally {
+                    setSubmitting(false);
                 }
-                setSubmitting(false);
             }}
         >
             {({ isSubmitting }) => (
                 <Form className='p-5 flex flex-col gap-3'>
                     <div className="flex gap-3">
                         <div className='flex flex-col gap-2'>
-                            <Field type="text" name="firstName" className="shadow-tightBoxed p-2 text-tXs rounded-xl text-dspGray" placeholder="First Name" />
+                            <Field type="text" name="firstName" className="shadow-tightBoxed p-2 text-tXs rounded-xl text-dspGray max-w-[150px]" placeholder="First Name" />
                             <ErrorMessage name="firstName" component="div" className='text-red-600 text-[12px] w-fit rounded-xl' />
                         </div>
                         <div className='flex flex-col gap-2'>
-                            <Field type="text" name="lastName" className="shadow-tightBoxed p-2 text-tXs rounded-xl text-dspGray" placeholder="Last Name" />
+                            <Field type="text" name="lastName" className="shadow-tightBoxed p-2 text-tXs rounded-xl text-dspGray max-w-[150px]" placeholder="Last Name" />
                             <ErrorMessage name="lastName" component="div" className='text-red-600 text-[12px] w-fit rounded-xl' />
                         </div>
                     </div>
@@ -76,8 +82,22 @@ const Register: React.FC = () => {
                         <ErrorMessage name="confirmPassword" component="div" className='text-red-600 text-[12px] w-fit rounded-xl' />
                     </div>
                     <div className='flex flex-col gap-2'>
-                        <Field type="text" name="referalCode" className="shadow-tightBoxed p-2 text-tXs rounded-xl text-dspGray" placeholder="Referal Code (optional)" />
-                        <ErrorMessage name="referalCode" component="div" className='text-red-600 text-[12px] w-fit rounded-xl' />
+                        <Field type="text" name="referralCode" className="shadow-tightBoxed p-2 text-tXs rounded-xl text-dspGray" placeholder="Referral Code (optional)" />
+                        <ErrorMessage name="referralCode" component="div" className='text-red-600 text-[12px] w-fit rounded-xl' />
+                    </div>
+                    <div role="group" aria-labelledby="role-group" className='flex flex-col gap-2'>
+                        <label className="text-dspGray">Role:</label>
+                        <div className='flex gap-3'>
+                            <label>
+                                <Field type="radio" name="role" value="user" className="mr-2" />
+                                User
+                            </label>
+                            <label>
+                                <Field type="radio" name="role" value="organizer" className="mr-2" />
+                                Organizer
+                            </label>
+                        </div>
+                        <ErrorMessage name="role" component="div" className='text-red-600 text-[12px] w-fit rounded-xl' />
                     </div>
                     <button className='bg-dspPurple hover:bg-dspDarkPurple self-center text-white py-2 px-7 rounded-full w-fit hover:scale-105 ease-in-out transition-all duration-500' type="submit" disabled={isSubmitting}>
                         Register

@@ -105,12 +105,14 @@ const FilterEvent: React.FC<FilterEventProps> = ({
 
   return (
     <div className="filters flex flex-col gap-5">
+      <h2 className="font-bold text-head3">Filters</h2>
+      <hr />
       <div className={filtersRadioBtn}>
         <label className={labelStyle}>City</label>
         <select
           value={city}
           onChange={(e) => setCity(e.target.value)}
-          className="py-2 px-3 rounded-xl bg-white shadow-eventBox !font-sourceSans"
+          className="py-2 px-3 rounded-xl bg-white shadow-eventBox !font-montserrat"
         >
           <option value="all">All</option>
           {uniqueCities.map((city, index) => (

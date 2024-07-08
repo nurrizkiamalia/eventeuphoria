@@ -1,5 +1,5 @@
 import Image from "next/image";
-import art from "@/public/assets/art-exhibition.webp"
+import art from "@/public/assets/art-exhibition.webp";
 import Link from "next/link";
 import { Event } from "@/types/datatypes";
 import { formatDate } from "@/utils/formatDate";
@@ -56,12 +56,6 @@ const EventCard: React.FC<EventCardProps> = ({ event }) => {
               />
               <p className="text-dspLightGray">{event.organizerName} </p>
             </div>
-            <p className="text-tXs font-bold">
-              {" "}
-              {event.ticketsAvailable}{" "}
-              <span className="text-dspLightGray">from {event.ticketsTotal}</span>{" "}
-              available{" "}
-            </p>
           </div>
         </div>
       </div>

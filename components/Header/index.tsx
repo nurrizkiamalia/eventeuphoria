@@ -21,10 +21,10 @@ const Header: React.FC = () => {
 
   return (
     <div className="shadow-eventBox">
-      <div className="flex justify-between gap-5 items-center p-5 lg:hidden">
+      <div className="flex justify-between gap-5 items-center py-2 px-5 lg:hidden">
         <Link
           href="/"
-          className="flex items-center font-bold text-tMd sm:text-tXl font-montserrat w-fit"
+          className="flex items-center font-bold text-tMd sm:text-tXl font-montserrat w-fit tracking-tighter"
         >
           Event <br /> Euphoria
         </Link>
@@ -37,7 +37,7 @@ const Header: React.FC = () => {
           <SheetContent className="flex flex-col gap-10">
             <Link
               href="/"
-              className="flex items-center font-bold text-tXl font-montserrat"
+              className="flex items-center font-bold text-tXl font-montserrat tracking-tighter"
             >
               Event Euphoria
             </Link>
@@ -47,7 +47,7 @@ const Header: React.FC = () => {
         </Sheet>
       </div>
 
-      <div className="responsive-header hidden lg:flex lg:gap-5 w-full py-5 px-5 lg:px-10 justify-between items-center">
+      <div className="responsive-header hidden lg:flex lg:gap-5 w-full py-2 px-5 lg:px-10 justify-between items-center">
         <Link
           href="/"
           className="flex items-center font-bold text-tXl font-montserrat w-fit"
