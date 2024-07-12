@@ -1,17 +1,14 @@
 import Footer from "@/components/Footer";
 
-export default function RootLayout({
-    children,
-  }: Readonly<{
-    children: React.ReactNode;
-  }>) {
-    return (
-      <div lang="en">
-        <div>
-          {children}
-          <Footer />
-        </div>
-      </div>
-    );
-  }
-  
+export default function AuthLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <div lang="en">
+      {children}
+      <Footer />
+    </div>
+  );
+}

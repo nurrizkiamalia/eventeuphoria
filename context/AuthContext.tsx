@@ -13,7 +13,7 @@ interface User {
   referralCode?: string;
   avatar?: string | null;
   quotes?: string | null;
-  role: 'user' | 'organizer';
+  role: 'USER' | 'ORGANIZER';
   points: number;
   createdAt: string;
   updatedAt: string;
@@ -106,15 +106,15 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   };
 
   const getToken = () => {
-    return sessionStorage.getItem(TOKEN_KEY);
+    return localStorage.getItem(TOKEN_KEY);
   };
 
   const setToken = (token: string) => {
-    sessionStorage.setItem(TOKEN_KEY, token);
+    localStorage.setItem(TOKEN_KEY, token);
   };
 
   const removeToken = () => {
-    sessionStorage.removeItem(TOKEN_KEY);
+    localStorage.removeItem(TOKEN_KEY);
   };
 
   return (

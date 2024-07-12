@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Montserrat, Source_Sans_3 } from "next/font/google";
+import { Montserrat } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/context/AuthContext";
 
@@ -21,12 +21,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-      <AuthProvider>
-        <html lang="en">
-          <body className={`${montserrat.variable} font-montserrat `}>
-            {children}
-          </body>
-        </html>
-      </AuthProvider>
+    <html lang="en">
+      <body className={`${montserrat.variable} font-montserrat `}>
+        <AuthProvider>
+          {children}
+        </AuthProvider>
+      </body>
+    </html>
   );
 }

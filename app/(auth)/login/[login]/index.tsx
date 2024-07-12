@@ -26,8 +26,8 @@ const Login: React.FC = () => {
       onSubmit={async (values, { setSubmitting }) => {
         try {
           await login(values.email, values.password);
-          if (currentUser?.role === 'organizer') {
-            router.push('/dashboard');
+          if (currentUser?.role === 'ORGANIZER') {
+            router.push('/');
           } else {
             router.push('/profile');
           }
