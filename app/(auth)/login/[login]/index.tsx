@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "@/components/ui/use-toast";
 
 const Login: React.FC = () => {
-  const { login } = useAuth();
+  const { login, currentUser } = useAuth();
   const router = useRouter();
 
   return (
@@ -26,6 +26,11 @@ const Login: React.FC = () => {
       onSubmit={async (values, { setSubmitting }) => {
         try {
           await login(values.email, values.password);
+          if (currentUser?.role === 'organizer') {
+            router.push('/dashboard');
+          } else {
+            router.push('/profile');
+          }
         } catch (error) {
           console.error('Login error:', error);
           toast({

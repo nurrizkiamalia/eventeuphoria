@@ -13,6 +13,7 @@ import { formatDate } from "@/utils/formatDate";
 import useEvent from "@/hooks/useEvent";
 import { useEffect } from "react";
 import RelatedEvents from "./RelatedEvents";
+import Review from "./Review/Review";
 
 const EventDetails: React.FC<EventDetailsProps> = ({ params }) => {
   const { event, events, loading, error, fetchEventById, fetchEventsByCategory } = useEvent();
@@ -35,19 +36,19 @@ const EventDetails: React.FC<EventDetailsProps> = ({ params }) => {
 
   const relatedEvents = events.filter(e => e.id !== event.id);
 
-  const imageUrl = event.image ? `/assets/${event.image}` : art;
+  const imageUrl = event.eventPicture ? `/assets/${event.eventPicture}` : art;
 
   return (
     <div className="p-5 lg:p-10 flex flex-col gap-10">
       <div className="">
         <h1 className="text-tXxl md:text-head3 lg:text-head2 font-bold">
-          {event.title}
+          {event.eventName}
         </h1>
         <div className="flex flex-col lg:flex-row lg:gap-5">
           <p className="font-medium text-gray-500">
             {formatDate(event.date)} - {event.time}{" "}
           </p>
-          <p className="font-semibold uppercase">{event.types}</p>
+          <p className="font-semibold uppercase">{event.eventType}</p>
         </div>
       </div>
       <div className="flex flex-col lg:flex-row gap-10">
@@ -55,7 +56,7 @@ const EventDetails: React.FC<EventDetailsProps> = ({ params }) => {
           <div className="rounded-xl overflow-hidden">
             <Image
               src={imageUrl}
-              alt={event.title}
+              alt={event.eventName}
               width={1000}
               height={1000}
               className="object-contain rounded-xl hover:scale-105 transition-all duration-500"
@@ -93,10 +94,10 @@ const EventDetails: React.FC<EventDetailsProps> = ({ params }) => {
               <GiTicket className="text-tXl" />
               <div>
                 <h3 className="font-semibold text-tLg">Price: </h3>
-                {event.ticketTier.map((item, index) => (
+                {event.ticketTiers.map((item, index) => (
                   <p className="text-dspGray" key={index}>
                     <span className="font-medium capitalize text-tLg">
-                      {item.tier}
+                      {item.tierName}
                     </span>{" "}
                     : {item.price} IDR
                   </p>
@@ -139,7 +140,7 @@ const EventDetails: React.FC<EventDetailsProps> = ({ params }) => {
           </div>
         </div>
       </div>
-      <div className="shadow-boxed  shadow-gray-300 p-5 lg:p-10 max-w-[800px] rounded-xl flex flex-col gap-5 items-start border border-dspLightGray">
+      <div className="shadow-boxed  shadow-gray-300 p-5 lg:p-10 lg:w-[65%] rounded-xl flex flex-col gap-5 items-start border border-dspLightGray">
         <h2 className=" font-bold text-tXl">Reserve Your Ticket Now</h2>
         <p>
           Fusce aliquam nunc sit amet dolor accumsan, non blandit elit
@@ -149,6 +150,9 @@ const EventDetails: React.FC<EventDetailsProps> = ({ params }) => {
         <Button>
           <Link href={`/events/${event.id}/checkout`}>Book Ticket</Link>
         </Button>
+      </div>
+      <div className="self-start lg:w-[65%]">
+        <Review />
       </div>
       <div>
         <RelatedEvents events={relatedEvents} />

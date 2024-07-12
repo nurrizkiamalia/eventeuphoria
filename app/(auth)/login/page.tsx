@@ -9,7 +9,7 @@ const LoginPage: React.FC = () => {
         <Link href="/" className="z-20 w-fit h-fit text-white font-bold text-head2 lg:text-head1 tracking-tighter">EventEuphoria</Link>
       </div>
       <div className="flex flex-col items-center justify-center -mt-56 lg:mt-0 py-10 lg:w-full relative">
-        <div className=" flex flex-col gap-5 z-10 h-fit backdrop-blur-xl min-w-[350px] max-w-[500px] text-center rounded-xl p-10 shadow-boxed shadow-dspLightGray max-h-screen">
+        <div className=" flex flex-col gap-5 z-10 h-fit backdrop-blur-xl min-w-[350px] max-w-[500px] text-center rounded-xl p-10 shadow-boxed shadow-dspLightGray lg:shadow-none max-h-screen">
           <h1 className=" text-tXxl font-bold text-white lg:text-black text-center">
             Login
           </h1>

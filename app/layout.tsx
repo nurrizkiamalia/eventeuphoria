@@ -3,11 +3,11 @@ import { Montserrat, Source_Sans_3 } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/context/AuthContext";
 
-const montserrat = Montserrat({ 
+const montserrat = Montserrat({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700","800","900"],
+  weight: ["400", "500", "600", "700", "800", "900"],
   display: "swap",
-  variable: "--font-montserrat"
+  variable: "--font-montserrat",
 });
 
 export const metadata: Metadata = {
@@ -21,12 +21,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <AuthProvider>
-    <html lang="en">
-      <body className={`${montserrat.variable} font-montserrat `}>
-        {children}
-      </body>
-    </html>
-    </AuthProvider>
+      <AuthProvider>
+        <html lang="en">
+          <body className={`${montserrat.variable} font-montserrat `}>
+            {children}
+          </body>
+        </html>
+      </AuthProvider>
   );
 }

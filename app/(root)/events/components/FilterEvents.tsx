@@ -32,10 +32,10 @@ const FilterEvent: React.FC<FilterEventProps> = ({
     if (price !== "all") {
       filtered = filtered.filter((event) => {
         if (price === "free") {
-          return event.types === "Free" || event.types === "Free | Paid";
+          return event.eventType === "Free" || event.eventType === "Free | Paid";
         }
         if (price === "paid") {
-          return event.types === "Paid" || event.types === "Free | Paid";
+          return event.eventType === "Paid" || event.eventType === "Free | Paid";
         }
         return false;
       });

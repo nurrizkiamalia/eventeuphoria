@@ -1,7 +1,3 @@
-export interface TicketTier {
-    tier: string;
-    price: string;
-}
 
 export interface EventListProps {
   events: Event[];
@@ -20,29 +16,43 @@ export interface User {
 }
 
 export interface Event {
-        id: number;
-        title: string;
-        image: string;
-        category: string;
-        date: string;
-        time: string;
-        location: string;
-        ticketTier: TicketTier[];
-        types: 'Free' | 'Paid' | 'Free | Paid';
-        organizerAvatar: string;
-        organizerName: string;
-        ticketsAvailable: number;
-        ticketsTotal: number;
-        city: string;
-        description: string[]
+  id: number;
+  eventName: string;
+  eventPicture: string;
+  category: string;
+  date: string;
+  time: string;
+  location: string;
+  ticketTiers: TicketTier[];
+  eventType: 'Free' | 'Paid' | 'Free | Paid';
+  organizerAvatar: string;
+  organizerName: string;
+  ticketsAvailable: number;
+  ticketsTotal: number;
+  city: string;
+  description: string[];
 }
 
-export interface EventDetailsProps {
-    params: {
-      id: number;
-    };
+export interface TicketTier {
+  tierName: string;
+  price: number;
+  availableSeats: number;
 }
+
+
+export interface EventDetailsProps {
+  params: {
+    id: number;
+  };
+}
+
 
 export interface Cities {
   city: string;
+}
+
+export interface reviewProps{
+  id: number;
+  review: string;
+  rating: number;
 }

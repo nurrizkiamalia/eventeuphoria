@@ -22,7 +22,8 @@ const Categories: React.FC = () => {
         const response = await axios.get('http://localhost:8080/categories');
         setCategories(response.data);
       } catch (err) {
-        setError("Failed to fetch categories");
+        console.error(err); 
+        setError("Failed to fetch categories. Please check the server.");
       } finally {
         setLoading(false);
       }

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import apiClient from '@/services/apiClient';
 import { User } from '@/types/datatypes';
 
 const useUsers = () => {
@@ -12,7 +12,7 @@ const useUsers = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/users');
+        const response = await apiClient.get('/users');
         setUsers(response.data);
       } catch (err) {
         setError("Failed to fetch users");

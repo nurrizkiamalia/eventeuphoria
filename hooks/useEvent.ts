@@ -1,8 +1,10 @@
+
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
-import { Event } from '../types/datatypes';
+import { Event } from '@/types/datatypes';
+import { generateSlug } from '@/utils/slugs';
 
 const useEvent = () => {
   const [events, setEvents] = useState<Event[]>([]);
@@ -14,7 +16,12 @@ const useEvent = () => {
     setLoading(true);
     try {
       const response = await axios.get('http://localhost:8080/events');
-      setEvents(response.data);
+      const fetchedEvents: Omit<Event, 'slug'>[] = response.data;
+      const eventsWithSlugs: Event[] = fetchedEvents.map(event => ({
+        ...event,
+        slug: generateSlug(event.eventName),
+      }));
+      setEvents(eventsWithSlugs);
     } catch (err) {
       setError("Failed to fetch events");
     } finally {
@@ -22,9 +29,10 @@ const useEvent = () => {
     }
   }, []);
 
-  const createEvent = async (event: Event) => {
+  const createEvent = async (event: Omit<Event, 'slug'>) => {
     try {
-      const response = await axios.post('http://localhost:8080/events', event);
+      const newEvent = { ...event, slug: generateSlug(event.eventName) };
+      const response = await axios.post('http://localhost:8080/events', newEvent);
       setEvents([...events, response.data]);
     } catch (err) {
       setError("Cannot create event");
@@ -33,7 +41,8 @@ const useEvent = () => {
 
   const updateEvent = async (event: Event) => {
     try {
-      const response = await axios.put(`http://localhost:8080/events/${event.id}`, event);
+      const updatedEvent = { ...event, slug: generateSlug(event.eventName) };
+      const response = await axios.put(`http://localhost:8080/events/${event.id}`, updatedEvent);
       setEvents(events.map(e => (e.id === event.id ? response.data : e)));
     } catch (err) {
       setError("Cannot update event");
@@ -48,6 +57,18 @@ const useEvent = () => {
       setError("Cannot delete event");
     }
   };
+
+  const fetchEventBySlug = useCallback(async (eventName: string) => {
+    setLoading(true);
+    try {
+      const response = await axios.get(`http://localhost:8080/events/${eventName}`);
+      setEvent(response.data);
+    } catch (err) {
+      setError("Failed to fetch event");
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
   const fetchEventById = useCallback(async (id: number) => {
     setLoading(true);
@@ -65,7 +86,12 @@ const useEvent = () => {
     setLoading(true);
     try {
       const response = await axios.get(`http://localhost:8080/events?category=${category}`);
-      setEvents(response.data);
+      const fetchedEvents: Omit<Event, 'slug'>[] = response.data;
+      const eventsWithSlugs: Event[] = fetchedEvents.map(event => ({
+        ...event,
+        slug: generateSlug(event.eventName),
+      }));
+      setEvents(eventsWithSlugs);
     } catch (err) {
       setError("Failed to fetch events");
     } finally {
@@ -77,7 +103,7 @@ const useEvent = () => {
     fetchEvents();
   }, [fetchEvents]);
 
-  return { events, event, loading, error, fetchEventById, fetchEventsByCategory, createEvent, updateEvent, deleteEvent };
+  return { events, event, loading, error, fetchEventById, fetchEventBySlug, fetchEventsByCategory, createEvent, updateEvent, deleteEvent };
 };
 
 export default useEvent;

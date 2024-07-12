@@ -22,7 +22,7 @@ const Checkout: React.FC = () => {
   if (!event) return <p>Event not found.</p>;
 
   
-  const imageUrl = event.image ? `/assets/${event.image}` : art;
+  const imageUrl = event.eventPicture ? `/assets/${event.eventPicture}` : art;
 
   return (
     <div className="p-5 lg:p-10 w-full flex flex-col gap-10">
@@ -36,14 +36,14 @@ const Checkout: React.FC = () => {
             <div className="rounded-xl overflow-hidden">
               <Image
                 src={imageUrl}
-                alt={event.title}
-                width={800}
+                alt={event.eventName}
+                width={1000}
                 height={500}
                 className="rounded-xl object-cover hover:scale-105 transition-all duration-500"
               />
             </div>
             <h2 className=" text-tXl sm:text-tXxl md:text-head3 font-semibold ">
-              {event.title}
+              {event.eventName}
             </h2>
             <div className="flex gap-5 items-center">
               <Image
@@ -58,18 +58,18 @@ const Checkout: React.FC = () => {
                 By {event.organizerName}
               </p>
             </div>
-            <div className="text-tMd flex flex-col lg:flex-row gap-5">
-              <div className="bg-dspSmokeWhite p-5 rounded-xl min-w-[150px] border border-dspDarkPurple text-dspDarkPurple flex flex-col justify-center items-center">
+            <div className="text-tMd flex flex-col lg:grid lg:grid-cols-2 gap-5">
+              <div className=" px-5 py-1 rounded-xl min-w-[150px] border border-dspDarkPurple flex flex-col justify-center items-center">
                 <p>Date</p>
-                <p className="font-bold ">{event.date}</p>
+                <p className="font-bold lg:text-tXxl">{event.date}</p>
               </div>
-              <div className="bg-dspSmokeWhite p-5 rounded-xl min-w-[150px] border border-dspDarkPurple text-dspDarkPurple flex flex-col justify-center items-center">
+              <div className=" px-5 py-1 rounded-xl min-w-[150px] border border-dspDarkPurple flex flex-col justify-center items-center">
                 <p>Time</p>
-                <p className="font-bold ">{event.time}</p>
+                <p className="font-bold lg:text-tXxl">{event.time}</p>
               </div>
-              <div className="bg-dspSmokeWhite p-5 rounded-xl min-w-[150px] border border-dspDarkPurple text-dspDarkPurple flex flex-col justify-center items-center">
+              <div className=" lg:col-span-2 px-5 py-1 rounded-xl min-w-[150px] border border-dspDarkPurple flex flex-col justify-center items-center">
                 <p>Location</p>
-                <p className="font-bold ">
+                <p className="font-bold lg:text-tXxl">
                   {event.location} {event.city}
                 </p>
               </div>
@@ -78,18 +78,18 @@ const Checkout: React.FC = () => {
               <p className="font-medium text-tXl md:text-tXxl ">
                 Choose Tickets
               </p>
-              <div className="flex flex-col gap-5 w-full flex-wrap">
-                {event.ticketTier.map((ticket, index) => (
+              <div className="flex flex-col lg:grid lg:grid-cols-3 gap-5 w-full flex-wrap">
+                {event.ticketTiers.map((ticket, index) => (
                   <div
                     key={index}
-                    className=" border border-dspDarkPurple rounded-xl text-dspDarkPurple shadow-eventBox shadow-dspPurple w-full"
+                    className=" border border-dspDarkPurple rounded-xl  hover:shadow-eventBox hover:shadow-dspPurple hover:bg-dspDarkPurple hover:text-white w-full"
                   >
-                    <div className=" flex flex-col sm:flex-row p-5 justify-between gap-5 sm:items-center ">
-                      <div className="flex flex-col gap-2">
-                        <h3 className="text-tXl font-bold  capitalize">
-                          {ticket.tier}
+                    <div className=" flex flex-col p-5 justify-between gap-5 items-center ">
+                      <div className="flex flex-col self-start gap-2">
+                        <h3 className="text-tLg lg:text-tXl font-bold  capitalize">
+                          {ticket.tierName}
                         </h3>
-                        <p className="font-semibold text-tXl">Rp{ticket.price}</p>
+                        <p className="font-semibold text-tLg lg:text-tXl">Rp{ticket.price}</p>
                       </div>
                       <select name="" id="" className="min-w-[250px] text-black p-2 rounded-xl border border-dspDarkPurple">
                         <option value="">0</option>
@@ -120,6 +120,13 @@ const Checkout: React.FC = () => {
             <div className="flex justify-between items-center">
               <p className="text-tXl font-semibold">20,000</p>
               <Link href="" className="underline">Use points</Link>
+            </div>
+          </div>
+          <div>
+            <h3 className=" text-tLg font-semibold">Discount Refferal</h3>
+            <div className="flex justify-between items-center">
+              <p className="text-tXl font-semibold">Disc. 10%</p>
+              <Link href="" className="underline">Use Discount</Link>
             </div>
           </div>
           <hr />

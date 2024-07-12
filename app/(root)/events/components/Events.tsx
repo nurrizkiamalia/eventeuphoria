@@ -56,7 +56,7 @@ const Events: React.FC = () => {
     if (debouncedSearchTerm) {
       filtered = filtered.filter(
         (event) =>
-          event.title
+          event.eventName
             .toLowerCase()
             .includes(debouncedSearchTerm.toLowerCase()) ||
           event.category
@@ -105,7 +105,7 @@ const Events: React.FC = () => {
       </div>
       <hr className="lg:hidden" />
       <div className="flex flex-col items-center gap-5 lg:gap-10 lg:w-[75%]">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4">
           {filteredAndLimitedEvents.map((event) => (
             <EventCard key={event.id} event={event} />
           ))}
