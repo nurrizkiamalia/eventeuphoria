@@ -25,7 +25,12 @@ const Login: React.FC = () => {
       })}
       onSubmit={async (values, { setSubmitting }) => {
         try {
-          await login(values.email, values.password);
+          const token = await login(values.email, values.password);
+
+          // Set the cookie with the token
+          document.cookie = `sid=${token}; Path=/; Domain=.eventeuphoria.fun; HttpOnly; Secure; SameSite=None`;
+
+          router.push('/');
         } catch (error) {
           console.error('Login error:', error);
           toast({

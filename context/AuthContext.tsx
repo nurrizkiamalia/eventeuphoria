@@ -4,8 +4,11 @@ import React, { createContext, useState, useContext, ReactNode, useEffect } from
 import { useRouter } from 'next/navigation';
 import apiClient from '@/services/apiClient';
 import { User } from '@/types/datatypes';
+import { parseCookies, setCookie, destroyCookie } from 'nookies';
 
-const TOKEN_KEY = 'jwtToken';
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
+
+const TOKEN_KEY = 'sid';
 
 interface AuthContextType {
   isAuthenticated: boolean;
@@ -14,19 +17,18 @@ interface AuthContextType {
   register: (email: string, firstName: string, lastName: string, password: string, role: string, referralCode?: string) => Promise<void>;
   logout: () => void;
   getToken: () => string | null;
-  isLoading: boolean; // Add isLoading to the interface
+  isLoading: boolean;
 }
-
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [currentUser, setCurrentUser] = useState<User | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(true); // Ensure isLoading state is defined
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const router = useRouter();
 
   useEffect(() => {
-    const token = getToken();
+    const cookies = parseCookies();
+    const token = cookies[TOKEN_KEY];
     if (token) {
       fetchProfile(token);
     } else {
@@ -76,7 +78,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   };
 
   const logout = async () => {
-    const token = getToken();
+    const cookies = parseCookies();
+    const token = cookies[TOKEN_KEY];
     if (token) {
       try {
         await apiClient.post(`/logout`, {}, {
@@ -95,11 +98,11 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     }
   };
 
-  const getToken = () => localStorage.getItem(TOKEN_KEY);
+  const getToken = () => parseCookies()[TOKEN_KEY];
 
-  const setToken = (token: string) => localStorage.setItem(TOKEN_KEY, token);
+  const setToken = (token: string) => setCookie(null, TOKEN_KEY, token, { path: '/', domain: '.eventeuphoria.fun', secure: true, sameSite: 'none' });
 
-  const removeToken = () => localStorage.removeItem(TOKEN_KEY);
+  const removeToken = () => destroyCookie(null, TOKEN_KEY, { path: '/', domain: '.eventeuphoria.fun' });
 
   return (
     <AuthContext.Provider value={{ isAuthenticated, currentUser, login, register, logout, getToken, isLoading }}>
