@@ -9,6 +9,8 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
       router.push('/login');
+    } else{
+        router.push('/');
     }
   }, [isLoading, isAuthenticated, router]);
 
