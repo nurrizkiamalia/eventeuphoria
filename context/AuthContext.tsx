@@ -3,22 +3,9 @@
 import React, { createContext, useState, useContext, ReactNode, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import apiClient from '@/services/apiClient';
-const TOKEN_KEY = 'jwtToken';
+import { User } from '@/types/datatypes';
 
-interface User {
-  id: number;
-  firstName: string;
-  lastName: string;
-  email: string;
-  referralCode?: string;
-  avatar?: string | null;
-  quotes?: string | null;
-  role: 'USER' | 'ORGANIZER';
-  points: number;
-  createdAt: string;
-  updatedAt: string;
-  deletedAt: string | null;
-}
+const TOKEN_KEY = 'jwtToken';
 
 interface AuthContextType {
   isAuthenticated: boolean;
@@ -27,6 +14,7 @@ interface AuthContextType {
   register: (email: string, firstName: string, lastName: string, password: string, role: string, referralCode?: string) => Promise<void>;
   logout: () => void;
   getToken: () => string | null;
+  isLoading: boolean; // Add isLoading to the interface
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -34,12 +22,11 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [currentUser, setCurrentUser] = useState<User | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(true); // Ensure isLoading state is defined
   const router = useRouter();
 
   useEffect(() => {
     const token = getToken();
-    console.log('Initial token:', token);
     if (token) {
       fetchProfile(token);
     } else {
@@ -54,7 +41,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log('Fetched profile:', response.data);
       setCurrentUser(response.data.data);
       setIsAuthenticated(true);
     } catch (error) {
@@ -70,10 +56,9 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     try {
       const response = await apiClient.post(`/login`, { email, password });
       const { token } = response.data;
-      console.log('Login response token:', token);
       setToken(token);
       await fetchProfile(token);
-      router.push('/profile');
+      router.push('/');
     } catch (error) {
       console.error('Login failed:', error);
       throw new Error('Failed to login');
@@ -93,32 +78,31 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const logout = async () => {
     const token = getToken();
     if (token) {
-      await apiClient.post(`/logout`, {}, {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      });
-      removeToken();
-      setIsAuthenticated(false);
-      setCurrentUser(null);
-      router.push('/login');
+      try {
+        await apiClient.post(`/logout`, {}, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+      } catch (error) {
+        console.error('Logout failed:', error);
+      } finally {
+        removeToken();
+        setIsAuthenticated(false);
+        setCurrentUser(null);
+        router.push('/login');
+      }
     }
   };
 
-  const getToken = () => {
-    return localStorage.getItem(TOKEN_KEY);
-  };
+  const getToken = () => localStorage.getItem(TOKEN_KEY);
 
-  const setToken = (token: string) => {
-    localStorage.setItem(TOKEN_KEY, token);
-  };
+  const setToken = (token: string) => localStorage.setItem(TOKEN_KEY, token);
 
-  const removeToken = () => {
-    localStorage.removeItem(TOKEN_KEY);
-  };
+  const removeToken = () => localStorage.removeItem(TOKEN_KEY);
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, currentUser, login, register, logout, getToken }}>
+    <AuthContext.Provider value={{ isAuthenticated, currentUser, login, register, logout, getToken, isLoading }}>
       {!isLoading && children}
     </AuthContext.Provider>
   );

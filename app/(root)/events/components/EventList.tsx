@@ -1,6 +1,7 @@
+// components/EventList.tsx
 import React from "react";
 import { EventListProps } from "@/types/datatypes";
-import EventCard from "../app/(root)/events/components/EventCard";
+import EventCard from "./EventCard";
 
 const EventList: React.FC<EventListProps> = ({ events }) => {
   return (

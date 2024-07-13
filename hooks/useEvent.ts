@@ -1,70 +1,48 @@
-
-'use client';
-
 import { useState, useEffect, useCallback } from 'react';
-import axios from 'axios';
 import { Event } from '@/types/datatypes';
-import { generateSlug } from '@/utils/slugs';
+import {
+  createEvent,
+  uploadEventImage,
+  getEventById,
+  searchEvents,
+  updateEvent,
+  deleteEvent,
+  getAllEvents,
+} from '@/services/eventService';
+import apiClient from '@/services/apiClient';
 
 const useEvent = () => {
   const [events, setEvents] = useState<Event[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
   const [event, setEvent] = useState<Event | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const fetchEvents = useCallback(async () => {
+  const handleError = (message: string) => {
+    setError(message);
+    setLoading(false);
+  };
+
+  const fetchEvents = useCallback(async (queryParams = {}) => {
     setLoading(true);
+    setError(null);
     try {
-      const response = await axios.get('http://localhost:8080/events');
-      const fetchedEvents: Omit<Event, 'slug'>[] = response.data;
-      const eventsWithSlugs: Event[] = fetchedEvents.map(event => ({
-        ...event,
-        slug: generateSlug(event.eventName),
-      }));
-      setEvents(eventsWithSlugs);
+      const response = await searchEvents(queryParams);
+      setEvents(response.events);
     } catch (err) {
-      setError("Failed to fetch events");
+      handleError('Failed to fetch events');
     } finally {
       setLoading(false);
     }
   }, []);
 
-  const createEvent = async (event: Omit<Event, 'slug'>) => {
-    try {
-      const newEvent = { ...event, slug: generateSlug(event.eventName) };
-      const response = await axios.post('http://localhost:8080/events', newEvent);
-      setEvents([...events, response.data]);
-    } catch (err) {
-      setError("Cannot create event");
-    }
-  };
-
-  const updateEvent = async (event: Event) => {
-    try {
-      const updatedEvent = { ...event, slug: generateSlug(event.eventName) };
-      const response = await axios.put(`http://localhost:8080/events/${event.id}`, updatedEvent);
-      setEvents(events.map(e => (e.id === event.id ? response.data : e)));
-    } catch (err) {
-      setError("Cannot update event");
-    }
-  };
-
-  const deleteEvent = async (id: number) => {
-    try {
-      await axios.delete(`http://localhost:8080/events/${id}`);
-      setEvents(events.filter(event => event.id !== id));
-    } catch (err) {
-      setError("Cannot delete event");
-    }
-  };
-
-  const fetchEventBySlug = useCallback(async (eventName: string) => {
+  const fetchAllEvents = useCallback(async () => {
     setLoading(true);
+    setError(null);
     try {
-      const response = await axios.get(`http://localhost:8080/events/${eventName}`);
-      setEvent(response.data);
+      const response = await apiClient.get('/events/search');
+      setEvents(response.data.events);
     } catch (err) {
-      setError("Failed to fetch event");
+      setError('Failed to fetch all events');
     } finally {
       setLoading(false);
     }
@@ -72,11 +50,12 @@ const useEvent = () => {
 
   const fetchEventById = useCallback(async (id: number) => {
     setLoading(true);
+    setError(null);
     try {
-      const response = await axios.get(`http://localhost:8080/events/${id}`);
-      setEvent(response.data);
+      const response = await apiClient.get(`/events/${id}`);
+      setEvent(response.data.data);
     } catch (err) {
-      setError("Failed to fetch event");
+      setError('Failed to fetch event');
     } finally {
       setLoading(false);
     }
@@ -84,26 +63,27 @@ const useEvent = () => {
 
   const fetchEventsByCategory = useCallback(async (category: string) => {
     setLoading(true);
+    setError(null);
     try {
-      const response = await axios.get(`http://localhost:8080/events?category=${category}`);
-      const fetchedEvents: Omit<Event, 'slug'>[] = response.data;
-      const eventsWithSlugs: Event[] = fetchedEvents.map(event => ({
-        ...event,
-        slug: generateSlug(event.eventName),
-      }));
-      setEvents(eventsWithSlugs);
+      const response = await searchEvents({ category });
+      setEvents(response.events);
     } catch (err) {
-      setError("Failed to fetch events");
+      handleError('Failed to fetch events by category');
     } finally {
       setLoading(false);
     }
   }, []);
 
-  useEffect(() => {
-    fetchEvents();
-  }, [fetchEvents]);
-
-  return { events, event, loading, error, fetchEventById, fetchEventBySlug, fetchEventsByCategory, createEvent, updateEvent, deleteEvent };
+  return {
+    events,
+    event,
+    loading,
+    error,
+    fetchEvents,
+    fetchAllEvents,
+    fetchEventById,
+    fetchEventsByCategory,
+  };
 };
 
 export default useEvent;

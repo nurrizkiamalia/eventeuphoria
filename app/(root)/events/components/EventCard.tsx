@@ -5,22 +5,21 @@ import { MdMapsHomeWork } from 'react-icons/md';
 import { GiTicket } from 'react-icons/gi';
 import { Event } from '@/types/datatypes';
 import { formatDate } from '@/utils/formatDate';
-import { generateSlug } from '@/utils/slugs';
 import art from '@/public/assets/art-exhibition.webp';
+import organizer from "@/public/assets/organizer1.jpg";
 
 interface EventCardProps {
   event: Event;
 }
 
 const EventCard: React.FC<EventCardProps> = ({ event }) => {
-  const priceDisplay = event.ticketTiers && event.ticketTiers.length > 1 
-    ? `start Rp${event.ticketTiers[0].price}` 
-    : event.ticketTiers 
-      ? `Rp${event.ticketTiers[0].price}` 
-      : 'No tickets available';
+  const priceDisplay = event.ticketTiers && event.ticketTiers.length > 0
+    ? event.ticketTiers.length > 1 
+      ? `start Rp${event.ticketTiers[0].price}` 
+      : `Rp${event.ticketTiers[0].price}` 
+    : 'No tickets available';
 
-  const imageUrl = event.eventPicture ? `/assets/${event.eventPicture}` : art;
-  const slug = generateSlug(event.eventName); 
+  const imageUrl = event.eventPicture ? event.eventPicture : art.src;
 
   return (
     <div
@@ -41,7 +40,7 @@ const EventCard: React.FC<EventCardProps> = ({ event }) => {
       </div>
       <div className="px-5 py-2">
         <h3 className="font-bold text-tXl">
-          <Link href={`/events/${event.id}`}>{event.eventName}</Link>
+          <Link href={`/events/${event.id}`}>{event.name}</Link>
         </h3>
         <div className="flex justify-between gap-1">
           <div>
@@ -58,13 +57,13 @@ const EventCard: React.FC<EventCardProps> = ({ event }) => {
             </p>
             <div className="flex items-center gap-2 my-5">
               <Image
-                src={`/assets/${event.organizerAvatar}`}
+                src={event.organizer.avatar || organizer}
                 alt="organizer"
                 width={40}
                 height={40}
                 className="rounded-full"
               />
-              <p className="text-dspLightGray">{event.organizerName}</p>
+              <p className="text-dspLightGray">{event.organizer.firstName || "Organizer"}</p>
             </div>
           </div>
         </div>

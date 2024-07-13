@@ -1,39 +1,12 @@
 'use client';
 
-import { useRouter } from "next/navigation";
-import { useState, useEffect } from "react";
-import axios from "axios";
-import Image from "next/image";
-
-interface Category {
-  image: string;
-  category: string;
-}
+import React from 'react';
+import { useRouter } from 'next/navigation';
+import Image from 'next/image';
+import { categories } from '@/data/data'; // Correct import
 
 const Categories: React.FC = () => {
-  const [categories, setCategories] = useState<Category[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
   const router = useRouter();
-
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const response = await axios.get('http://localhost:8080/categories');
-        setCategories(response.data);
-      } catch (err) {
-        console.error(err); 
-        setError("Failed to fetch categories. Please check the server.");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchCategories();
-  }, []);
-
-  if (loading) return <p>Loading categories...</p>;
-  if (error) return <p>{error}</p>;
 
   const handleCategoryClick = (category: string) => {
     router.push(`/events?category=${category}`);
@@ -41,7 +14,7 @@ const Categories: React.FC = () => {
 
   return (
     <div className="categories flex items-center justify-between w-full gap-5 p-5 lg:p-10 overflow-x-auto">
-      {categories.map((item, index) => (
+      {categories.map((item, index) => ( // Correct usage of categories
         <div
           key={index}
           className="w-full p-5 rounded-2xl flex flex-col items-center gap-3 cursor-pointer hover:shadow-eventBox hover:shadow-dspLightPurple hover:scale-105 transition-all duration-500 hover:bg-dspDarkPurple hover:text-white text-center"

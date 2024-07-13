@@ -1,9 +1,9 @@
-import { reviewProps } from "@/types/datatypes";
+import { ReviewProps } from "@/types/datatypes";
 import axios from "axios";
 import { useCallback, useEffect, useState } from "react";
 
 const useReview = () =>{
-    const [reviews, setReviews] = useState<reviewProps[]>([]);
+    const [reviews, setReviews] = useState<ReviewProps[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string>('');
 
@@ -19,7 +19,7 @@ const useReview = () =>{
         }
     }, []);
 
-    const createReview = async (review: reviewProps) => {
+    const createReview = async (review: ReviewProps) => {
         try {
           const response = await axios.post('http://localhost:8080/reviews', event);
           setReviews([...reviews, response.data]);

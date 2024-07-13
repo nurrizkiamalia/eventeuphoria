@@ -2,14 +2,11 @@
 
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import useCities from '@/hooks/useCities';
+import { cities } from '@/data/data';
+import { Cities } from '@/types/datatypes';
 
 const PopularCity: React.FC = () => {
-  const { cities, loading, error } = useCities();
   const router = useRouter();
-
-  if (loading) return <p>Loading cities...</p>;
-  if (error) return <p>Error loading cities: {error}</p>;
 
   const handleCityClick = (city: string) => {
     router.push(`/events?city=${city}`);

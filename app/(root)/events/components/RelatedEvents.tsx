@@ -1,4 +1,4 @@
-import EventList from "@/components/EventList"
+import EventList from "./EventList"
 import { EventListProps } from "@/types/datatypes"
 
 const RelatedEvents: React.FC<EventListProps> = ({events}) => {

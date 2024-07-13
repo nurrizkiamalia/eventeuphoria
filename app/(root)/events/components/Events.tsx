@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { useState, useEffect } from "react";
 import useEvent from "@/hooks/useEvent";
@@ -8,15 +8,11 @@ import EventCard from "./EventCard";
 import { useSearchParams } from "next/navigation";
 import Button from "@/components/Button/Button";
 import useDebouncedSearch from "@/hooks/useDebounceSearch";
-import {
-  Sheet,
-  SheetContent,
-  SheetTrigger,
-} from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { BiFilter } from "react-icons/bi";
 
 const Events: React.FC = () => {
-  const { events, loading, error } = useEvent();
+  const { events, loading, error, fetchAllEvents } = useEvent();
   const searchParams = useSearchParams();
   const queryCategory = searchParams.get("category") || "all";
   const queryCity = searchParams.get("city") || "all";
@@ -29,6 +25,10 @@ const Events: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState<string>(querySearch);
 
   const debouncedSearchTerm = useDebouncedSearch(searchTerm, 500);
+
+  useEffect(() => {
+    fetchAllEvents();
+  }, [fetchAllEvents]);
 
   useEffect(() => {
     setCategory(queryCategory);
@@ -56,12 +56,8 @@ const Events: React.FC = () => {
     if (debouncedSearchTerm) {
       filtered = filtered.filter(
         (event) =>
-          event.eventName
-            .toLowerCase()
-            .includes(debouncedSearchTerm.toLowerCase()) ||
-          event.category
-            .toLowerCase()
-            .includes(debouncedSearchTerm.toLowerCase()) ||
+          event.name.toLowerCase().includes(debouncedSearchTerm.toLowerCase()) ||
+          event.category.toLowerCase().includes(debouncedSearchTerm.toLowerCase()) ||
           event.city.toLowerCase().includes(debouncedSearchTerm.toLowerCase())
       );
     }
@@ -77,9 +73,10 @@ const Events: React.FC = () => {
 
   if (loading) return <p>Loading events...</p>;
   if (error) return <p>Error loading events: {error}</p>;
+
   return (
-    <>
-      <div className="flex flex-col lg:w-[25%] ">
+    <div className="flex flex-col lg:flex-row lg:gap-10">
+      <div className="flex flex-col lg:w-[25%]">
         <div className="hidden lg:block">
           <FilterEvent
             events={events}
@@ -90,7 +87,7 @@ const Events: React.FC = () => {
         </div>
         <Sheet>
           <SheetTrigger className="bg-dspDarkPurple text-white py-2 px-5 w-fit lg:hidden rounded-xl flex gap-3 items-center">
-            < BiFilter className="text-tXl" />
+            <BiFilter className="text-tXl" />
             <span className="underline font-semibold">Filter events</span>
           </SheetTrigger>
           <SheetContent className="flex flex-col gap-10 overflow-y-auto">
@@ -114,7 +111,7 @@ const Events: React.FC = () => {
           <Button onclick={handleShowMore}>Show more events</Button>
         )}
       </div>
-    </>
+    </div>
   );
 };
 

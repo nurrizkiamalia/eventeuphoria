@@ -1,10 +1,10 @@
-import { reviewProps } from "@/types/datatypes";
+import { ReviewProps } from "@/types/datatypes";
 import Image from "next/image";
 import userImg from "@/public/assets/user.png";
 import { FaStar } from "react-icons/fa";
 
 interface reviewBox {
-  review: reviewProps;
+  review: ReviewProps;
 }
 
 const ReviewBox: React.FC<reviewBox> = ({ review }) => {

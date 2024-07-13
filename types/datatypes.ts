@@ -1,44 +1,40 @@
-
-export interface EventListProps {
-  events: Event[];
+export interface TicketTier {
+  name: string;
+  price: number;
+  totalSeats: number;
 }
 
-export interface User {
+export interface EventVoucher {
+  code: string;
+  discountPercentage: number;
+  startDate: string;
+  endDate: string;
+}
+
+export interface Organizer {
   id: number;
-  email: string;
-  password: string;
   firstName: string;
   lastName: string;
-  phone: string;
-  address: string;
-  isOrganizer: boolean;
-  organizerName?: string;
+  email: string;
+  avatar?: string | null;
 }
 
 export interface Event {
   id: number;
-  eventName: string;
-  eventPicture: string;
-  category: string;
+  name: string;
+  description: string;
   date: string;
   time: string;
   location: string;
-  ticketTiers: TicketTier[];
-  eventType: 'Free' | 'Paid' | 'Free | Paid';
-  organizerAvatar: string;
-  organizerName: string;
-  ticketsAvailable: number;
-  ticketsTotal: number;
   city: string;
-  description: string[];
+  eventType: string;
+  category: string;
+  referralQuota?: number;
+  ticketTiers: TicketTier[];
+  eventVouchers?: EventVoucher[];
+  eventPicture?: string;
+  organizer: Organizer;
 }
-
-export interface TicketTier {
-  tierName: string;
-  price: number;
-  availableSeats: number;
-}
-
 
 export interface EventDetailsProps {
   params: {
@@ -46,13 +42,42 @@ export interface EventDetailsProps {
   };
 }
 
+export interface EventListProps {
+  events: Event[];
+}
 
 export interface Cities {
+  image: string;
   city: string;
 }
 
-export interface reviewProps{
+export interface Categories {
+  image: string;
+  category: string;
+}
+
+export interface ReviewProps {
   id: number;
+  review: string;
+  rating: number;
+}
+
+export interface User {
+  id: number;
+  firstName: string;
+  lastName: string;
+  email: string;
+  referralCode?: string;
+  avatar?: string | null;
+  quotes?: string | null;
+  role: 'USER' | 'ORGANIZER';
+  points: number;
+  createdAt: string;
+  updatedAt: string;
+  deletedAt: string | null;
+}
+
+export interface ReviewProps{
   review: string;
   rating: number;
 }

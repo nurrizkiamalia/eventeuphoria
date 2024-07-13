@@ -1,10 +1,10 @@
 "use client";
 
 import { useAuth } from "@/context/AuthContext";
-import { logout } from "@/services/api";
 import Link from "next/link";
 import { useState } from "react";
 import { RiArrowRightUpLine } from "react-icons/ri";
+
 interface NavProps {
   className?: string;
 }
@@ -17,7 +17,7 @@ interface NavItem {
 const navlist: NavItem[] = [{ link: "favorite", text: "Favorite" }];
 
 const NavAuth: React.FC<NavProps> = ({ className }) => {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, currentUser, logout } = useAuth();
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const handleDropdown = () => {
@@ -25,7 +25,7 @@ const NavAuth: React.FC<NavProps> = ({ className }) => {
   };
 
   const handleLogout = async () => {
-    await logout('/login');
+    await logout();
     setDropdownOpen(false);
   };
 
@@ -65,9 +65,11 @@ const NavAuth: React.FC<NavProps> = ({ className }) => {
                   <Link href="/profile" className="block px-4 py-2 text-gray-800 hover:bg-gray-200">
                     Profile
                   </Link>
-                  <Link href="/settings" className="block px-4 py-2 text-gray-800 hover:bg-gray-200">
-                    Settings
-                  </Link>
+                  {currentUser?.role === 'ORGANIZER' && (
+                    <Link href="http://localhost:3001" className="block px-4 py-2 text-gray-800 hover:bg-gray-200">
+                      Dashboard
+                    </Link>
+                  )}
                   <button onClick={handleLogout} className="block w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-200">
                     Logout
                   </button>
