@@ -19,6 +19,7 @@ const config = {
     },
     extend: {
       backgroundImage: {
+        "hero-img": "url(/assets/concert.webp)",
         "hero-image": "url('/assets/concert.webp ')",
         "banner-image": "url('/assets/concert2.webp ')",
         "cta-image": "url('/assets/art-exhibition2.webp ')",

@@ -1,8 +1,8 @@
-import { Event } from '@/types/datatypes';
+import { EventValues } from '@/types/datatypes';
 import apiClient from './apiClient';
 
 
-export const createEvent = async (event: Event, token: string) => {
+export const createEvent = async (event: EventValues, token: string) => {
   try {
     const response = await apiClient.post('/events', event, {
       headers: {

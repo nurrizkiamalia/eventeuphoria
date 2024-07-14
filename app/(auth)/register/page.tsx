@@ -1,8 +1,10 @@
 import Link from "next/link";
 import Register from "./[register]";
+import Authenticated from "@/components/Authenticated";
 
 const RegisterPage: React.FC = () => {
   return (
+    <Authenticated route="register">
     <div className="flex flex-col lg:flex-row w-full lg:items-center">
       <div className="m-0 flex justify-center lg:items-center bg-hero-image bg-cover bg-bottom relative h-[50vh] lg:min-h-screen w-full ">
         <div className="bg-black opacity-50 top-0 left-0 absolute h-full w-full z-0 "></div>
@@ -26,6 +28,7 @@ const RegisterPage: React.FC = () => {
         </div>
       </div>
     </div>
+    </Authenticated>
   );
 };
 

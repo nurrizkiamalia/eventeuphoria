@@ -20,6 +20,8 @@ const NavAuth: React.FC<NavProps> = ({ className }) => {
   const { isAuthenticated, currentUser, logout } = useAuth();
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
+  console.log("navauth",currentUser)
+
   const handleDropdown = () => {
     setDropdownOpen(!dropdownOpen);
   };
@@ -71,10 +73,10 @@ const NavAuth: React.FC<NavProps> = ({ className }) => {
                     Profile
                   </Link>
                   <Link
-                    href="https://dashboard.eventeuphoria.fun"
-                    className={`${
+                    href="/dashboard"
+                    className={` ${
                       currentUser?.role === "ORGANIZER" ? "block" : "hidden"
-                    } px-4 py-2 text-gray-800 hover:bg-gray-200`}
+                    } w-full px-4 py-2 text-gray-800 hover:bg-gray-200`}
                   >
                     Dashboard
                   </Link>
