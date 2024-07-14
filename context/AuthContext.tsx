@@ -4,8 +4,9 @@ import React, { createContext, useState, useContext, ReactNode, useEffect } from
 import { useRouter } from 'next/navigation';
 import apiClient from '@/services/apiClient';
 import { User } from '@/types/datatypes';
+import { parseCookies, setCookie, destroyCookie } from 'nookies';
 
-const TOKEN_KEY = 'jwtToken';
+// const TOKEN_KEY = 'jwtToken';
 
 interface AuthContextType {
   isAuthenticated: boolean;
@@ -18,6 +19,8 @@ interface AuthContextType {
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
+
+const TOKEN_KEY = 'sid';
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
@@ -76,7 +79,9 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   };
 
   const logout = async () => {
-    const token = getToken();
+    const cookies = parseCookies();
+    const token = cookies[TOKEN_KEY];
+    // const token = getToken();
     if (token) {
       try {
         await apiClient.post(`/logout`, {}, {
@@ -95,11 +100,17 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     }
   };
 
-  const getToken = () => localStorage.getItem(TOKEN_KEY);
+  const getToken = () => parseCookies()[TOKEN_KEY];
 
-  const setToken = (token: string) => localStorage.setItem(TOKEN_KEY, token);
+  const setToken = (token: string) => setCookie(null, TOKEN_KEY, token, { path: '/', domain: '.eventeuphoria.fun', secure: true, sameSite: 'none' });
 
-  const removeToken = () => localStorage.removeItem(TOKEN_KEY);
+  const removeToken = () => destroyCookie(null, TOKEN_KEY, { path: '/', domain: '.eventeuphoria.fun' });
+
+  // const getToken = () => localStorage.getItem(TOKEN_KEY);
+
+  // const setToken = (token: string) => localStorage.setItem(TOKEN_KEY, token);
+
+  // const removeToken = () => localStorage.removeItem(TOKEN_KEY);
 
   return (
     <AuthContext.Provider value={{ isAuthenticated, currentUser, login, register, logout, getToken, isLoading }}>

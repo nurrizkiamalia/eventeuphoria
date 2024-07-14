@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect, useCallback } from 'react';
-import { Event } from '@/types/datatypes';
+import { Event, EventValues } from '@/types/datatypes';
 import {
   searchEvents,
   getAllEvents,
@@ -78,42 +78,47 @@ const useEvent = () => {
     return { Authorization: `Bearer ${token}` };
 };
 
-const postEvent = async (formData: object) => {
-    setLoading(true);
-    try {
-        const response = await apiClient.post('/events', formData, {
-            headers: {
-                ...getAuthHeader(),
-                'Content-Type': 'application/json',
-            },
-        });
-        return response.data;
-    } catch (err: any) {
-        setError(err.message);
-        return null;
-    } finally {
-        setLoading(false);
-    }
-};
+const postEvent = useCallback(async (formData: EventValues) => {
+  setLoading(true);
+  setError(null);
+  try {
+    const authHeader = getAuthHeader();
+    const response = await apiClient.post('/events', formData, {
+      headers: {
+        ...authHeader,
+        'Content-Type': 'application/json',
+      },
+    });
+    setEvents((prevEvents) => [...prevEvents, response.data]);
+    return response.data;
+  } catch (err: any) {
+    setError(err.message);
+    return null;
+  } finally {
+    setLoading(false);
+  }
+}, []);
 
-const uploadImage = async (eventId: number, image: File) => {
-    setLoading(true);
-    try {
-        const formData = new FormData();
-        formData.append('file', image);
-        const response = await apiClient.post(`/events/${eventId}/image`, formData, {
-            headers: {
-                ...getAuthHeader(),
-            },
-        });
-        return response.data;
-    } catch (err: any) {
-        setError(err.message);
-        return null;
-    } finally {
-        setLoading(false);
-    }
-};
+const uploadImage = useCallback(async (eventId: number, image: File) => {
+  setLoading(true);
+  setError(null);
+  try {
+    const formData = new FormData();
+    formData.append('file', image);
+    const response = await apiClient.post(`/events/${eventId}/image`, formData, {
+      headers: {
+        ...getAuthHeader(),
+      },
+    });
+    setEvent((prevEvent) => prevEvent ? { ...prevEvent, image: response.data.image } : null);
+    return response.data;
+  } catch (err: any) {
+    setError(err.message);
+    return null;
+  } finally {
+    setLoading(false);
+  }
+}, []);
 
 const updateEvent = async (id: number, formData: object) => {
     setLoading(true);
