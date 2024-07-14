@@ -2,7 +2,7 @@
 
 import { Formik, Form, Field, ErrorMessage, FieldArray } from "formik";
 import * as Yup from "yup";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import ConfirmationDialog from "../ConfirmationDialog";
 import { Button } from "@/components/ui/button";
 import useEvent from "@/hooks/useEvent";
@@ -12,7 +12,7 @@ import { EventValues } from "@/types/datatypes";
 import { categories } from "@/data/data";
 
 const validationSchema = Yup.object().shape({
-  eventName: Yup.string().required("Event name is required"),
+  name: Yup.string().required("Event name is required"),
   description: Yup.string().required("Description is required"),
   date: Yup.date().required("Date is required"),
   time: Yup.string().required("Time is required"),
@@ -31,7 +31,7 @@ const validationSchema = Yup.object().shape({
       })
     )
     .required("Ticket tiers are required"),
-  vouchers: Yup.array()
+  eventVouchers: Yup.array()
     .of(
       Yup.object().shape({
         code: Yup.string().required("Voucher code is required"),
@@ -84,12 +84,12 @@ const FormEvent: React.FC<FormEventProps> = ({ initialValues, onSubmit }) => {
         {({ values, setFieldValue, isSubmitting }) => (
           <Form className="space-y-4">
             <div className={fieldContainer}>
-              <label htmlFor="eventName" className={labelStyle}>
+              <label htmlFor="name" className={labelStyle}>
                 Event Name
               </label>
-              <Field name="eventName" type="text" className={fieldStyle} />
+              <Field name="name" type="text" className={fieldStyle} />
               <ErrorMessage
-                name="eventName"
+                name="name"
                 component="div"
                 className={errorStyle}
               />
@@ -277,13 +277,13 @@ const FormEvent: React.FC<FormEventProps> = ({ initialValues, onSubmit }) => {
             </div>
 
             <div className={fieldContainer}>
-              <label htmlFor="vouchers" className={labelStyle}>
+              <label htmlFor="eventVouchers" className={labelStyle}>
                 Vouchers
               </label>
-              <FieldArray name="vouchers">
+              <FieldArray name="eventVouchers">
                 {({ push, remove }) => (
                   <>
-                    {values.vouchers.map((voucher, index) => (
+                    {values.eventVouchers.map((voucher, index) => (
                       <div key={index} className="my-2 border p-2 rounded">
                         <div className="flex items-center justify-between">
                           <h4 className="text-lg font-bold">
@@ -299,72 +299,72 @@ const FormEvent: React.FC<FormEventProps> = ({ initialValues, onSubmit }) => {
                         </div>
                         <div className={fieldContainer}>
                           <label
-                            htmlFor={`vouchers[${index}].code`}
+                            htmlFor={`eventVouchers[${index}].code`}
                             className={labelStyle}
                           >
                             Voucher Code
                           </label>
                           <Field
-                            name={`vouchers[${index}].code`}
+                            name={`eventVouchers[${index}].code`}
                             type="text"
                             className={fieldStyle}
                           />
                           <ErrorMessage
-                            name={`vouchers[${index}].code`}
+                            name={`eventVouchers[${index}].code`}
                             component="div"
                             className={errorStyle}
                           />
                         </div>
                         <div className={fieldContainer}>
                           <label
-                            htmlFor={`vouchers[${index}].discountPercentage`}
+                            htmlFor={`eventVouchers[${index}].discountPercentage`}
                             className={labelStyle}
                           >
                             Discount Percentage
                           </label>
                           <Field
-                            name={`vouchers[${index}].discountPercentage`}
+                            name={`eventVouchers[${index}].discountPercentage`}
                             type="number"
                             className={fieldStyle}
                           />
                           <ErrorMessage
-                            name={`vouchers[${index}].discountPercentage`}
+                            name={`eventVouchers[${index}].discountPercentage`}
                             component="div"
                             className={errorStyle}
                           />
                         </div>
                         <div className={fieldContainer}>
                           <label
-                            htmlFor={`vouchers[${index}].startDate`}
+                            htmlFor={`eventVouchers[${index}].startDate`}
                             className={labelStyle}
                           >
                             Start Date
                           </label>
                           <Field
-                            name={`vouchers[${index}].startDate`}
+                            name={`eventVouchers[${index}].startDate`}
                             type="date"
                             className={fieldStyle}
                           />
                           <ErrorMessage
-                            name={`vouchers[${index}].startDate`}
+                            name={`eventVouchers[${index}].startDate`}
                             component="div"
                             className={errorStyle}
                           />
                         </div>
                         <div className={fieldContainer}>
                           <label
-                            htmlFor={`vouchers[${index}].endDate`}
+                            htmlFor={`eventVouchers[${index}].endDate`}
                             className={labelStyle}
                           >
                             End Date
                           </label>
                           <Field
-                            name={`vouchers[${index}].endDate`}
+                            name={`eventVouchers[${index}].endDate`}
                             type="date"
                             className={fieldStyle}
                           />
                           <ErrorMessage
-                            name={`vouchers[${index}].endDate`}
+                            name={`eventVouchers[${index}].endDate`}
                             component="div"
                             className={errorStyle}
                           />

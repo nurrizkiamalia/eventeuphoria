@@ -14,7 +14,7 @@ const CreateEventPage: React.FC = () => {
   const router = useRouter();
 
   const initialValues: EventValues = {
-    eventName: "",
+    name: "",
     description: "",
     date: "",
     time: "",
@@ -23,16 +23,15 @@ const CreateEventPage: React.FC = () => {
     eventType: "",
     category: "",
     ticketTiers: [{ name: "", price: 0, totalSeats: 0 }],
-    vouchers: [],
+    eventVouchers: [],
     referralQuota: 0,
-    eventPicture: "",
   };
 
   const handleSubmit = async (values: EventValues) => {
     const result = await postEvent(values);
     if (result) {
       alert('Event created successfully!');
-      router.push(`/upload-image`);
+      router.push(`/upload-image?eventId=${result.id}`);
     } else {
       alert('Failed to create event. Please try again.');
     }

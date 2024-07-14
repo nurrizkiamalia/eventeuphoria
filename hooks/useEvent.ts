@@ -73,6 +73,7 @@ const useEvent = () => {
   }, []);
 
   const getAuthHeader = () => {
+    // const token = localStorage.getItem('token');
     const cookies = parseCookies();
     const token = cookies['sid'];
     return { Authorization: `Bearer ${token}` };

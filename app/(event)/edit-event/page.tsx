@@ -27,7 +27,7 @@ interface EditProps {
         const event = await getEvent(params.id);
         if (event) {
           setInitialValues({
-            eventName: event.name,
+            name: event.name,
             description: event.description,
             date: event.date,
             time: event.time,
@@ -36,9 +36,8 @@ interface EditProps {
             eventType: event.eventType,
             category: event.category,
             ticketTiers: event.ticketTiers || [{ tierName: "", price: 0, availableSeats: 0 }],
-            vouchers: event.eventVouchers || [],
+            eventVouchers: event.eventVouchers || [],
             referralQuota: event.referralQuota || 0,
-            eventPicture: event.eventPicture || "",
           });
         }
         setLoading(false);

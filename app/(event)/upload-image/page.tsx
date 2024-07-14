@@ -7,7 +7,7 @@ import { FaArrowLeft } from "react-icons/fa";
 import UploadImage from "../components/FormEvent/UploadImage";
 import { useSearchParams } from "next/navigation";
 
-const CreateEventPage: React.FC = () => {
+const UploadImagePage: React.FC = () => {
   const searchParams = useSearchParams();
   const eventId = searchParams.get("eventId");
 
@@ -25,7 +25,7 @@ const CreateEventPage: React.FC = () => {
                 <FaArrowLeft className="mr-2" /> Back
               </Link>
             </ButtonDashboard>
-            <h1 className="font-bold text-head3 mt-4">Create Your Own Event</h1>
+            <h1 className="font-bold text-head3 mt-4">Upload Event Image</h1>
           </div>
           <UploadImage eventId={Number(eventId)} />
         </div>
@@ -34,4 +34,4 @@ const CreateEventPage: React.FC = () => {
   );
 };
 
-export default CreateEventPage;
+export default UploadImagePage;

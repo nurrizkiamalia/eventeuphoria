@@ -5,7 +5,7 @@ export interface TicketTier {
 }
 
 export interface EventValues {
-  eventName: string;
+  name: string;
   description: string;
   date: string;
   time: string;
@@ -14,21 +14,12 @@ export interface EventValues {
   eventType: string;
   category: string;
   ticketTiers: TicketTier[];
-  vouchers: Voucher[];
+  eventVouchers: EventVoucher[];
   referralQuota: number;
-  eventPicture: string;
 }
 
-export interface TicketTier {
-  name: string;
-  price: number;
-  totalSeats: number;
-}
-
-export interface Voucher {
-  voucherName: string;
-  discountAmount: number;
-  expiryDate: string;
+export interface ImgUpload{
+  file: string;
 }
 
 export interface EventVoucher {
