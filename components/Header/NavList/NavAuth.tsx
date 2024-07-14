@@ -71,8 +71,8 @@ const NavAuth: React.FC<NavProps> = ({ className }) => {
                     Profile
                   </Link>
                   <Link
-                    href="http://dashboard.eventeuphoria.fun"
-                    className={` ${
+                    href="https://dashboard.eventeuphoria.fun"
+                    className={`${
                       currentUser?.role === "ORGANIZER" ? "block" : "hidden"
                     } px-4 py-2 text-gray-800 hover:bg-gray-200`}
                   >
