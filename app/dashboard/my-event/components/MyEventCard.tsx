@@ -42,7 +42,7 @@ const MyEventCard: React.FC<MyEventCardProps> = ({ event, index }) => {
         />
       </div>
       <h3 className="font-bold text-tXl">
-        <Link href={`dashboard/my-event/${event.id}`} className="cursor-pointer">
+        <Link href={`dashboard/my-event/transaction`} className="cursor-pointer">
           {event.name}
         </Link>
       </h3>
