@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Event, EventValues } from '@/types/datatypes';
 import apiClient from '@/services/apiClient';
+import { parseCookies } from 'nookies';
 
 const useEvent = () => {
   const [events, setEvents] = useState<Event[]>([]);
@@ -73,9 +74,9 @@ const useEvent = () => {
   }, []);
 
   const getAuthHeader = () => {
-    const token = localStorage.getItem('jwtToken');
-    // const cookies = parseCookies();
-    // const token = cookies['sid'];
+    // const token = localStorage.getItem('jwtToken');
+    const cookies = parseCookies();
+    const token = cookies['sid'];
     return { Authorization: `Bearer ${token}` };
   };
 
