@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import useEvent from "@/hooks/useEvent";
 import { Event } from "@/types/datatypes";
 import FilterEvent from "./FilterEvents";
@@ -12,22 +12,50 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { BiFilter } from "react-icons/bi";
 
 const Events: React.FC = () => {
-  const { events, loading, error, fetchAllEvents } = useEvent();
+  const { loading, error, fetchAllEvents } = useEvent();
   const searchParams = useSearchParams();
   const queryCategory = searchParams.get("category") || "all";
   const queryCity = searchParams.get("city") || "all";
   const querySearch = searchParams.get("search") || "";
 
-  const [filteredEvents, setFilteredEvents] = useState<Event[]>([]);
+  const [events, setEvents] = useState<Event[]>([]);
+  const [allEvents, setAllEvents] = useState<Event[]>([]);
   const [category, setCategory] = useState<string>(queryCategory);
   const [city, setCity] = useState<string>(queryCity);
-  const [visibleEvents, setVisibleEvents] = useState<number>(9);
   const [searchTerm, setSearchTerm] = useState<string>(querySearch);
+  const [page, setPage] = useState<number>(0);
+  const [totalPages, setTotalPages] = useState<number>(0);
 
   const debouncedSearchTerm = useDebouncedSearch(searchTerm, 500);
+  const hasMore = useRef<boolean>(true);
 
   useEffect(() => {
-    fetchAllEvents();
+    const loadEvents = async () => {
+      let allEventsFetched: Event[] = [];
+      let currentPage = 0;
+      let morePages = true;
+
+      while (morePages) {
+        const data = await fetchAllEvents(currentPage);
+        if (data) {
+          allEventsFetched = [
+            ...allEventsFetched,
+            ...data.events.filter(
+              (event: any) => !allEventsFetched.some(prevEvent => prevEvent.id === event.id)
+            )
+          ];
+          currentPage++;
+          morePages = currentPage < data.totalPages;
+        } else {
+          morePages = false;
+        }
+      }
+
+      setAllEvents(allEventsFetched);
+      setTotalPages(currentPage);
+    };
+
+    loadEvents();
   }, [fetchAllEvents]);
 
   useEffect(() => {
@@ -43,7 +71,7 @@ const Events: React.FC = () => {
   }, [querySearch]);
 
   useEffect(() => {
-    let filtered = events;
+    let filtered = [...allEvents];
 
     if (category !== "all") {
       filtered = filtered.filter((event) => event.category === category);
@@ -62,14 +90,16 @@ const Events: React.FC = () => {
       );
     }
 
-    setFilteredEvents(filtered);
-  }, [events, category, city, debouncedSearchTerm]);
+    filtered.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+
+    setEvents(filtered);
+  }, [allEvents, category, city, debouncedSearchTerm]);
 
   const handleShowMore = () => {
-    setVisibleEvents((prevVisibleEvents) => prevVisibleEvents + 6);
+    if (page < totalPages - 1) {
+      setPage((prevPage) => prevPage + 1);
+    }
   };
-
-  const filteredAndLimitedEvents = filteredEvents.slice(0, visibleEvents);
 
   if (loading) return <p>Loading events...</p>;
   if (error) return <p>Error loading events: {error}</p>;
@@ -79,8 +109,8 @@ const Events: React.FC = () => {
       <div className="flex flex-col lg:w-[25%]">
         <div className="hidden lg:block">
           <FilterEvent
-            events={events}
-            onFilter={setFilteredEvents}
+            events={allEvents}
+            onFilter={setEvents}
             selectedCategory={category}
             selectedCity={city}
           />
@@ -92,8 +122,8 @@ const Events: React.FC = () => {
           </SheetTrigger>
           <SheetContent className="flex flex-col gap-10 overflow-y-auto">
             <FilterEvent
-              events={events}
-              onFilter={setFilteredEvents}
+              events={allEvents}
+              onFilter={setEvents}
               selectedCategory={category}
               selectedCity={city}
             />
@@ -103,11 +133,11 @@ const Events: React.FC = () => {
       <hr className="lg:hidden" />
       <div className="flex flex-col items-center gap-5 lg:gap-10 lg:w-[75%]">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4">
-          {filteredAndLimitedEvents.map((event) => (
+          {events.slice(0, (page + 1) * 9).map((event) => (
             <EventCard key={event.id} event={event} />
           ))}
         </div>
-        {visibleEvents < filteredEvents.length && (
+        {(page + 1) * 9 < events.length && (
           <Button onclick={handleShowMore}>Show more events</Button>
         )}
       </div>
