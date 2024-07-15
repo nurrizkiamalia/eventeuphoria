@@ -1,5 +1,6 @@
 "use client";
 
+import React, { useState, useEffect } from "react";
 import ButtonDashboard from "@/components/Button/ButtonDashboard";
 import ProtectedRouteDashboard from "@/components/ProtectedRouteDashboard";
 import Link from "next/link";
@@ -9,9 +10,16 @@ import { useSearchParams } from "next/navigation";
 
 const UploadImagePage: React.FC = () => {
   const searchParams = useSearchParams();
-  const eventId = searchParams.get("eventId");
+  const [eventId, setEventId] = useState<number | null>(null);
 
-  if (!eventId) {
+  useEffect(() => {
+    const id = searchParams.get("eventId");
+    if (id) {
+      setEventId(Number(id));
+    }
+  }, [searchParams]);
+
+  if (eventId === null) {
     return <p>Loading...</p>;
   }
 
@@ -27,7 +35,7 @@ const UploadImagePage: React.FC = () => {
             </ButtonDashboard>
             <h1 className="font-bold text-head3 mt-4">Upload Event Image</h1>
           </div>
-          <UploadImage eventId={Number(eventId)} />
+          <UploadImage eventId={eventId} />
         </div>
       </div>
     </ProtectedRouteDashboard>

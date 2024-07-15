@@ -44,7 +44,7 @@ const EditProfile: React.FC = () => {
           (value: any) =>
             !value ||
             (value &&
-              ['image/jpeg', 'image/png', 'image/webp'].includes(value.type || ''))
+              ['image/jpeg', 'image/png', 'image/webp','image/jpg'].includes(value.type || ''))
         )
         .test(
           'fileSize',
@@ -66,7 +66,8 @@ const EditProfile: React.FC = () => {
         const response = await api.updateProfile(getToken()!, formData);
         console.log('Profile update response:', response);
         alert('Profile updated successfully');
-        router.push('/profile'); // Refresh the entire profile page
+        router.push('/profile');
+        window.location.reload();
       } catch (error: any) {
         console.error('Profile update failed', error.response ? error.response.data : error.message);
         alert(`Profile update failed: ${error.response?.data.message || error.message}`);

@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import ButtonDashboard from "@/components/Button/ButtonDashboard";
 import ProtectedRouteDashboard from "@/components/ProtectedRouteDashboard";
 import Link from "next/link";
@@ -29,10 +30,12 @@ const CreateEventPage: React.FC = () => {
 
   const handleSubmit = async (values: EventValues) => {
     const result = await postEvent(values);
+    console.log("result ",result)
     if (result) {
       alert('Event created successfully!');
       router.push(`/upload-image?eventId=${result.id}`);
     } else {
+    console.log("id is ",result.id)
       alert('Failed to create event. Please try again.');
     }
   };

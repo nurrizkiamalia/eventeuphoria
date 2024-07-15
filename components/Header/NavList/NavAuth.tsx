@@ -20,8 +20,6 @@ const NavAuth: React.FC<NavProps> = ({ className }) => {
   const { isAuthenticated, currentUser, logout } = useAuth();
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
-  console.log("navauth",currentUser)
-
   const handleDropdown = () => {
     setDropdownOpen(!dropdownOpen);
   };
