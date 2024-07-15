@@ -6,7 +6,7 @@ const useDebouncedSearch = (value: string, delay: number) => {
     useEffect(() => {
         const handler = setTimeout(() => {
             setDebouncedValue(value);
-        }, 2000);
+        }, delay);
 
         return () => {
             clearTimeout(handler);

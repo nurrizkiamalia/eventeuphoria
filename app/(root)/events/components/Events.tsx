@@ -23,12 +23,21 @@ const Events: React.FC = () => {
   const [city, setCity] = useState<string>(queryCity);
   const [visibleEvents, setVisibleEvents] = useState<number>(9);
   const [searchTerm, setSearchTerm] = useState<string>(querySearch);
+  const [page, setPage] = useState<number>(0);
+  const [totalPages, setTotalPages] = useState<number>(0);
 
   const debouncedSearchTerm = useDebouncedSearch(searchTerm, 500);
 
   useEffect(() => {
-    fetchAllEvents();
-  }, [fetchAllEvents]);
+    const loadEvents = async () => {
+      const data = await fetchAllEvents(page);
+      if (data) {
+        setFilteredEvents((prevEvents) => [...prevEvents, ...data.events]);
+        setTotalPages(data.totalPages);
+      }
+    };
+    loadEvents();
+  }, [page, fetchAllEvents]);
 
   useEffect(() => {
     setCategory(queryCategory);
@@ -66,7 +75,9 @@ const Events: React.FC = () => {
   }, [events, category, city, debouncedSearchTerm]);
 
   const handleShowMore = () => {
-    setVisibleEvents((prevVisibleEvents) => prevVisibleEvents + 6);
+    if (page < totalPages - 1) {
+      setPage((prevPage) => prevPage + 1);
+    }
   };
 
   const filteredAndLimitedEvents = filteredEvents.slice(0, visibleEvents);

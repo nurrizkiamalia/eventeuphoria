@@ -1,9 +1,9 @@
 "use client"
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import { Event, EventValues } from '@/types/datatypes';
 import apiClient from '@/services/apiClient';
-import { searchEvents } from '@/services/eventService';
+import { searchEvents, getAllEvents } from '@/services/eventService';
 import { parseCookies } from 'nookies';
 
 const useEvent = () => {
@@ -30,14 +30,14 @@ const useEvent = () => {
     }
   }, []);
 
-  const fetchAllEvents = useCallback(async () => {
+  const fetchAllEvents = useCallback(async (page = 0, perPage = 9) => {
     setLoading(true);
     setError(null);
     try {
-      const response = await apiClient.get('/events');
-      setEvents(response.data.data);
+      const response = await apiClient.get('/events/search', { params: { page, perPage } });
+      return response.data;
     } catch (err) {
-      setError('Failed to fetch all events');
+      handleError('Failed to fetch all events');
     } finally {
       setLoading(false);
     }
