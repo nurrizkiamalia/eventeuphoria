@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Event, EventValues } from '@/types/datatypes';
 import apiClient from '@/services/apiClient';
+import { searchEvents } from '@/services/eventService';
 import { parseCookies } from 'nookies';
 
 const useEvent = () => {
@@ -55,6 +56,19 @@ const useEvent = () => {
       setEvents(response.data.events);
     } catch (err) {
       handleError('Failed to fetch organizer events');
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  const fetchEventsByCategory = useCallback(async (category: string) => {
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await searchEvents({ category });
+      setEvents(response.events);
+    } catch (err) {
+      handleError('Failed to fetch events by category');
     } finally {
       setLoading(false);
     }
@@ -185,6 +199,7 @@ const useEvent = () => {
     fetchAllEvents,
     fetchEventById,
     fetchOrganizerEvents,
+    fetchEventsByCategory,
   };
 };
 
