@@ -25,6 +25,7 @@ const MyEventCard: React.FC<MyEventCardProps> = ({ event, index }) => {
     const confirmed = window.confirm("Are you sure you want to delete this event?");
     if (confirmed) {
       await deleteEvent(event.id);
+      window.location.reload();
     }
   };
 
