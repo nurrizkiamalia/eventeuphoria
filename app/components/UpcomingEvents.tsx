@@ -3,24 +3,40 @@
 import React, { useEffect, useState } from 'react';
 import useEvent from '@/hooks/useEvent';
 import EventList from '../(root)/events/components/EventList';
-import { getUpcomingEvents } from '@/utils/filterEvents';
 import { Event } from '@/types/datatypes';
 import Link from 'next/link';
 
 const UpcomingEvents: React.FC = () => {
-  const { events, loading, error, fetchAllEvents } = useEvent();
+  const { loading, error, fetchAllEvents } = useEvent();
   const [upcomingEvents, setUpcomingEvents] = useState<Event[]>([]);
 
   useEffect(() => {
-    fetchAllEvents();
-  }, [fetchAllEvents]);
+    const loadAllEvents = async () => {
+      let allEvents: Event[] = [];
+      let page = 0;
+      let totalPages = 1;
 
-  useEffect(() => {
-    if (events.length > 0) {
-      const filteredEvents = getUpcomingEvents(events);
-      setUpcomingEvents(filteredEvents.slice(0, 8));
-    }
-  }, [events]);
+      while (page < totalPages) {
+        const data = await fetchAllEvents(page);
+        if (data) {
+          allEvents = [...allEvents, ...data.events];
+          totalPages = data.totalPages;
+          page += 1;
+        } else {
+          break;
+        }
+      }
+
+      if (allEvents.length > 0) {
+        const now = new Date();
+        const filteredEvents = allEvents.filter(event => new Date(event.date) > now);
+        const sortedEvents = filteredEvents.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+        setUpcomingEvents(sortedEvents.slice(0, 8));
+      }
+    };
+
+    loadAllEvents();
+  }, [fetchAllEvents]);
 
   if (loading) return <p>Loading events...</p>;
   if (error) return <p>Error loading events: {error}</p>;

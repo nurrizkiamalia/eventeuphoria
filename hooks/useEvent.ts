@@ -30,18 +30,25 @@ const useEvent = () => {
     }
   }, []);
 
-  const fetchAllEvents = useCallback(async (page = 0, perPage = 9) => {
+  const fetchAllEvents = useCallback(async (page: number = 0, limit: number = 9) => {
     setLoading(true);
     setError(null);
     try {
-      const response = await apiClient.get('/events/search', { params: { page, perPage } });
+      const response = await apiClient.get('/events/search', {
+        params: {
+          page,
+          size: limit,
+        },
+      });
       return response.data;
     } catch (err) {
-      handleError('Failed to fetch all events');
+      setError('Failed to fetch all events');
+      return null;
     } finally {
       setLoading(false);
     }
   }, []);
+  
 
   const fetchOrganizerEvents = useCallback(async () => {
     setLoading(true);
