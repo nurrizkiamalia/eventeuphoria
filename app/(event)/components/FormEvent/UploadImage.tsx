@@ -8,9 +8,10 @@ import ConfirmationDialog from "../ConfirmationDialog";
 
 interface UploadImageProps {
   eventId: number;
+  isUpdate?: boolean;
 }
 
-const UploadImage: React.FC<UploadImageProps> = ({ eventId }) => {
+const UploadImage: React.FC<UploadImageProps> = ({ eventId, isUpdate = false }) => {
   const [image, setImage] = useState<File | null>(null);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const { uploadImage, loading, error } = useEvent();
@@ -41,12 +42,12 @@ const UploadImage: React.FC<UploadImageProps> = ({ eventId }) => {
 
   const handleConfirm = async () => {
     if (image) {
-      const result = await uploadImage(eventId, image);
+      const result = await uploadImage(eventId, image, isUpdate ? 'PUT' : 'POST');
       if (result) {
-        alert("Image uploaded successfully!");
+        alert(`Image ${isUpdate ? 'updated' : 'uploaded'} successfully!`);
         router.push(`/dashboard/my-event`);
       } else {
-        alert("Failed to upload image. Please try again.");
+        alert(`Failed to ${isUpdate ? 'update' : 'upload'} image. Please try again.`);
       }
     }
     setShowConfirmation(false);
@@ -56,7 +57,7 @@ const UploadImage: React.FC<UploadImageProps> = ({ eventId }) => {
     <form onSubmit={handleSubmit} className="flex flex-col items-center space-y-4">
       <input type="file" onChange={handleImageChange} accept="image/*" className="p-2 border rounded" />
       <Button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded" disabled={loading}>
-        Upload Image
+        {isUpdate ? 'Update Image' : 'Upload Image'}
       </Button>
 
       {showConfirmation && (
@@ -64,8 +65,8 @@ const UploadImage: React.FC<UploadImageProps> = ({ eventId }) => {
           isOpen={showConfirmation}
           onConfirm={handleConfirm}
           onClose={() => setShowConfirmation(false)}
-          title="Confirm Upload"
-          message="Are you sure you want to upload this image?"
+          title={`Confirm ${isUpdate ? 'Update' : 'Upload'}`}
+          message={`Are you sure you want to ${isUpdate ? 'update' : 'upload'} this image?`}
         />
       )}
 

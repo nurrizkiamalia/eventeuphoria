@@ -80,6 +80,7 @@ const FormEvent: React.FC<FormEventProps> = ({ initialValues, onSubmit }) => {
         initialValues={initialValues}
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
+        enableReinitialize
       >
         {({ values, setFieldValue, isSubmitting }) => (
           <Form className="space-y-4">
@@ -87,7 +88,7 @@ const FormEvent: React.FC<FormEventProps> = ({ initialValues, onSubmit }) => {
               <label htmlFor="name" className={labelStyle}>
                 Event Name
               </label>
-              <Field name="name" type="text" className={fieldStyle} />
+              <Field name="name" type="text" className={fieldStyle} value={values.name || ""} />
               <ErrorMessage
                 name="name"
                 component="div"
@@ -99,7 +100,7 @@ const FormEvent: React.FC<FormEventProps> = ({ initialValues, onSubmit }) => {
               <label htmlFor="category" className={labelStyle}>
                 Category
               </label>
-              <Field name="category" as="select" className={fieldStyle}>
+              <Field name="category" as="select" className={fieldStyle} value={values.category || ""}>
                 <option value="" label="Select category" />
                 {categories.map((category) => (
                   <option key={category.category} value={category.category} label={category.category} />
@@ -116,7 +117,7 @@ const FormEvent: React.FC<FormEventProps> = ({ initialValues, onSubmit }) => {
               <label htmlFor="description" className={labelStyle}>
                 Description
               </label>
-              <Field name="description" as="textarea" className={fieldStyle} />
+              <Field name="description" as="textarea" className={fieldStyle} value={values.description || ""} />
               <ErrorMessage
                 name="description"
                 component="div"
@@ -129,7 +130,7 @@ const FormEvent: React.FC<FormEventProps> = ({ initialValues, onSubmit }) => {
                 <label htmlFor="date" className={labelStyle}>
                   Date
                 </label>
-                <Field name="date" type="date" className={fieldStyle} />
+                <Field name="date" type="date" className={fieldStyle} value={values.date || ""} />
                 <ErrorMessage
                   name="date"
                   component="div"
@@ -141,7 +142,7 @@ const FormEvent: React.FC<FormEventProps> = ({ initialValues, onSubmit }) => {
                 <label htmlFor="time" className={labelStyle}>
                   Time
                 </label>
-                <Field name="time" type="time" className={fieldStyle} />
+                <Field name="time" type="time" className={fieldStyle} value={values.time || ""} />
                 <ErrorMessage
                   name="time"
                   component="div"
@@ -154,7 +155,7 @@ const FormEvent: React.FC<FormEventProps> = ({ initialValues, onSubmit }) => {
               <label htmlFor="location" className={labelStyle}>
                 Location
               </label>
-              <Field name="location" type="text" className={fieldStyle} />
+              <Field name="location" type="text" className={fieldStyle} value={values.location || ""} />
               <ErrorMessage
                 name="location"
                 component="div"
@@ -166,7 +167,7 @@ const FormEvent: React.FC<FormEventProps> = ({ initialValues, onSubmit }) => {
               <label htmlFor="city" className={labelStyle}>
                 City
               </label>
-              <Field name="city" type="text" className={fieldStyle} />
+              <Field name="city" type="text" className={fieldStyle} value={values.city || ""} />
               <ErrorMessage name="city" component="div" className={errorStyle} />
             </div>
 
@@ -174,7 +175,7 @@ const FormEvent: React.FC<FormEventProps> = ({ initialValues, onSubmit }) => {
               <label htmlFor="eventType" className={labelStyle}>
                 Event Type
               </label>
-              <Field name="eventType" as="select" className={fieldStyle}>
+              <Field name="eventType" as="select" className={fieldStyle} value={values.eventType || ""}>
                 <option value="" label="Select event type" />
                 <option value="Paid" label="Paid" />
                 <option value="Free" label="Free" />
@@ -218,6 +219,7 @@ const FormEvent: React.FC<FormEventProps> = ({ initialValues, onSubmit }) => {
                             name={`ticketTiers[${index}].name`}
                             type="text"
                             className={fieldStyle}
+                            value={tier.name || ""}
                           />
                           <ErrorMessage
                             name={`ticketTiers[${index}].name`}
@@ -236,6 +238,7 @@ const FormEvent: React.FC<FormEventProps> = ({ initialValues, onSubmit }) => {
                             name={`ticketTiers[${index}].price`}
                             type="number"
                             className={fieldStyle}
+                            value={tier.price || 0}
                           />
                           <ErrorMessage
                             name={`ticketTiers[${index}].price`}
@@ -254,6 +257,7 @@ const FormEvent: React.FC<FormEventProps> = ({ initialValues, onSubmit }) => {
                             name={`ticketTiers[${index}].totalSeats`}
                             type="number"
                             className={fieldStyle}
+                            value={tier.totalSeats || 0}
                           />
                           <ErrorMessage
                             name={`ticketTiers[${index}].totalSeats`}
@@ -308,6 +312,7 @@ const FormEvent: React.FC<FormEventProps> = ({ initialValues, onSubmit }) => {
                             name={`eventVouchers[${index}].code`}
                             type="text"
                             className={fieldStyle}
+                            value={voucher.code || ""}
                           />
                           <ErrorMessage
                             name={`eventVouchers[${index}].code`}
@@ -326,6 +331,7 @@ const FormEvent: React.FC<FormEventProps> = ({ initialValues, onSubmit }) => {
                             name={`eventVouchers[${index}].discountPercentage`}
                             type="number"
                             className={fieldStyle}
+                            value={voucher.discountPercentage || "0"}
                           />
                           <ErrorMessage
                             name={`eventVouchers[${index}].discountPercentage`}
@@ -344,6 +350,7 @@ const FormEvent: React.FC<FormEventProps> = ({ initialValues, onSubmit }) => {
                             name={`eventVouchers[${index}].startDate`}
                             type="date"
                             className={fieldStyle}
+                            value={voucher.startDate || ""}
                           />
                           <ErrorMessage
                             name={`eventVouchers[${index}].startDate`}
@@ -362,6 +369,7 @@ const FormEvent: React.FC<FormEventProps> = ({ initialValues, onSubmit }) => {
                             name={`eventVouchers[${index}].endDate`}
                             type="date"
                             className={fieldStyle}
+                            value={voucher.endDate || ""}
                           />
                           <ErrorMessage
                             name={`eventVouchers[${index}].endDate`}
@@ -397,6 +405,7 @@ const FormEvent: React.FC<FormEventProps> = ({ initialValues, onSubmit }) => {
                 name="referralQuota"
                 type="number"
                 className={fieldStyle}
+                value={values.referralQuota || 0}
               />
               <ErrorMessage
                 name="referralQuota"

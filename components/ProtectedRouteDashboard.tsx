@@ -1,10 +1,14 @@
-"use client";
+"use client"
 
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, ReactNode } from "react";
 
-const ProtectedRouteDashboard = ({ children, route }: { children: React.ReactNode, route: string }) => {
+interface ProtectedRouteDashboardProps {
+  children: ReactNode;
+}
+
+const ProtectedRouteDashboard: React.FC<ProtectedRouteDashboardProps> = ({ children }) => {
   const { isAuthenticated, currentUser, isLoading } = useAuth();
   const router = useRouter();
 
@@ -14,8 +18,6 @@ const ProtectedRouteDashboard = ({ children, route }: { children: React.ReactNod
         router.push('/login');
       } else if (currentUser?.role !== 'ORGANIZER') {
         router.push('/');
-      } else {
-        router.push(`/${route}`);
       }
     }
   }, [isLoading, isAuthenticated, currentUser, router]);

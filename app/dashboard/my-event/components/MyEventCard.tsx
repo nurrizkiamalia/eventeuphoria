@@ -1,3 +1,4 @@
+import React, { forwardRef } from "react";
 import useEvent from "@/hooks/useEvent";
 import Image from "next/image";
 import {
@@ -18,7 +19,7 @@ interface MyEventCardProps {
   index: number;
 }
 
-const MyEventCard: React.FC<MyEventCardProps> = ({ event, index }) => {
+const MyEventCard = forwardRef<HTMLDivElement, MyEventCardProps>(({ event, index }, ref) => {
   const { deleteEvent } = useEvent();
 
   const handleDelete = async () => {
@@ -29,8 +30,18 @@ const MyEventCard: React.FC<MyEventCardProps> = ({ event, index }) => {
     }
   };
 
+  const getPriceRange = () => {
+    if (event.ticketTiers && event.ticketTiers.length > 0) {
+      const prices = event.ticketTiers.map(tier => tier.price);
+      const minPrice = Math.min(...prices);
+      const maxPrice = Math.max(...prices);
+      return `Rp${minPrice} - Rp${maxPrice}`;
+    }
+    return "No tickets available";
+  };
+
   return (
-    <div className="event-card flex gap-3 items-center justify-between border-dspLightPurple border-4 rounded-xl p-5">
+    <div ref={ref} className="event-card flex gap-3 items-center justify-between border-dspLightPurple border-4 rounded-xl p-5">
       <p>{index}. </p>
       <div>
         <Image
@@ -47,7 +58,7 @@ const MyEventCard: React.FC<MyEventCardProps> = ({ event, index }) => {
         </Link>
       </h3>
       <p>{event.category}</p>
-      <p>{`Rp${event.ticketTiers[0]?.price} - Rp${event.ticketTiers[event.ticketTiers.length - 1]?.price}`}</p>
+      <p>{getPriceRange()}</p>
       <DropdownMenu>
         <DropdownMenuTrigger>
           <IoSettings className="text-head3 text-dspLightGray" />
@@ -56,6 +67,9 @@ const MyEventCard: React.FC<MyEventCardProps> = ({ event, index }) => {
           <DropdownMenuLabel>{event.name}</DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuItem>
+            <Link href={`/upload-image?eventId=${event.id}&isUpdate=true`}>Edit Image</Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem>
             <Link href={`/dashboard/my-event/${event.id}`}>Edit Event</Link>
           </DropdownMenuItem>
           <DropdownMenuItem onClick={handleDelete}>Delete</DropdownMenuItem>
@@ -63,6 +77,6 @@ const MyEventCard: React.FC<MyEventCardProps> = ({ event, index }) => {
       </DropdownMenu>
     </div>
   );
-};
+});
 
 export default MyEventCard;

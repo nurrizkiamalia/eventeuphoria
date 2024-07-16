@@ -7,7 +7,7 @@ import WelcomeBack from "./components/WelcomeBack";
 const Dashboard: React.FC = () => {
   return (
     <>
-    <ProtectedRouteDashboard route="dashboard">
+    <ProtectedRouteDashboard>
       <div className="w-full flex gap-5">
         <div className="flex flex-col gap-5 w-[70%] ">
           <WelcomeBack />

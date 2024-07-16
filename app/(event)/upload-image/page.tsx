@@ -24,7 +24,7 @@ const UploadImagePage: React.FC = () => {
   }
 
   return (
-    <ProtectedRouteDashboard route="upload-image">
+    <ProtectedRouteDashboard>
       <div className="flex items-center justify-center m-auto p-5 w-full">
         <div className="flex flex-col max-w-[800px]">
           <div className="">
@@ -35,7 +35,7 @@ const UploadImagePage: React.FC = () => {
             </ButtonDashboard>
             <h1 className="font-bold text-head3 mt-4">Upload Event Image</h1>
           </div>
-          <UploadImage eventId={eventId} />
+          <UploadImage eventId={eventId} isUpdate={true} />
         </div>
       </div>
     </ProtectedRouteDashboard>

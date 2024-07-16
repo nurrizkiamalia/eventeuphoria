@@ -11,6 +11,8 @@ const useEvent = () => {
   const [event, setEvent] = useState<Event | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const [page, setPage] = useState<number>(1);
+  const [hasMore, setHasMore] = useState<boolean>(true);
 
   const handleError = (message: string) => {
     setError(message);
@@ -50,19 +52,19 @@ const useEvent = () => {
   }, []);
   
 
-  const fetchOrganizerEvents = useCallback(async () => {
+  const fetchOrganizerEvents = useCallback(async (page: number = 1) => {
     setLoading(true);
     setError(null);
     try {
-      const authHeader = getAuthHeader();
-      const response = await apiClient.get('/events/search', {
-        headers: authHeader,
-        params: { organizer: true },
+      const response = await apiClient.get(`/events/organizer?page=${page}`, {
+        headers: {
+          ...getAuthHeader()
+        },
       });
-      console.log("event data",response.data.events)
-      setEvents(response.data.events);
-    } catch (err) {
-      handleError('Failed to fetch organizer events');
+      setEvents(prevEvents => [...prevEvents, ...response.data.data.events]);
+      setHasMore(response.data.data.events.length > 0);
+    } catch (err: any) {
+      setError(err.message);
     } finally {
       setLoading(false);
     }
@@ -95,9 +97,9 @@ const useEvent = () => {
   }, []);
 
   const getAuthHeader = () => {
-    // const token = localStorage.getItem('jwtToken');
-    const cookies = parseCookies();
-    const token = cookies['sid'];
+    const token = localStorage.getItem('jwtToken');
+    // const cookies = parseCookies();
+    // const token = cookies['sid'];
     return { Authorization: `Bearer ${token}` };
   };
 
@@ -122,13 +124,16 @@ const useEvent = () => {
     }
   }, []);
 
-  const uploadImage = useCallback(async (eventId: number, image: File) => {
+  const uploadImage = useCallback(async (eventId: number, image: File, method: 'POST' | 'PUT') => {
     setLoading(true);
     setError(null);
     try {
       const formData = new FormData();
       formData.append('file', image);
-      const response = await apiClient.post(`/events/${eventId}/image`, formData, {
+      const response = await apiClient({
+        method,
+        url: `/events/${eventId}/image`,
+        data: formData,
         headers: {
           ...getAuthHeader(),
           'Content-Type': 'multipart/form-data'
@@ -143,8 +148,9 @@ const useEvent = () => {
       setLoading(false);
     }
   }, []);
+  
 
-  const updateEvent = async (id: number, formData: object) => {
+  const updateEvent = async (id: number, formData: EventValues) => {
     setLoading(true);
     try {
       const response = await apiClient.put(`/events/${id}`, formData, {
@@ -205,7 +211,11 @@ const useEvent = () => {
     fetchEvents,
     fetchAllEvents,
     fetchEventById,
+    hasMore,
     fetchOrganizerEvents,
+    setPage,
+    page,
+    fetchEventsByCategory,
   };
 };
 

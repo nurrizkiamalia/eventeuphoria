@@ -30,18 +30,16 @@ const CreateEventPage: React.FC = () => {
 
   const handleSubmit = async (values: EventValues) => {
     const result = await postEvent(values);
-    console.log("result ",result)
     if (result) {
       alert('Event created successfully!');
       router.push(`/upload-image?eventId=${result.id}`);
     } else {
-    console.log("id is ",result.id)
       alert('Failed to create event. Please try again.');
     }
   };
 
   return (
-    <ProtectedRouteDashboard route="create-event">
+    <ProtectedRouteDashboard>
       <div className="flex items-center justify-center m-auto p-5 w-full">
         <div className="flex flex-col max-w-[800px]">
           <div className="">
