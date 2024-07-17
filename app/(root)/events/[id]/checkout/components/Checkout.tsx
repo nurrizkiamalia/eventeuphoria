@@ -1,27 +1,137 @@
-"use client";
+'use client';
+
+import { useEffect, useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import useEvent from "@/hooks/useEvent";
+import useTransaction from "@/hooks/useTransactions";
+import { useAuth } from "@/context/AuthContext";
 import art from "@/public/assets/art-exhibition.webp";
 import organizer from "@/public/assets/organizer1.jpg";
-import { useEffect } from "react";
-import useEvent from "@/hooks/useEvent";
-import Image from "next/image";
-import PaymentMethod from "./PaymentMethod";
-import Button from "@/components/Button/Button";
-import Link from "next/link";
-import { EventDetailsProps } from '@/types/datatypes';
+import BookingConfirmation from "./BookingConfirmation";
+import { EventDetailsProps, CreateOrderRequest, CreateOrderResponse } from '@/types/datatypes';
 
 const Checkout: React.FC<EventDetailsProps> = ({ params }) => {
   const { id } = params;
   const { event, fetchEventById, loading, error } = useEvent();
+  const { currentUser } = useAuth();
+  const { createOrder, confirmOrder, deleteOrder } = useTransaction();
+  const [selectedTickets, setSelectedTickets] = useState<{ [key: number]: number }>({});
+  const [voucherId, setVoucherId] = useState<number | null>(null);
+  const [points, setPoints] = useState<number>(0);
+  const [usePointsChecked, setUsePointsChecked] = useState<boolean>(false);
+  const [useReferralDiscountChecked, setUseReferralDiscountChecked] = useState<boolean>(false);
+  const [orderResponse, setOrderResponse] = useState<CreateOrderResponse | null>(null);
+  const [currentTotalPrice, setCurrentTotalPrice] = useState<number>(0);
+  const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
 
   useEffect(() => {
     fetchEventById(id);
   }, [id, fetchEventById]);
+
+  useEffect(() => {
+    if (usePointsChecked) {
+      setPoints(currentUser?.points || 0);
+    } else {
+      setPoints(0);
+    }
+    calculateTotalPrice();
+  }, [selectedTickets, voucherId, points, usePointsChecked, useReferralDiscountChecked]);
+
+  const handleTicketChange = (ticketId: number, change: number) => {
+    setSelectedTickets(prev => {
+      const newQuantity = (prev[ticketId] || 0) + change;
+      if (newQuantity < 0) return prev;
+      return { ...prev, [ticketId]: newQuantity };
+    });
+  };
+
+  const handleVoucherChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedVoucherId = e.target.value ? Number(e.target.value) : null;
+    setVoucherId(selectedVoucherId);
+  };
+
+  const calculateTotalPrice = () => {
+    if (!event) return;
+    let total = 0;
+
+    event.ticketTiers.forEach((ticket) => {
+      total += (selectedTickets[ticket.id] || 0) * ticket.price;
+    });
+
+    if (voucherId !== null && event.eventVouchers && event.eventVouchers[voucherId]) {
+      total -= total * (event.eventVouchers[voucherId].discountPercentage / 100);
+    }
+
+    const referralDiscount = currentUser?.referralDiscount &&
+      useReferralDiscountChecked &&
+      event.referralQuota &&
+      event.referralQuota > 0 &&
+      currentUser.referralDiscount !== "this user does not have referral discount"
+      ? 0.10
+      : 0;
+
+    if (referralDiscount > 0) {
+      total -= total * referralDiscount;
+    }
+
+    if (usePointsChecked) {
+      total -= Math.min(points, total);
+    }
+
+    if (total <= 0) {
+      setVoucherId(null);
+      total = 0;
+    }
+
+    setCurrentTotalPrice(total);
+  };
+
+  const handleOrderCreation = async () => {
+    const tickets = Object.entries(selectedTickets).map(([ticketId, quantity]) => ({
+      ticketId: Number(ticketId),
+      quantity
+    }));
+    const orderData: CreateOrderRequest = {
+      eventId: event?.id,
+      tickets,
+      eventVoucherId: voucherId || undefined,
+      points: usePointsChecked ? points : 0,
+      useDisc10: currentUser?.referralDiscount &&
+        useReferralDiscountChecked &&
+        event?.referralQuota &&
+        event.referralQuota > 0 &&
+        currentUser.referralDiscount !== "this user does not have referral discount"
+        ? true
+        : false
+    };
+    const response: any = await createOrder(orderData);
+    setOrderResponse(response.data);
+    setIsDrawerOpen(true);
+  };
+
+  const handleOrderConfirmation = async () => {
+    if (orderResponse) {
+      await confirmOrder({ orderId: orderResponse.orderId, paymentMethod: currentTotalPrice === 0 ? 'Free' : 'Bank Transfer' });
+      console.log("order response",orderResponse)
+      setIsDrawerOpen(false);
+    }
+  };
+
+  const handleOrderCancellation = async () => {
+    if (orderResponse) {
+      await deleteOrder(orderResponse.orderId);
+      setIsDrawerOpen(false);
+      setOrderResponse(null);
+    }
+  };
 
   if (loading) return <p>Loading event details...</p>;
   if (error) return <p>Error loading event: {error}</p>;
   if (!event) return <p>Event not found.</p>;
 
   const imageUrl = event.eventPicture ? event.eventPicture : art.src;
+  const userPoints = currentUser?.points || 0;
 
   return (
     <div className="p-5 lg:p-10 w-full flex flex-col gap-10">
@@ -74,9 +184,9 @@ const Checkout: React.FC<EventDetailsProps> = ({ params }) => {
               <p className="font-medium text-tXl md:text-tXxl">Choose Tickets</p>
               <div className="flex flex-col lg:grid lg:grid-cols-3 gap-5 w-full flex-wrap">
                 {event.ticketTiers && event.ticketTiers.length > 0 ? (
-                  event.ticketTiers.map((ticket, index) => (
+                  event.ticketTiers.map((ticket) => (
                     <div
-                      key={index}
+                      key={ticket.id}
                       className="border border-dspDarkPurple rounded-xl hover:shadow-eventBox hover:shadow-dspPurple hover:bg-dspDarkPurple hover:text-white w-full"
                     >
                       <div className="flex flex-col p-5 justify-between gap-5 items-center">
@@ -88,15 +198,23 @@ const Checkout: React.FC<EventDetailsProps> = ({ params }) => {
                             Rp{ticket.price}
                           </p>
                         </div>
-                        <select
-                          name=""
-                          id=""
-                          className="min-w-[250px] text-black p-2 rounded-xl border border-dspDarkPurple"
-                        >
-                          <option value="">0</option>
-                          <option value="">1 person</option>
-                          <option value="">2 person</option>
-                        </select>
+                        <div className="flex items-center gap-2 w-full justify-between">
+                          <button
+                            className="bg-gray-200 py-1 rounded-lg px-5 disabled:bg-gray-400"
+                            onClick={() => handleTicketChange(ticket.id, -1)}
+                            disabled={(selectedTickets[ticket.id] || 0) === 0}
+                          >
+                            -
+                          </button>
+                          <p>{selectedTickets[ticket.id] || 0}</p>
+                          <button
+                            className="bg-gray-200 py-1 rounded-lg px-5 disabled:bg-gray-400"
+                            onClick={() => handleTicketChange(ticket.id, 1)}
+                            disabled={(selectedTickets[ticket.id] || 0) >= ticket.totalSeats}
+                          >
+                            +
+                          </button>
+                        </div>
                       </div>
                     </div>
                   ))
@@ -110,35 +228,57 @@ const Checkout: React.FC<EventDetailsProps> = ({ params }) => {
         <div className="lg:w-[30%] max-w-[500px] bg-white shadow-tightBoxed rounded-xl flex flex-col gap-5 p-5 h-fit">
           <p className="font-semibold text-tXl">Proceed your payment</p>
           <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quisquam nihil deserunt amet eius optio aut quis? Natus quam hic optio?</p>
-          <PaymentMethod />
           <div className="flex flex-col gap-3">
             <h3 className="text-tLg font-semibold">Voucher (optional)</h3>
-            <select name="" id="" className="max-w-[250px] p-2 rounded-xl">
+            <select
+              name=""
+              id=""
+              className="max-w-[250px] p-2 rounded-xl"
+              onChange={handleVoucherChange}
+            >
               <option value="">No Voucher</option>
-              <option value="">PROMOMANTAP disc. 10%</option>
-              <option value="">PROMOGILA disc. 12%</option>
+              {event.eventVouchers?.map((item, index) => (
+                <option key={index} value={index}>{item.code} - {item.discountPercentage}%</option>
+              ))}
             </select>
           </div>
           <div>
             <h3 className="text-tLg font-semibold">Points Available</h3>
-            <div className="flex justify-between items-center">
-              <p className="text-tXl font-semibold">20,000</p>
-              <Link href="" className="underline">Use points</Link>
+            <div className="flex items-center gap-2">
+              <input
+                type="checkbox"
+                checked={usePointsChecked}
+                onChange={() => setUsePointsChecked(!usePointsChecked)}
+                disabled={currentTotalPrice === 0}
+              />
+              <p className="text-tXl font-semibold">{userPoints}</p>
             </div>
           </div>
           <div>
-            <h3 className="text-tLg font-semibold">Discount Refferal</h3>
-            <div className="flex justify-between items-center">
-              <p className="text-tXl font-semibold">Disc. 10%</p>
-              <Link href="" className="underline">Use Discount</Link>
+            <h3 className="text-tLg font-semibold">Discount Referral</h3>
+            <div className="flex items-center gap-2">
+              <input
+                type="checkbox"
+                checked={useReferralDiscountChecked}
+                onChange={() => setUseReferralDiscountChecked(!useReferralDiscountChecked)}
+                disabled={currentTotalPrice === 0 || (event.referralQuota ?? 0) <= 0 || currentUser?.referralDiscount === "this user does not have referral discount"}
+              />
+              <p className="text-tXl font-semibold">{currentUser?.referralDiscount && currentUser.referralDiscount !== "this user does not have referral discount" ? `Disc. 10%` : 'No Discount'}</p>
             </div>
           </div>
           <hr />
-          <div>
-            <h3 className="text-tLg font-semibold">TOTAL PRICE</h3>
-            <p className="text-tXl font-semibold">150,000</p>
+          <div className="p-5">
+            <h3 className="text-tLg font-semibold">CURRENT TOTAL PRICE</h3>
+            <p className="text-tXl font-semibold">Rp{currentTotalPrice}</p>
           </div>
-          <Button className="w-fit">Checkout Now</Button>
+          <BookingConfirmation
+            finalPrice={currentTotalPrice}
+            onConfirm={handleOrderCreation}
+            onOrderConfirmation={handleOrderConfirmation}
+            onOrderCancellation={handleOrderCancellation}
+            isDrawerOpen={isDrawerOpen}
+            setIsDrawerOpen={setIsDrawerOpen}
+          />
         </div>
       </div>
     </div>

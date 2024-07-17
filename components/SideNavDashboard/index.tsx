@@ -1,4 +1,4 @@
-import SideNavList from "./SideNavList"
+import SideNavList from "./SideNavList/SideNavList"
 
 const SideNavDashboard: React.FC = () => {
     return(

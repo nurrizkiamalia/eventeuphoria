@@ -141,3 +141,26 @@ export const cities = [
         city: "Medan",
     }
 ];
+
+export const Reviews = [
+    {
+      id: 1,
+      review: "this is my review",
+      rating: 5
+    },
+    {
+      id: 2,
+      review: "I think the event was fantastic!",
+      rating: 4
+    },
+    {
+      id: 3,
+      review: "So will the review be shown now?",
+      rating: 1
+    },
+    {
+      id: 4,
+      review: "okay this event is the one",
+      rating: 5
+    }
+  ]

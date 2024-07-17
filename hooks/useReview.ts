@@ -1,38 +1,91 @@
-import { ReviewProps } from "@/types/datatypes";
-import axios from "axios";
-import { useCallback, useEffect, useState } from "react";
+import { useState, useCallback } from 'react';
+import apiClient from '@/services/apiClient';
+import { CreateReview } from '@/types/datatypes';
 
-const useReview = () =>{
-    const [reviews, setReviews] = useState<ReviewProps[]>([]);
-    const [loading, setLoading] = useState<boolean>(false);
-    const [error, setError] = useState<string>('');
+const useReview = () => {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [reviews, setReviews] = useState<CreateReview[]>([]);
+  const [review, setReview] = useState<CreateReview | null>(null);
 
-    const fetchReview = useCallback(async () => {
-        setLoading(true);
-        try {
-          const response = await axios.get('http://localhost:8080/reviews');
-          setReviews(response.data);
-        } catch (err) {
-          setError("Failed to fetch events");
-        } finally {
-          setLoading(false);
-        }
-    }, []);
+  const handleError = (message: any) => {
+    setError(message);
+    setLoading(false);
+  };
 
-    const createReview = async (review: ReviewProps) => {
-        try {
-          const response = await axios.post('http://localhost:8080/reviews', event);
-          setReviews([...reviews, response.data]);
-        } catch (err) {
-          setError("Cannot input reviews");
-        }
-    };
-      
-    useEffect(() => {
-        fetchReview();
-    }, [fetchReview]);
+  const getAuthHeader = () => {
+    const token = localStorage.getItem('jwtToken');
+    // const cookies = parseCookies();
+    // const token = cookies['sid'];
+    return { Authorization: `Bearer ${token}` };
+  };
 
-    return { loading, error, reviews };
-}
+  const createReview = useCallback(async (data: any) => {
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await apiClient.post('/reviews', data, {
+        headers: {
+          ...getAuthHeader(),
+          'Content-Type': 'application/json',
+        },
+      });
+      setReview(response.data.data);
+      return response.data.data;
+    } catch (err) {
+      handleError('Failed to create review');
+      return null;
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
-export default useReview
+  const updateReview = useCallback(async (reviewId: any, data: any) => {
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await apiClient.put(`/reviews/${reviewId}`, data, {
+        headers: {
+          ...getAuthHeader(),
+          'Content-Type': 'application/json',
+        },
+      });
+      setReview(response.data.data);
+      return response.data.data;
+    } catch (err) {
+      handleError('Failed to update review');
+      return null;
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  const fetchReviewsByEvent = useCallback(async (eventId: number) => {
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await apiClient.get(`/reviews/event/${eventId}`, {
+        headers: getAuthHeader(),
+      });
+      setReviews(response.data.data.reviews);
+      return response.data.data.reviews;
+    } catch (err) {
+      handleError('Failed to fetch reviews');
+      return null;
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  return {
+    createReview,
+    updateReview,
+    fetchReviewsByEvent,
+    reviews,
+    review,
+    loading,
+    error,
+  };
+};
+
+export default useReview;

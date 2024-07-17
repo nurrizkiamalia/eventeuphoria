@@ -31,12 +31,13 @@ const MyEventList: React.FC = () => {
   }
 
   return (
-    <div>
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
       {events.map((event, index) => {
+        const key = `${event.id}-${index}`;
         if (events.length === index + 1) {
-          return <MyEventCard ref={lastEventElementRef} key={event.id} event={event} index={index + 1} />;
+          return <MyEventCard ref={lastEventElementRef} key={key} event={event} index={index + 1} />;
         } else {
-          return <MyEventCard key={event.id} event={event} index={index + 1} />;
+          return <MyEventCard key={key} event={event} index={index + 1} />;
         }
       })}
       {loading && <p>Loading more events...</p>}

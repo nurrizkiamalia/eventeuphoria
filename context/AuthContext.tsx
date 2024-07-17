@@ -63,10 +63,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       const { token } = response.data;
       setToken(token);
       const profile = await fetchProfile(token);
-      console.log(profile)
-  
       if (profile) {
-        if (profile.role === 'organizer') {
+        if (profile.role === 'ORGANIZER') {
           router.push('/dashboard'); 
         } else {
           router.push('/'); 

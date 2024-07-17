@@ -1,3 +1,10 @@
+export interface TicketTiers {
+  id: number;
+  name: string;
+  price: number;
+  totalSeats: number;
+}
+
 export interface TicketTier {
   name: string;
   price: number;
@@ -16,6 +23,21 @@ export interface EventValues {
   ticketTiers: TicketTier[];
   eventVouchers: EventVoucher[];
   referralQuota: number;
+}
+
+export interface EventByOrganizer{
+    id: number;
+    eventPicture: string;
+    name: string;
+    category: string;
+    tickets: [
+      {
+        id: number;
+        name: string;
+        price: number;
+        totalSeats: number;
+      }
+    ]
 }
 
 export interface ImgUpload{
@@ -48,7 +70,7 @@ export interface Event {
   eventType: string;
   category: string;
   referralQuota?: number;
-  ticketTiers: TicketTier[];
+  ticketTiers: TicketTiers[];
   eventVouchers?: EventVoucher[];
   eventPicture?: string;
   organizer: Organizer;
@@ -80,6 +102,13 @@ export interface ReviewProps {
   rating: number;
 }
 
+export interface CreateReview{
+  eventId: number;
+  orderId: number;
+  rating: number;
+  reviewText: string;
+}
+
 export interface User {
   id: number;
   firstName: string;
@@ -88,6 +117,7 @@ export interface User {
   referralCode?: string;
   avatar?: string | null;
   quotes?: string | null;
+  referralDiscount?: string | null;
   role: 'USER' | 'ORGANIZER';
   points: number;
   createdAt: string;
@@ -95,7 +125,80 @@ export interface User {
   deletedAt: string | null;
 }
 
-export interface ReviewProps{
-  review: string;
-  rating: number;
+export interface ReviewBoxProps {
+  review: CreateReview;
+}
+
+export interface Ticket {
+  ticketId: number;
+  quantity: number;
+}
+
+export interface CreateOrderRequest {
+  eventId?: number;
+  tickets: Ticket[];
+  eventVoucherId?: number;
+  points?: number;
+  useDisc10?: boolean;
+}
+
+export interface CreateOrderResponse {
+  orderId: number;
+  originalPrice: number;
+  finalPrice: number;
+  appliedDiscounts: {
+    discountType: string;
+    discountAmount: number;
+  }[];
+}
+
+export interface ConfirmOrderRequest {
+  orderId: number;
+  paymentMethod: string;
+}
+
+export interface OrderDetailsResponse {
+  id: number;
+  invoice: string;
+  totalPrice: number;
+  totalTickets: number;
+  ticketDetails: {
+    ticketTier: string;
+    quantity: number;
+  }[];
+  eventDetail: {
+    id: number;
+    name: string;
+    category: string;
+    date: string;
+    time: string;
+    location: string;
+    city: string;
+  };
+}
+
+export interface OrderListResponse {
+  orders: {
+    id: number;
+    invoice: string;
+    totalPrice: number;
+    totalTickets: number;
+    ticketDetails: {
+      ticketTier: string;
+      quantity: number;
+    }[];
+    eventDetail: {
+      id: number;
+      name: string;
+      category: string;
+      date: string;
+      time: string;
+      location: string;
+      city: string;
+    };
+  }[];
+  page: number;
+  perPage: number;
+  totalPages: number;
+  totalOrders: number;
 }

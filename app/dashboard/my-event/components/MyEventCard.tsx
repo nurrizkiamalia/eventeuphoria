@@ -9,7 +9,9 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { IoSettings } from "react-icons/io5";
+import { BsThreeDotsVertical } from "react-icons/bs";
+import { MdOutlineCategory } from "react-icons/md";
+import { GiTicket } from "react-icons/gi";
 import placeholderImg from "@/public/assets/art-exhibition2.webp";
 import Link from "next/link";
 import { Event } from "@/types/datatypes";
@@ -35,46 +37,52 @@ const MyEventCard = forwardRef<HTMLDivElement, MyEventCardProps>(({ event, index
       const prices = event.ticketTiers.map(tier => tier.price);
       const minPrice = Math.min(...prices);
       const maxPrice = Math.max(...prices);
+      console.log("price",prices);
       return `Rp${minPrice} - Rp${maxPrice}`;
     }
     return "No tickets available";
   };
 
   return (
-    <div ref={ref} className="event-card flex gap-3 items-center justify-between border-dspLightPurple border-4 rounded-xl p-5">
-      <p>{index}. </p>
-      <div>
+    <div ref={ref} className="event-card flex flex-col gap-3 justify-between border-dspLightPurple border-4 rounded-xl p-5">
+      <div className="overflow-hidden rounded-xl border-2 border-dspLightPurple">
         <Image
           src={event.eventPicture || placeholderImg}
           alt="event image"
-          width={100}
-          height={100}
-          className="rounded-xl border-2 border-dspLightPurple"
+          width={700}
+          height={300}
+          className="rounded-xl border-2 h-[200px] object-cover border-dspLightPurple hover:scale-105 transition-all duration-500"
         />
       </div>
-      <h3 className="font-bold text-tXl">
-        <Link href={`dashboard/my-event/transaction`} className="cursor-pointer">
-          {event.name}
-        </Link>
-      </h3>
-      <p>{event.category}</p>
-      <p>{getPriceRange()}</p>
-      <DropdownMenu>
+      <div className="flex items-center justify-between">
+        <h3 className="font-bold text-tLg">
+          <Link href={`dashboard/my-event/transaction`} className="cursor-pointer">
+            {event.name}
+          </Link>
+        </h3>
+        <DropdownMenu>
         <DropdownMenuTrigger>
-          <IoSettings className="text-head3 text-dspLightGray" />
+          <BsThreeDotsVertical className="text-tXl text-dspLightGray" />
         </DropdownMenuTrigger>
         <DropdownMenuContent>
           <DropdownMenuLabel>{event.name}</DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuItem>
-            <Link href={`/upload-image?eventId=${event.id}&isUpdate=true`}>Edit Image</Link>
+            <Link href={`/events/${event.id}`} className="w-full">View Details</Link>
           </DropdownMenuItem>
           <DropdownMenuItem>
-            <Link href={`/dashboard/my-event/${event.id}`}>Edit Event</Link>
+            <Link href={`/upload-image?eventId=${event.id}&isUpdate=true`} className="w-full">Update Image</Link>
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={handleDelete}>Delete</DropdownMenuItem>
+          <DropdownMenuItem>
+            <Link href={`/dashboard/my-event/${event.id}`} className="w-full">Edit Event</Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={handleDelete} className="w-full">Delete</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
+      </div>
+      <hr />
+      <p className="flex gap-3 items-center font-medium text-tMd"><MdOutlineCategory />{event.category}</p>
+      <p className="flex gap-3 items-center font-medium text-tMd"><GiTicket />{getPriceRange()}</p>
     </div>
   );
 });

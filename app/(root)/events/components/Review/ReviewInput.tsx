@@ -1,17 +1,22 @@
 import React from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import axios from 'axios';
+import useReview from '@/hooks/useReview';
 import StarRating from './StarRating';
 
-const ReviewInput = () => {
+interface ReviewInputProps {
+  eventId: number;
+}
+
+const ReviewInput: React.FC<ReviewInputProps> = ({ eventId }) => {
+  const { createReview } = useReview();
   const formik = useFormik({
     initialValues: {
-      review: '',
+      reviewText: '',
       rating: 0,
     },
     validationSchema: Yup.object({
-      review: Yup.string()
+      reviewText: Yup.string()
         .required('Review is required')
         .min(10, 'Review must be at least 10 characters long'),
       rating: Yup.number()
@@ -20,13 +25,12 @@ const ReviewInput = () => {
         .max(5, 'Rating cannot be more than 5 stars'),
     }),
     onSubmit: async (values) => {
-      try {
-        await axios.post('http://localhost:8080/reviews', values);
-        alert('Review submitted successfully');
-      } catch (error) {
-        console.error('Error submitting review', error);
-        alert('Error submitting review');
-      }
+      await createReview({
+        eventId,
+        orderId: 24, // example orderId, replace with actual value
+        rating: values.rating,
+        reviewText: values.reviewText,
+      });
     },
   });
 
@@ -37,17 +41,17 @@ const ReviewInput = () => {
   return (
     <form onSubmit={formik.handleSubmit} className="w-full">
       <div className="mb-4">
-        <label htmlFor="review" className="block text-gray-700">Review</label>
+        <label htmlFor="reviewText" className="block text-gray-700">Review</label>
         <textarea
-          id="review"
-          name="review"
+          id="reviewText"
+          name="reviewText"
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
-          value={formik.values.review}
+          value={formik.values.reviewText}
           className="mt-1 p-2 w-full border rounded-md"
         />
-        {formik.touched.review && formik.errors.review ? (
-          <div className="text-red-500">{formik.errors.review}</div>
+        {formik.touched.reviewText && formik.errors.reviewText ? (
+          <div className="text-red-500">{formik.errors.reviewText}</div>
         ) : null}
       </div>
 

@@ -39,7 +39,7 @@ const Header: React.FC = () => {
               href="/"
               className="flex items-center font-bold text-tXl font-montserrat tracking-tighter"
             >
-              Event Euphoria
+              EventEuphoria
             </Link>
             <Navlist className="" />
             <NavAuth className="" />
