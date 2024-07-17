@@ -1,34 +1,40 @@
-'use client';
-
-import { useState } from "react";
-import { EventListProps } from "@/types/datatypes";
-import EventAttend from "./EventAttend";
-import Tickets from "./Tickets";
+"use client";
 import useEvent from "@/hooks/useEvent";
+import useTransaction from "@/hooks/useTransactions";
+import { useEffect, useState } from "react";
+import Tickets from "./Tickets";
+import EventAttend from "./EventAttend";
 
 const Sections: React.FC = () => {
   const [activeSection, setActiveSection] = useState<string>("tickets");
-  const { events, loading, error } = useEvent();
+  const { events, loading: eventLoading, error: eventError } = useEvent();
+  const { getOrderList, transactions, loading: transactionLoading, getAttendedEvents,
+    attendedEvents, error: transactionError } = useTransaction();
 
-  if (loading) return <p>Loading events...</p>;
-  if (error) return <p>Error loading events: {error}</p>;
+  useEffect(() => {
+    getOrderList();
+    getAttendedEvents();
+  }, [getOrderList]);
+
+  useEffect(() => {
+    console.log("Transactions in Sections:", transactions);
+  }, [transactions]);
+
+  if (eventLoading || transactionLoading) return <p>Loading events or orders...</p>;
+  if (eventError || transactionError) return <p>Error loading events or orders: {eventError || transactionError}</p>;
 
   return (
     <>
       <div className="flex flex-col gap-5">
         <div className="flex gap-3">
           <button
-            className={`py-1 px-3 border rounded-xl ${
-              activeSection === "tickets" ? "bg-dspDarkPurple text-white" : "text-dspGray"
-            }`}
+            className={`py-1 px-3 border rounded-xl ${activeSection === "tickets" ? "bg-dspDarkPurple text-white" : "text-dspGray"}`}
             onClick={() => setActiveSection("tickets")}
           >
             Ticket
           </button>
           <button
-            className={`py-1 px-3 border rounded-xl ${
-              activeSection === "events" ? "bg-dspDarkPurple text-white" : "text-dspGray"
-            }`}
+            className={`py-1 px-3 border rounded-xl ${activeSection === "events" ? "bg-dspDarkPurple text-white" : "text-dspGray"}`}
             onClick={() => setActiveSection("events")}
           >
             Event Attend
@@ -36,8 +42,9 @@ const Sections: React.FC = () => {
         </div>
         <hr />
         <div>
-          {activeSection === "tickets" && <Tickets />}
-          {activeSection === "events" && <EventAttend events={events} />}
+          {activeSection === "tickets" && transactions && transactions.length > 0 && <Tickets orders={transactions} />}
+          {activeSection === "tickets" && (!transactions || transactions.length === 0) && <p>No tickets found.</p>}
+          {activeSection === "events" && <EventAttend events={attendedEvents} />}
         </div>
       </div>
     </>

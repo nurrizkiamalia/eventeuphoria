@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import Image from "next/image";
 import userImg from "@/public/assets/user.png";
@@ -15,8 +15,8 @@ const ProfilePage: React.FC = () => {
   useEffect(() => {
     if (!isAuthenticated) {
       router.push('/login'); 
-    } else{
-      router.push('/profile')
+    } else {
+      router.push('/profile');
     }
   }, [isAuthenticated, router]);
 

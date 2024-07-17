@@ -157,48 +157,63 @@ export interface ConfirmOrderRequest {
   paymentMethod: string;
 }
 
+export interface TicketDetails {
+  ticketTier: string;
+  quantity: number;
+}
+
+export interface EventDetail {
+  id: number;
+  name: string;
+  category: string;
+  date: string;
+  time: string;
+  location: string;
+  city: string;
+  eventPicture: string;
+}
+
 export interface OrderDetailsResponse {
   id: number;
   invoice: string;
   totalPrice: number;
   totalTickets: number;
-  ticketDetails: {
-    ticketTier: string;
-    quantity: number;
-  }[];
-  eventDetail: {
-    id: number;
-    name: string;
-    category: string;
-    date: string;
-    time: string;
-    location: string;
-    city: string;
-  };
+  paymentMethod: string;
+  ticketDetails: TicketDetails[];
+  eventDetail: EventDetail;
 }
 
-export interface OrderListResponse {
-  orders: {
-    id: number;
-    invoice: string;
-    totalPrice: number;
-    totalTickets: number;
-    ticketDetails: {
-      ticketTier: string;
-      quantity: number;
-    }[];
-    eventDetail: {
-      id: number;
-      name: string;
-      category: string;
-      date: string;
-      time: string;
-      location: string;
-      city: string;
-    };
-  }[];
+export interface OrderListUser {
+  orders: OrderDetailsResponse[];
   page: number;
   perPage: number;
   totalPages: number;
   totalOrders: number;
+}
+
+export interface OrderListResponse {
+  orders: OrderDetailsResponse[];
+  page: number;
+  perPage: number;
+  totalPages: number;
+  totalOrders: number;
+}
+
+export interface TransactionListOrganizer{
+  transactions: Transaction[];
+}
+
+export interface Transaction{
+  orderId: number;
+  invoice: string;
+  eventName: string;
+  paymentMethod: string;
+  totalTickets: number;
+  totalPrice: number;
+  customerDetails: {
+    id: number;
+    firstName: string;
+    lastName: string;
+    email: string;
+  }
 }

@@ -12,6 +12,7 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import PaymentMethod from "./PaymentMethod";
+import { useRouter } from "next/navigation";
 
 interface BookingConfirmationProps {
   finalPrice: number;
@@ -23,9 +24,11 @@ interface BookingConfirmationProps {
 }
 
 const BookingConfirmation: React.FC<BookingConfirmationProps> = ({ finalPrice, onConfirm, onOrderConfirmation, onOrderCancellation, isDrawerOpen, setIsDrawerOpen }) => {
+  const router = useRouter()
   const handleOrderConfirmation = async () => {
     await onOrderConfirmation();
     setIsDrawerOpen(false);
+    router.push('/profile')
   };
 
   const handleOrderCancellation = async () => {
