@@ -176,11 +176,18 @@ export interface EventDetail {
 export interface OrderDetailsResponse {
   id: number;
   invoice: string;
+  eventName: string;
   totalPrice: number;
   totalTickets: number;
   paymentMethod: string;
   ticketDetails: TicketDetails[];
   eventDetail: EventDetail;
+  customerDetails?: {
+    id: number;
+    firstName: string;
+    lastName: string;
+    email: string;
+  }
 }
 
 export interface OrderListUser {
@@ -199,9 +206,11 @@ export interface OrderListResponse {
   totalOrders: number;
 }
 
-export interface TransactionListOrganizer{
-  transactions: Transaction[];
+export interface TransactionListOrganizer {
+  totalAmount: number;
+  orders: OrderDetailsResponse[];
 }
+
 
 export interface Transaction{
   orderId: number;

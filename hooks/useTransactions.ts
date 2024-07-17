@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, useCallback } from 'react';
 import apiClient from '@/services/apiClient';
 import {
@@ -167,7 +169,7 @@ const useTransaction = () => {
     }
   }, []);
 
-  const getOrganizerOrderList = useCallback(async (page: number, size: number): Promise<void> => {
+  const getOrganizerOrderList = useCallback(async (): Promise<void> => {
     setLoading(true);
     setError(null);
     try {
@@ -181,8 +183,8 @@ const useTransaction = () => {
           ...getAuthHeader(),
           'Content-Type': 'application/json',
         },
-        params: { page, size },
       });
+      console.log("transaction", response.data.data);
       setOrganizerOrders(response.data.data);
     } catch (err: any) {
       console.error("Error in getOrganizerOrderList:", err);
@@ -191,6 +193,8 @@ const useTransaction = () => {
       setLoading(false);
     }
   }, []);
+  
+
 
   return {
     createOrder,

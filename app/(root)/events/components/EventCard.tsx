@@ -39,7 +39,7 @@ const EventCard: React.FC<EventCardProps> = ({ event }) => {
         </div>
       </div>
       <div className="px-5 py-2">
-        <h3 className="font-bold text-tXl">
+        <h3 className="font-bold text-tXl capitalize">
           <Link href={`/events/${event.id}`}>{event.name}</Link>
         </h3>
         <div className="flex justify-between gap-1">

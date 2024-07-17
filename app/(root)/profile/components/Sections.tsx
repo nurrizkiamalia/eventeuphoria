@@ -8,12 +8,10 @@ import EventAttend from "./EventAttend";
 const Sections: React.FC = () => {
   const [activeSection, setActiveSection] = useState<string>("tickets");
   const { events, loading: eventLoading, error: eventError } = useEvent();
-  const { getOrderList, transactions, loading: transactionLoading, getAttendedEvents,
-    attendedEvents, error: transactionError } = useTransaction();
+  const { getOrderList, transactions, loading: transactionLoading, error: transactionError } = useTransaction();
 
   useEffect(() => {
     getOrderList();
-    getAttendedEvents();
   }, [getOrderList]);
 
   useEffect(() => {
@@ -44,7 +42,6 @@ const Sections: React.FC = () => {
         <div>
           {activeSection === "tickets" && transactions && transactions.length > 0 && <Tickets orders={transactions} />}
           {activeSection === "tickets" && (!transactions || transactions.length === 0) && <p>No tickets found.</p>}
-          {activeSection === "events" && <EventAttend events={attendedEvents} />}
         </div>
       </div>
     </>

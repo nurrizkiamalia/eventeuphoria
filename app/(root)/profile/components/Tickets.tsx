@@ -1,7 +1,9 @@
-import { useEffect } from "react";
+"use client";
+
 import Image from "next/image";
 import { OrderDetailsResponse } from "@/types/datatypes";
 import featuredImg from "@/public/assets/art-exhibition.webp";
+import { useRouter } from "next/navigation";
 
 
 interface TicketsProps {
@@ -9,6 +11,7 @@ interface TicketsProps {
 }
 
 const Tickets: React.FC<TicketsProps> = ({ orders }) => {
+  const router = useRouter();
   if (!orders || orders.length === 0) {
     return <p>No orders found.</p>;
   }
@@ -36,7 +39,7 @@ const Tickets: React.FC<TicketsProps> = ({ orders }) => {
           </div>
           <div className="flex flex-col justify-center gap-3 p-5 bg-dspDarkPurple rounded-l-3xl rounded-r-xl w-[60%]">
             <div>
-              <h3 className="font-bold text-tXl">{order.eventDetail?.name}</h3>
+              <button className="font-bold text-tXl capitalize" onClick={() => router.push(`/events/${order.eventDetail.id}`)}>{order.eventDetail?.name}</button>
               <h3 className="font-bold">{order.eventDetail?.category}</h3>
               <p className="text-tLg font-medium text-dspSmokeWhite">
                 {order.eventDetail?.city}, {order.eventDetail?.location}

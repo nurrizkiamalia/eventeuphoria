@@ -42,7 +42,7 @@ const EventDetails: React.FC<EventDetailsProps> = ({ params }) => {
   return (
     <div className="p-5 lg:p-10 flex flex-col gap-10">
       <div className="">
-        <h1 className="text-tXxl md:text-head3 lg:text-head2 font-bold">
+        <h1 className="text-tXxl md:text-head3 lg:text-head2 font-bold capitalize">
           {event.name}
         </h1>
         <div className="flex flex-col lg:flex-row lg:gap-5">
