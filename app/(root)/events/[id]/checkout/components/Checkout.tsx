@@ -10,9 +10,11 @@ import art from "@/public/assets/art-exhibition.webp";
 import organizer from "@/public/assets/organizer1.jpg";
 import BookingConfirmation from "./BookingConfirmation";
 import { EventDetailsProps, CreateOrderRequest, CreateOrderResponse } from '@/types/datatypes';
+import { useRouter } from "next/navigation";
 
 const Checkout: React.FC<EventDetailsProps> = ({ params }) => {
   const { id } = params;
+  const router = useRouter();
   const { event, fetchEventById, loading, error } = useEvent();
   const { currentUser } = useAuth();
   const { createOrder, confirmOrder, deleteOrder } = useTransaction();
@@ -88,6 +90,11 @@ const Checkout: React.FC<EventDetailsProps> = ({ params }) => {
   };
 
   const handleOrderCreation = async () => {
+    if(currentUser?.email === event?.organizer.email){
+      router.push('/dashboard/my-event');
+    }
+    console.log(event?.organizer)
+    console.log(currentUser)
     const tickets = Object.entries(selectedTickets).map(([ticketId, quantity]) => ({
       ticketId: Number(ticketId),
       quantity

@@ -128,9 +128,6 @@ const EventDetails: React.FC<EventDetailsProps> = ({ params }) => {
             <div>
               <h2 className="text-tXl font-bold">Organizer</h2>
               <p className="font-semibold">{event.organizer.firstName || "Organizer"}</p>
-              <Link href="/" className="underline">
-                view profile
-              </Link>
             </div>
           </div>
           <div className="p-10 shadow-tightBoxed shadow-gray-400 rounded-xl flex flex-col gap-5 max-w-[500px]">
