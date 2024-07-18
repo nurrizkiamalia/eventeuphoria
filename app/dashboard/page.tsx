@@ -8,7 +8,7 @@ const Dashboard: React.FC = () => {
   return (
     <>
     <ProtectedRouteDashboard>
-      <div className="w-full flex gap-5">
+      <div className="w-full flex flex-col lg:flex-row gap-5 ">
         <div className="flex flex-col gap-5 w-[70%] ">
           <WelcomeBack />
           <div className=" flex flex-col gap-3 w-full h-fit bg-white shadow-boxed shadow-gray-300 p-5 rounded-xl text-tMd">
