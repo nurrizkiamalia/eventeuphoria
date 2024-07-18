@@ -157,7 +157,7 @@ const EventDetails: React.FC<EventDetailsProps> = ({ params }) => {
         </Button>
       </div>
       <div className="self-start lg:w-[65%]">
-        <Review eventId={event.id} />
+        <Review eventId={event.id} eventDateTime={`${event.date}T${event.time}`} />
       </div>
       <div>
         <RelatedEvents events={relatedEvents} />

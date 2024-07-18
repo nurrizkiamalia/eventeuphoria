@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import useReview from '@/hooks/useReview';
 import StarRating from './StarRating';
+import useTransaction from '@/hooks/useTransactions';
 
 interface ReviewInputProps {
   eventId: number;
@@ -10,6 +11,8 @@ interface ReviewInputProps {
 
 const ReviewInput: React.FC<ReviewInputProps> = ({ eventId }) => {
   const { createReview } = useReview();
+  const { transactions, loading: transactionLoading } = useTransaction();
+
   const formik = useFormik({
     initialValues: {
       reviewText: '',
@@ -25,18 +28,50 @@ const ReviewInput: React.FC<ReviewInputProps> = ({ eventId }) => {
         .max(5, 'Rating cannot be more than 5 stars'),
     }),
     onSubmit: async (values) => {
-      await createReview({
-        eventId,
-        orderId: 24, // example orderId, replace with actual value
-        rating: values.rating,
-        reviewText: values.reviewText,
-      });
+      if (transactionLoading) {
+        console.log('Loading transactions, please wait...');
+        return;
+      }
+
+      console.log('Transactions:', transactions);
+      console.log('Event ID:', eventId);
+
+      if (transactions) {
+        const order = transactions.find(t => {
+          console.log('Comparing:', t.eventDetail.id, typeof t.eventDetail.id, 'with', eventId, typeof eventId);
+          return t.eventDetail.id === eventId;
+        });
+        console.log('Found order:', order?.id);
+        if (order) {
+          try {
+            console.log('Creating review with values:', values);
+            await createReview({
+              eventId,
+              orderId: order.id,
+              rating: values.rating,
+              reviewText: values.reviewText,
+            });
+            formik.resetForm();
+            console.log('Review submitted successfully');
+          } catch (err) {
+            console.error('Error submitting review:', err);
+          }
+        } else {
+          console.error('Order not found for event ID:', eventId);
+        }
+      } else {
+        console.error('Transactions are null');
+      }
     },
   });
 
   const handleRatingChange = (rating: number) => {
     formik.setFieldValue('rating', rating);
   };
+
+  if (transactionLoading) {
+    return <p>Loading...</p>;
+  }
 
   return (
     <form onSubmit={formik.handleSubmit} className="w-full">

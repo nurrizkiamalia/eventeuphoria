@@ -9,13 +9,13 @@ const ReviewBox: React.FC<ReviewBoxProps> = ({ review }) => {
     <div className="review shadow-boxed p-5 rounded-xl flex flex-col gap-3">
       <div className="flex items-center gap-3">
         <Image
-          src={userImg}
-          alt="user"
+          src={review.user.avatar || userImg}
+          alt={`${review.user.firstName} ${review.user.lastName}`}
           width={50}
           height={50}
           className="rounded-full border-4 border-black"
         />
-        <p>username</p>
+        <p>{`${review.user.firstName} ${review.user.lastName}`}</p>
       </div>
       <hr />
       <div className="flex flex-col gap-2">

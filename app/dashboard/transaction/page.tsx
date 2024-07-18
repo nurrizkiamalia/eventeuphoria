@@ -9,7 +9,7 @@ const TransactionPage: React.FC<{ params: { id: number } }> = ({ params }) => {
           <h2 className="font-bold text-tXxl">Transaction for This Event</h2>
           <hr />
           <div>
-            <Transaction eventId={params.id} />
+            <Transaction />
           </div>
         </div>
       </>

@@ -32,7 +32,7 @@ const EventCard: React.FC<EventCardProps> = ({ event }) => {
           alt="image"
           width={1000}
           height={500}
-          className="rounded-t-2xl object-cover max-w-fit h-[200px] object-center hover:scale-105 transition-all duration-500"
+          className="rounded-t-2xl object-cover h-[200px] object-center hover:scale-105 transition-all duration-500"
         />
         <div className="absolute bottom-0 bg-transparent rounded-bl-2xl rounded-tr-2xl py-1 px-5 backdrop-blur-md">
           <p className="text-tMd text-white font-medium">{event.category}</p>

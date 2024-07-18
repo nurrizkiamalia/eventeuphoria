@@ -2,26 +2,30 @@
 
 import React, { useEffect } from 'react';
 import useReview from '@/hooks/useReview';
+import useTransaction from '@/hooks/useTransactions';
 import ReviewInput from './ReviewInput';
 import ReviewList from './ReviewList';
 
 interface ReviewProps {
   eventId: number;
+  eventDateTime: string;
 }
 
-const Review: React.FC<ReviewProps> = ({ eventId }) => {
-  const { fetchReviewsByEvent, reviews, loading, error } = useReview();
+const Review: React.FC<ReviewProps> = ({ eventId, eventDateTime }) => {
+  const { fetchReviewsByEvent, reviews, loading, error, canReview } = useReview();
+  const { getOrderList, loading: transactionLoading } = useTransaction();
 
   useEffect(() => {
     fetchReviewsByEvent(eventId);
-  }, [eventId]);
+    getOrderList();
+  }, [eventId, fetchReviewsByEvent, getOrderList]);
 
-  if (loading) return <p>Loading Reviews...</p>;
+  if (loading || transactionLoading) return <p>Loading Reviews...</p>;
   if (error) return <p>Error loading Reviews: {error}</p>;
 
   return (
     <div className="flex flex-col gap-5">
-      <ReviewInput eventId={eventId} />
+      {canReview(eventId, eventDateTime) && <ReviewInput eventId={eventId} />}
       <hr />
       <ReviewList reviews={reviews} />
     </div>

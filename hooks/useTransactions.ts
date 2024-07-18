@@ -31,6 +31,8 @@ const useTransaction = () => {
 
   const getAuthHeader = () => {
     const token = localStorage.getItem('jwtToken');
+    // const cookies = parseCookies();
+    // const token = cookies['sid'];
     return { Authorization: `Bearer ${token}` };
   };
 
@@ -98,7 +100,6 @@ const useTransaction = () => {
         },
       });
       setTransaction(response.data);
-      console.log("getOrderDetails response", response.data);
       return response.data;
     } catch (err: any) {
       console.error("Error fetching order details:", err);
@@ -121,8 +122,6 @@ const useTransaction = () => {
           'Content-Type': 'application/json',
         },
       });
-
-      console.log("Raw API response:", response.data);
 
       if (response.data && Array.isArray(response.data)) {
         setTransactions(response.data);
@@ -161,7 +160,6 @@ const useTransaction = () => {
         setAttendedEvents([]);
       }
     } catch (err: any) {
-      console.error("Error in getAttendedEvents:", err);
       handleError('Failed to fetch attended events');
       setAttendedEvents([]);
     } finally {
@@ -184,7 +182,6 @@ const useTransaction = () => {
           'Content-Type': 'application/json',
         },
       });
-      console.log("transaction", response.data.data);
       setOrganizerOrders(response.data.data);
     } catch (err: any) {
       console.error("Error in getOrganizerOrderList:", err);
@@ -194,8 +191,6 @@ const useTransaction = () => {
     }
   }, []);
   
-
-
   return {
     createOrder,
     confirmOrder,

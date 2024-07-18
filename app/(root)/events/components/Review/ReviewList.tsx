@@ -1,21 +1,16 @@
-import React, { useEffect } from 'react';
-import useReview from '@/hooks/useReview';
+import React from 'react';
 import ReviewBox from './ReviewBox';
+import { Review } from '@/types/datatypes';
 
-const ReviewList = ({ eventId }:any) => {
-  const { fetchReviewsByEvent, reviews, loading, error } = useReview();
+interface ReviewListProps {
+  reviews: Review[];
+}
 
-  useEffect(() => {
-    fetchReviewsByEvent(eventId);
-  }, [eventId]);
-
-  if (loading) return <p>Loading Reviews...</p>;
-  if (error) return <p>Error loading Reviews: {error}</p>;
-
+const ReviewList: React.FC<ReviewListProps> = ({ reviews }) => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-      {reviews.map((review, index) => (
-        <ReviewBox review={review} key={index} />
+      {reviews.map((review) => (
+        <ReviewBox review={review} key={review.id} />
       ))}
     </div>
   );

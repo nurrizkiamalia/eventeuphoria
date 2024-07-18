@@ -3,20 +3,19 @@ import useEvent from "@/hooks/useEvent";
 import useTransaction from "@/hooks/useTransactions";
 import { useEffect, useState } from "react";
 import Tickets from "./Tickets";
-import EventAttend from "./EventAttend";
+import EventAttend from "./OrganizerEvents";
+import { useAuth } from "@/context/AuthContext";
 
 const Sections: React.FC = () => {
   const [activeSection, setActiveSection] = useState<string>("tickets");
   const { events, loading: eventLoading, error: eventError } = useEvent();
   const { getOrderList, transactions, loading: transactionLoading, error: transactionError } = useTransaction();
 
+  const { currentUser } = useAuth();
+
   useEffect(() => {
     getOrderList();
   }, [getOrderList]);
-
-  useEffect(() => {
-    console.log("Transactions in Sections:", transactions);
-  }, [transactions]);
 
   if (eventLoading || transactionLoading) return <p>Loading events or orders...</p>;
   if (eventError || transactionError) return <p>Error loading events or orders: {eventError || transactionError}</p>;
@@ -32,10 +31,10 @@ const Sections: React.FC = () => {
             Ticket
           </button>
           <button
-            className={`py-1 px-3 border rounded-xl ${activeSection === "events" ? "bg-dspDarkPurple text-white" : "text-dspGray"}`}
-            onClick={() => setActiveSection("events")}
+            className={`py-1 px-3 border rounded-xl ${activeSection === "events" ? "bg-dspDarkPurple text-white" : "text-dspGray"} ${currentUser?.role === "USER" ? "hidden" : "block"}`}
+            onClick={() => setActiveSection("events")} 
           >
-            Event Attend
+            Organizer Events
           </button>
         </div>
         <hr />

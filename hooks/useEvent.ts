@@ -61,8 +61,14 @@ const useEvent = () => {
           ...getAuthHeader()
         },
       });
-      setEvents(prevEvents => [...prevEvents, ...response.data.data.events]);
-      setHasMore(response.data.data.events.length > 0);
+      if (Array.isArray(response.data.data)) {
+        setEvents(prevEvents => [...prevEvents, ...response.data.data]);
+        setHasMore(response.data.data.length > 0);
+      } 
+      else if (response.data.data && Array.isArray(response.data.data.events)) {
+        setEvents(prevEvents => [...prevEvents, ...response.data.data.events]);
+        setHasMore(response.data.data.events.length > 0);
+      } 
     } catch (err: any) {
       setError(err.message);
     } finally {

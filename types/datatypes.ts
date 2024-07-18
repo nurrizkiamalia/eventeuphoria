@@ -96,13 +96,31 @@ export interface Categories {
   category: string;
 }
 
-export interface ReviewProps {
+export interface Review {
   id: number;
-  review: string;
   rating: number;
+  reviewText: string;
+  user: {
+    firstName: string;
+    lastName: string;
+    avatar: string | null;
+  };
 }
 
-export interface CreateReview{
+export interface ReviewBoxProps {
+  review: {
+    id: number;
+    rating: number;
+    reviewText: string;
+    user: {
+      firstName: string;
+      lastName: string;
+      avatar: string | null;
+    };
+  };
+}
+
+export interface CreateReviewData {
   eventId: number;
   orderId: number;
   rating: number;
@@ -123,10 +141,6 @@ export interface User {
   createdAt: string;
   updatedAt: string;
   deletedAt: string | null;
-}
-
-export interface ReviewBoxProps {
-  review: CreateReview;
 }
 
 export interface Ticket {
@@ -225,4 +239,31 @@ export interface Transaction{
     lastName: string;
     email: string;
   }
+}
+
+export interface TicketSale {
+  soldSeats: number;
+  saleDetails: {
+    eventCategory: string;
+    totalTicketSold: number;
+    revenuePercentage: number;
+  }[];
+}
+
+export interface Revenue {
+  totalRevenue: number;
+  events: {
+    name: string;
+    revenue: number;
+    percentage: number;
+  }[];
+}
+
+export interface ComprehensiveRevenue {
+  yearlyRevenue: { year: number; revenue: number }[];
+  monthlyRevenue: { month: string; revenue: number }[];
+  dailyRevenue: { date: string; revenue: number }[];
+  totalYearlyRevenue: number;
+  totalMonthlyRevenue: number;
+  totalDailyRevenue: number;
 }
