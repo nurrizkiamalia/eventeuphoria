@@ -56,7 +56,7 @@ const MyEventCard = forwardRef<HTMLDivElement, MyEventCardProps>(({ event, index
       </div>
       <div className="flex items-center justify-between">
         <h3 className="font-bold text-tLg">
-          <Link href={`dashboard/my-event/transaction`} className="cursor-pointer">
+          <Link href={`/events/${event.id}`} className="cursor-pointer">
             {event.name}
           </Link>
         </h3>
