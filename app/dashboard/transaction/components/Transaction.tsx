@@ -55,8 +55,6 @@ const TransactionList: React.FC = () => {
                 <DropdownMenuContent align="end">
                   <DropdownMenuLabel>Actions</DropdownMenuLabel>
                   <DropdownMenuItem onClick={() => navigator.clipboard.writeText(order.invoice)}>Copy payment ID</DropdownMenuItem>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem>View details</DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
             </TableCell>
