@@ -11,8 +11,7 @@ interface navItem{
 
 const navlist  = [
     {link: "/", text: "Home"},
-    {link: "/events", text: "Events"},
-    {link: "/contact", text: "Help Center"}
+    {link: "/events", text: "Events"}
 ]
 
 const Navlist: React.FC<navProps> = ({className}) =>{

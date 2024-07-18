@@ -14,7 +14,7 @@ interface NavItem {
   text: string;
 }
 
-const navlist: NavItem[] = [{ link: "favorite", text: "Favorite" }];
+// const navlist: NavItem[] = [{ link: "favorite", text: "Favorite" }];
 
 const NavAuth: React.FC<NavProps> = ({ className }) => {
   const { isAuthenticated, currentUser, logout } = useAuth();
@@ -56,11 +56,11 @@ const NavAuth: React.FC<NavProps> = ({ className }) => {
           </>
         ) : (
           <>
-            {navlist.map((item, index) => (
+            {/* {navlist.map((item, index) => (
               <li key={index} className="">
                 <Link href={item.link}>{item.text}</Link>
               </li>
-            ))}
+            ))} */}
             <li className="relative">
               <button onClick={handleDropdown} className="focus:outline-none">
                 Profile
