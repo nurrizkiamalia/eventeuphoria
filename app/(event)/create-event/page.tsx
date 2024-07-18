@@ -44,7 +44,7 @@ const CreateEventPage: React.FC = () => {
         <div className="flex flex-col max-w-[800px]">
           <div className="">
             <ButtonDashboard>
-              <Link href="/" className="flex items-center">
+              <Link href="/dashboard/my-event" className="flex items-center">
                 <FaArrowLeft className="mr-2" /> Back
               </Link>
             </ButtonDashboard>
