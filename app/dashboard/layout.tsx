@@ -8,7 +8,7 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="">
+    <div className="overflow-scroll">
       <div className="flex gap-3 w-full">
         <div className="md:w-[18%]">
           <SideNavDashboard />
