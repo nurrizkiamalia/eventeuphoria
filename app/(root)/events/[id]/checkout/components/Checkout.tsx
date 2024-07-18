@@ -93,8 +93,6 @@ const Checkout: React.FC<EventDetailsProps> = ({ params }) => {
     if(currentUser?.email === event?.organizer.email){
       router.push('/dashboard/my-event');
     }
-    console.log(event?.organizer)
-    console.log(currentUser)
     const tickets = Object.entries(selectedTickets).map(([ticketId, quantity]) => ({
       ticketId: Number(ticketId),
       quantity
@@ -120,7 +118,6 @@ const Checkout: React.FC<EventDetailsProps> = ({ params }) => {
   const handleOrderConfirmation = async () => {
     if (orderResponse) {
       await confirmOrder({ orderId: orderResponse.orderId, paymentMethod: currentTotalPrice === 0 ? 'Free' : 'Bank Transfer' });
-      console.log("order response",orderResponse)
       setIsDrawerOpen(false);
     }
   };
