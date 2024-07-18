@@ -5,6 +5,7 @@ import axios from 'axios';
 import useTransaction from '@/hooks/useTransactions';
 import { CreateReviewData, Review } from '@/types/datatypes';
 import apiClient from '@/services/apiClient';
+import { parseCookies } from 'nookies';
 
 const useReview = () => {
   const [reviews, setReviews] = useState<Review[]>([]);
@@ -13,7 +14,9 @@ const useReview = () => {
   const { getOrderList, transactions } = useTransaction();
 
   const getAuthHeader = () => {
-    const token = localStorage.getItem('jwtToken');
+    // const token = localStorage.getItem('jwtToken');
+    const cookies = parseCookies();
+    const token = cookies['sid'];
     if (!token) {
       throw new Error('JWT token not found');
     }

@@ -87,4 +87,6 @@ const MyEventCard = forwardRef<HTMLDivElement, MyEventCardProps>(({ event, index
   );
 });
 
+MyEventCard.displayName = 'MyEventCard';
+
 export default MyEventCard;

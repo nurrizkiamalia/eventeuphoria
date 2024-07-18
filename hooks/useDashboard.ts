@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import apiClient from '@/services/apiClient';
 import { ComprehensiveRevenue, Revenue, TicketSale } from '@/types/datatypes';
+import { parseCookies } from 'nookies';
 
 export const useDashboard = () => {
   const [ticketSale, setTicketSale] = useState<TicketSale | null>(null);
@@ -12,9 +13,9 @@ export const useDashboard = () => {
   const [error, setError] = useState<string | null>(null);
 
   const getAuthHeader = () => {
-    const token = localStorage.getItem('jwtToken');
-    // const cookies = parseCookies();
-    // const token = cookies['sid'];
+    // const token = localStorage.getItem('jwtToken');
+    const cookies = parseCookies();
+    const token = cookies['sid'];
     return { Authorization: `Bearer ${token}` };
   };
 

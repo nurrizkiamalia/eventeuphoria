@@ -1,4 +1,4 @@
-// pages/auth/register.tsx
+
 "use client";
 
 import React from 'react';

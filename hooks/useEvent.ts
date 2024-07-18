@@ -103,9 +103,9 @@ const useEvent = () => {
   }, []);
 
   const getAuthHeader = () => {
-    const token = localStorage.getItem('jwtToken');
-    // const cookies = parseCookies();
-    // const token = cookies['sid'];
+    // const token = localStorage.getItem('jwtToken');
+    const cookies = parseCookies();
+    const token = cookies['sid'];
     return { Authorization: `Bearer ${token}` };
   };
 

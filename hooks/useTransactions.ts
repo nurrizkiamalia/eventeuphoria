@@ -13,6 +13,7 @@ import {
   Event,
   TransactionListOrganizer,
 } from '@/types/datatypes';
+import { parseCookies } from 'nookies';
 
 const useTransaction = () => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -30,9 +31,9 @@ const useTransaction = () => {
   };
 
   const getAuthHeader = () => {
-    const token = localStorage.getItem('jwtToken');
-    // const cookies = parseCookies();
-    // const token = cookies['sid'];
+    // const token = localStorage.getItem('jwtToken');
+    const cookies = parseCookies();
+    const token = cookies['sid'];
     return { Authorization: `Bearer ${token}` };
   };
 
