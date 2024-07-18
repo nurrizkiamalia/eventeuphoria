@@ -30,12 +30,12 @@ const Sections: React.FC = () => {
           >
             Ticket
           </button>
-          <button
+          {/* <button
             className={`py-1 px-3 border rounded-xl ${activeSection === "events" ? "bg-dspDarkPurple text-white" : "text-dspGray"} ${currentUser?.role === "USER" ? "hidden" : "block"}`}
             onClick={() => setActiveSection("events")} 
           >
             Organizer Events
-          </button>
+          </button> */}
         </div>
         <hr />
         <div>
