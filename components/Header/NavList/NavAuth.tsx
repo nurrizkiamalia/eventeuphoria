@@ -29,6 +29,7 @@ const NavAuth: React.FC<NavProps> = ({ className }) => {
   const handleLogout = async () => {
     await logout();
     setDropdownOpen(false);
+    window.location.reload();
   };
 
   return (
