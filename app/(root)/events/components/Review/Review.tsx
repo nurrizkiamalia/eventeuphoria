@@ -5,6 +5,7 @@ import useReview from '@/hooks/useReview';
 import useTransaction from '@/hooks/useTransactions';
 import ReviewInput from './ReviewInput';
 import ReviewList from './ReviewList';
+import { useAuth } from '@/context/AuthContext';
 
 interface ReviewProps {
   eventId: number;
@@ -13,6 +14,7 @@ interface ReviewProps {
 
 const Review: React.FC<ReviewProps> = ({ eventId, eventDateTime }) => {
   const { fetchReviewsByEvent, reviews, loading, error, canReview } = useReview();
+  const { isAuthenticated, currentUser, isLoading } = useAuth();
   const { getOrderList, loading: transactionLoading } = useTransaction();
 
   useEffect(() => {
@@ -24,7 +26,7 @@ const Review: React.FC<ReviewProps> = ({ eventId, eventDateTime }) => {
   if (error) return <p>Error loading Reviews: {error}</p>;
 
   return (
-    <div className="flex flex-col gap-5">
+    <div className={`${!isAuthenticated ? "hidden" : "flex"}  flex-col gap-5`}>
       {canReview(eventId, eventDateTime) && <ReviewInput eventId={eventId} />}
       <hr />
       <ReviewList reviews={reviews} />
