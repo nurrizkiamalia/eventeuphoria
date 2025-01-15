@@ -1,5 +1,5 @@
-import ButtonDashboard from "@/components/Button/ButtonDashboard";
 import Link from "next/link";
+import ButtonDashboard from "@/components/Button/ButtonDashboard";
 
 interface NavList {
   links: string;
@@ -14,20 +14,18 @@ const navList: NavList[] = [
 
 const SideNavList: React.FC = () => {
   return (
-    <>
-      <ul className="flex flex-col gap-5">
+    <div className="h-full flex flex-col justify-between">
+      <ul className="flex flex-col gap-3">
         {navList.map((item, index) => (
-          <li
-            key={index}
-            className="hover:scale-105 transition-all duration-300 hover:text-purple-200"
-          >
+          <li key={index} className="text-sm font-medium text-gray-700 hover:text-purple-600">
             <Link href={item.links}>{item.name}</Link>
           </li>
         ))}
       </ul>
-
-      <ButtonDashboard className=""><Link href="/create-event">Create Event</Link></ButtonDashboard>
-    </>
+      <ButtonDashboard className="">
+        <Link href="/create-event">Create Event</Link>
+      </ButtonDashboard>
+    </div>
   );
 };
 

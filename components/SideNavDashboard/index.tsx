@@ -1,15 +1,20 @@
-import SideNavList from "./SideNavList/SideNavList"
+import { Sidebar, SidebarContent, SidebarHeader, SidebarFooter } from "@/components/ui/sidebar";
+import SideNavList from "./SideNavList/SideNavList";
 
 const SideNavDashboard: React.FC = () => {
-    return(
-        <>
-        <div className="m-5 lg:sticky lg:top-5 lg:mb-5 mb-0 bg-dspDarkPurple rounded-xl text-white shadow-boxed shadow-gray-400">
-            <div className="sidenav h-[93vh] flex flex-col justify-between p-5">
-                <SideNavList />
-            </div>
-        </div>
-        </>
-    )
-}
+  return (
+    <Sidebar>
+      <SidebarHeader>
+        <div className="text-lg font-semibold text-gray-800 p-4">Event Platform</div>
+      </SidebarHeader>
+      <SidebarContent className="p-5">
+        <SideNavList />
+      </SidebarContent>
+      <SidebarFooter>
+        <div className="p-4 text-xs text-gray-600">© 2025 Event Platform</div>
+      </SidebarFooter>
+    </Sidebar>
+  );
+};
 
-export default SideNavDashboard
+export default SideNavDashboard;

@@ -91,7 +91,7 @@ const Register = () => {
             type="submit"
             disabled={isSubmitting}
           >
-            Register
+            {isSubmitting ? "Register..." : "Register"} 
           </button>
         </Form>
       )}

@@ -13,7 +13,7 @@ const ButtonDashboard: React.FC<ButtonProps> = ({ className, children, onClick }
       <HoverBorderGradient
         containerClassName="rounded-full shadow-boxed shadow-white hover:scale-105 transition-all duration-300"
         as="button"
-        className={` flex items-center space-x-2  ${className}`}
+        className={` flex items-center ${className}`}
         onClick={onClick}
       >
         {children}

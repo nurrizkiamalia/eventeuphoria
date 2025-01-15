@@ -1,6 +1,7 @@
 import DashboardFooter from "@/components/Footer/DashboardFooter";
 import Header from "@/components/DashboardHeader/DashboardHeader";
 import SideNavDashboard from "@/components/SideNavDashboard";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 
 export default function DashboardLayout({
   children,
@@ -8,19 +9,18 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="overflow-scroll">
-      <div className="flex gap-3 w-full">
-        <div className="md:w-[18%]">
-          <SideNavDashboard />
-        </div>
-        <div className="mr-5 flex flex-col gap-2 md:w-[82%]">
-          <Header />
-          <div className="">           
-              {children}
+    <div className="overflow-hidden p-5">
+      <SidebarProvider>
+        <SideNavDashboard />
+        <main className="w-full flex flex-col justify-between">
+          <div>
+            <SidebarTrigger />
+            <Header />
+            {children}
           </div>
-        </div>
-      </div>
           <DashboardFooter />
+        </main>
+      </SidebarProvider>
     </div>
   );
 }

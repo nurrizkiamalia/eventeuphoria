@@ -75,7 +75,7 @@ const Login: React.FC = () => {
             type="submit"
             disabled={isSubmitting}
           >
-            Login
+            {isSubmitting ? "Login..." : "Login"} 
           </button>
         </Form>
       )}
