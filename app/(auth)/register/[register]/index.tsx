@@ -34,8 +34,10 @@ const Register = () => {
       onSubmit={async (values, { setSubmitting }) => {
         try {
           await register(values.email, values.firstName, values.lastName, values.password, values.role, values.referralCode);
+          alert("Register Success!");
           router.push('/login');
         } catch (error) {
+          alert("Register failed.");
           console.error('Registration error:', error);
         } finally {
           setSubmitting(false);

@@ -28,9 +28,10 @@ const Login: React.FC = () => {
           // await login(values.email, values.password);
           const token = await login(values.email, values.password);
           document.cookie = `sid=${token}; Path=/; Domain=.eventeuphoria.fun; HttpOnly; Secure; SameSite=None`;
-
+          alert("Login successfully!");
           router.push('/');
         } catch (error) {
+          alert("Login failed.");
           console.error('Login error:', error);
           toast({
             title: "Uh oh! Something went wrong.",
