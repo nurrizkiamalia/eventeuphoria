@@ -1,36 +1,83 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Event Management Platform Frontend
 
-## Getting Started
+This repository contains the frontend implementation of the Event Management Platform, developed using **Next.js**, **TailwindCSS**, and **TypeScript**.
 
-First, run the development server:
+## 🚀 Core Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+### 1. Event Discovery and Details
+- **Landing Page**: Displays a list of events with responsive design.
+- **Search with Debounce**: Enables users to search for events efficiently.
+- **Filters and Pagination**: Allows filtering events by categories or locations and supports pagination for better navigation.
+- **Event Details**: Detailed page for each event, including the option to purchase tickets.
+
+### 2. Event Transactions and Promotions
+- **Event Creation**: Organizers can create events by specifying:
+  - Name, price, date, time, location, description, available seats, and ticket types.
+- **Free and Paid Events**: Handles ticket sales with IDR as the only currency.
+- **Promotions**:
+  - Discount vouchers for limited users who use referral codes.
+  - Date-based discounts.
+
+### 3. Event Reviews and Ratings
+- Allows attendees to leave feedback and ratings after attending events.
+
+### 4. User Authentication and Authorization
+- **User Roles**:
+  - **Customers/Participants**: Can view events and purchase tickets.
+  - **Event Organizers**: Can manage events and view statistics.
+- **Referral System**:
+  - Users registering with a referral number get a 10% discount.
+  - Referrers earn 10,000 points for each referral, expiring after three months.
+  - Points can be redeemed for ticket discounts.
+
+### 5. Event Management Dashboard
+- **Features for Organizers**:
+  - View events, registrations, and transactions.
+  - Visualize data through graphs and reports (yearly, monthly, daily).
+
+## 💻 Technology Stack
+- **Framework**: [Next.js](https://nextjs.org/)
+- **Styling**: [TailwindCSS](https://tailwindcss.com/)
+- **Language**: TypeScript
+- **State Management**: Context API
+- **API Integration**: Axios or Fetch for backend communication
+
+## 📑 Folder Structure
+
+```
+├── app/              # Next.js app directory for routing and layout components
+│   ├── (auth)/       # Authentication-related pages
+│   ├── (event)/      # Event-related pages
+│   ├── (root)/       # Root-level pages and layouts
+│   ├── dashboard/    # Organizer dashboard components
+│   ├── favicon.ico   # Favicon for the application
+│   ├── globals.css   # Global CSS styles
+│   ├── layout.tsx    # Default layout for the application
+├── components/       # Reusable components (Button, Modal, etc.)
+├── context/          # Context API setup
+├── data/             # Static data or configuration files
+├── hooks/            # Custom hooks
+├── lib/              # Utility libraries or helper functions
+├── public/           # Static assets (images, icons, etc.)
+├── services/         # API services for backend requests
+├── types/            # TypeScript type definitions
+└── utils/            # Utility functions (debounce, etc.)
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🧪 Features in Detail
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Event Search and Filter
+- **Search with Debounce**: Prevents excessive API calls by delaying the request while the user types.
+- **Pagination**: Supports large datasets with seamless navigation.
+- **Filters**: Refine results based on categories or location.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+### Event Reviews
+- **Post-event Feedback**: Users can leave feedback and ratings for attended events.
 
-## Learn More
+### Dashboard Visualizations
+- **Graphs**: Interactive visualizations for event statistics using Chart.js or another library.
 
-To learn more about Next.js, take a look at the following resources:
+## 🛡️ Security
+- **Role-based Access Control**: Protects routes for different user roles.
+- **Secure Token Storage**: Ensures safe handling of authentication tokens.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
