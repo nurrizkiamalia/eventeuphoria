@@ -68,14 +68,13 @@ This repository contains the frontend implementation of the Event Management Pla
 
 ### Event Search and Filter
 - **Search with Debounce**: Prevents excessive API calls by delaying the request while the user types.
-- **Pagination**: Supports large datasets with seamless navigation.
 - **Filters**: Refine results based on categories or location.
 
 ### Event Reviews
 - **Post-event Feedback**: Users can leave feedback and ratings for attended events.
 
 ### Dashboard Visualizations
-- **Graphs**: Interactive visualizations for event statistics using Chart.js or another library.
+- **Graphs**: Interactive visualizations for event statistics using ApexChart library.
 
 ## 🛡️ Security
 - **Role-based Access Control**: Protects routes for different user roles.
